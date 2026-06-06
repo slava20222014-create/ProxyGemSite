@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toilet Tower Defense - 3D ОНЛАЙН</title>
+    <title>Toilet Tower Defense - 3D ИГРА</title>
     <style>
         body { margin: 0; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
         #ui {
@@ -36,7 +36,6 @@
             backdrop-filter: blur(5px);
         }
         .online-panel h4 { margin: 0 0 10px 0; color: #44ff44; }
-        .online-panel div { font-size: 12px; margin: 3px 0; }
         .tower-panel {
             position: absolute;
             bottom: 20px;
@@ -98,7 +97,7 @@
             cursor: pointer;
             font-size: 16px;
         }
-        .hidden { display: none; }
+        .hidden { display: none !important; }
         .health-bar {
             position: absolute;
             top: -30px;
@@ -109,15 +108,11 @@
             border-radius: 3px;
             overflow: hidden;
         }
-        .health-fill {
-            height: 100%;
-            background: lime;
-            width: 100%;
-        }
+        .health-fill { height: 100%; background: lime; width: 100%; }
     </style>
 </head>
 <body>
-    <div id="ui">
+    <div id="ui" class="hidden">
         <div>🚽 TOILET TOWER DEFENSE - 3D</div>
         <div class="stats">
             <div>❤️ БАЗА: <span id="healthValue">10</span></div>
@@ -126,24 +121,23 @@
         </div>
     </div>
     
-    <div class="online-panel">
+    <div class="online-panel hidden" id="onlinePanel">
         <h4>🌐 ОНЛАЙН (<span id="onlineCount">1</span>)</h4>
         <div id="playersList"></div>
-        <div style="font-size: 10px; color: #888; margin-top: 8px;">⚡ Игроки сохраняются в браузере</div>
     </div>
     
-    <div class="tower-panel" id="towerPanel" style="display: none;">
+    <div class="tower-panel hidden" id="towerPanel">
         <button class="tower-btn" data-tower="Speakerman">🗼 Speakerman (100)</button>
         <button class="tower-btn" data-tower="Cameraman">📷 Cameraman (150)</button>
-        <button class="tower-btn" data-tower="Large">💪 Large Speakerman (250)</button>
+        <button class="tower-btn" data-tower="Large">💪 Large (250)</button>
         <button class="tower-btn" data-tower="TV">📺 TV Man (300)</button>
     </div>
     
     <div id="authPanel" class="auth-panel">
         <h2>🚽 TOILET TOWER DEFENSE</h2>
-        <p style="margin: 10px 0; color: #aaa;">⚔️ МУЛЬТИПЛЕЕР 3D ⚔️</p>
+        <p style="margin: 10px 0; color: #aaa;">⚔️ 3D МУЛЬТИПЛЕЕР ⚔️</p>
         <input type="text" id="username" placeholder="Введи никнейм" autocomplete="off">
-        <button id="playBtn">🔫 ИГРАТЬ</button>
+        <button id="playBtn">🔫 ВОЙТИ В ИГРУ</button>
         <p style="font-size: 11px; margin-top: 15px; color: #666;">✅ Данные сохраняются автоматически</p>
     </div>
 
@@ -161,19 +155,14 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
         
+        console.log('🚀 ИГРА ЗАГРУЖЕНА!');
+        
         // ==================== СОХРАНЕНИЕ ДАННЫХ ====================
         let currentUser = localStorage.getItem('ttd_user');
         let userCoins = parseInt(localStorage.getItem('ttd_coins')) || 500;
         let userScore = parseInt(localStorage.getItem('ttd_score')) || 0;
         let userWins = parseInt(localStorage.getItem('ttd_wins')) || 0;
         let selectedTower = localStorage.getItem('ttd_tower') || 'Speakerman';
-        
-        // Имитация других игроков онлайн
-        let otherPlayersList = JSON.parse(localStorage.getItem('ttd_online_players')) || [
-            { username: 'ToiletHunter', x: -3, z: 4 },
-            { username: 'SkibidiMaster', x: 5, z: -2 },
-            { username: 'TV_King', x: -2, z: -3 }
-        ];
         
         function saveData() {
             if (currentUser) {
@@ -220,9 +209,6 @@
         dirLight.position.set(5, 10, 7);
         dirLight.castShadow = true;
         scene.add(dirLight);
-        const backLight = new THREE.PointLight(0x4466cc, 0.3);
-        backLight.position.set(-3, 5, -5);
-        scene.add(backLight);
         
         // Земля
         const groundMat = new THREE.MeshStandardMaterial({ color: 0x3a7a3a, roughness: 0.8 });
@@ -236,7 +222,7 @@
         gridHelper.position.y = -0.15;
         scene.add(gridHelper);
         
-        // Декоративные деревья
+        // Деревья
         const treeMat = new THREE.MeshStandardMaterial({ color: 0x8B5A2B });
         const leafMat = new THREE.MeshStandardMaterial({ color: 0x3c9e3c });
         for (let i = -11; i <= 11; i+=4) {
@@ -271,54 +257,8 @@
         baseRing.position.y = 0.9;
         baseGroup.add(baseRing);
         
-        const baseGlow = new THREE.Mesh(
-            new THREE.SphereGeometry(0.9, 16, 16),
-            new THREE.MeshStandardMaterial({ color: 0xff8844, emissive: 0xff4411, transparent: true, opacity: 0.4 })
-        );
-        baseGlow.position.y = 0.2;
-        baseGroup.add(baseGlow);
-        
         baseGroup.position.set(0, 0, 0);
         scene.add(baseGroup);
-        
-        // Игрок (свой персонаж)
-        let myPlayer = null;
-        
-        function createPlayerMesh(color, username, isMine = false) {
-            const group = new THREE.Group();
-            // Тело
-            const body = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.8, 0.6), new THREE.MeshStandardMaterial({ color: color, metalness: 0.3 }));
-            body.position.y = 0.4;
-            body.castShadow = true;
-            group.add(body);
-            // Голова
-            const head = new THREE.Mesh(new THREE.SphereGeometry(0.35, 16, 16), new THREE.MeshStandardMaterial({ color: 0xffccaa }));
-            head.position.y = 0.85;
-            head.castShadow = true;
-            group.add(head);
-            // Глаза
-            const eyeMat = new THREE.MeshStandardMaterial({ color: 0xffffff });
-            const leftEye = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), eyeMat);
-            leftEye.position.set(-0.15, 0.95, 0.32);
-            group.add(leftEye);
-            const rightEye = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), eyeMat);
-            rightEye.position.set(0.15, 0.95, 0.32);
-            group.add(rightEye);
-            
-            if (!isMine) {
-                // Имя над игроком
-                const nameDiv = document.createElement('div');
-                nameDiv.textContent = username;
-                nameDiv.style.color = '#ffaa66';
-                nameDiv.style.fontSize = '12px';
-                nameDiv.style.fontWeight = 'bold';
-                nameDiv.style.textShadow = '1px 1px 0 black';
-                const nameLabel = new CSS2DObject(nameDiv);
-                nameLabel.position.set(0, 1.2, 0);
-                group.add(nameLabel);
-            }
-            return group;
-        }
         
         // ==================== ИГРОВЫЕ ПЕРЕМЕННЫЕ ====================
         let enemies = [];
@@ -328,8 +268,8 @@
         let score = userScore;
         let coins = userCoins;
         let lastSpawn = 0;
+        let gameActive = false;
         
-        // Стоимость башен
         const towerCosts = { 'Speakerman': 100, 'Cameraman': 150, 'Large': 250, 'TV': 300 };
         const towerColors = { 'Speakerman': 0x44aaff, 'Cameraman': 0xff44aa, 'Large': 0xffaa44, 'TV': 0xaa44ff };
         
@@ -337,19 +277,11 @@
             document.getElementById('healthValue').textContent = baseHealth;
             document.getElementById('scoreValue').textContent = Math.floor(score);
             document.getElementById('coinsValue').textContent = Math.floor(coins);
-            document.getElementById('onlineCount').textContent = otherPlayersList.length + 1;
-            
-            const listDiv = document.getElementById('playersList');
-            listDiv.innerHTML = `<div style="color: #44ff44;">👑 ${currentUser} (Вы)</div>`;
-            otherPlayersList.forEach(p => {
-                listDiv.innerHTML += `<div>👤 ${p.username}</div>`;
-            });
         }
         
         // Создание врага
         function createEnemy() {
             const group = new THREE.Group();
-            
             const bodyMat = new THREE.MeshStandardMaterial({ color: 0xc0c0c0, roughness: 0.3 });
             const body = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.65, 0.8, 16), bodyMat);
             body.castShadow = true;
@@ -372,37 +304,19 @@
             rightEye.position.set(0.2, 0.48, 0.55);
             group.add(rightEye);
             
-            // Индикатор здоровья
-            const healthDiv = document.createElement('div');
-            healthDiv.className = 'health-bar';
-            const fillDiv = document.createElement('div');
-            fillDiv.className = 'health-fill';
-            healthDiv.appendChild(fillDiv);
-            const healthLabel = new CSS2DObject(healthDiv);
-            healthLabel.position.set(0, 0.85, 0);
-            group.add(healthLabel);
-            
             const angle = Math.random() * Math.PI * 2;
             const radius = 11;
             const x = Math.cos(angle) * radius;
             const z = Math.sin(angle) * radius;
             group.position.set(x, 0, z);
-            
             scene.add(group);
             
-            return {
-                obj: group,
-                health: 3,
-                maxHealth: 3,
-                speed: 0.9,
-                healthFill: fillDiv
-            };
+            return { obj: group, health: 3, maxHealth: 3, speed: 0.9 };
         }
         
         // Создание башни
         function createTower(x, z, type) {
             const group = new THREE.Group();
-            
             const base = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.8, 0.3, 8), new THREE.MeshStandardMaterial({ color: 0x8b5a2b }));
             base.castShadow = true;
             group.add(base);
@@ -413,43 +327,27 @@
             group.add(body);
             
             let head;
-            if (type === 'Speakerman') {
-                head = new THREE.Mesh(new THREE.SphereGeometry(0.4, 16, 16), new THREE.MeshStandardMaterial({ color: 0x44aaff }));
-            } else if (type === 'Cameraman') {
-                head = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), new THREE.MeshStandardMaterial({ color: 0xff44aa }));
-            } else if (type === 'Large') {
-                head = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), new THREE.MeshStandardMaterial({ color: 0xffaa44 }));
-            } else {
-                head = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), new THREE.MeshStandardMaterial({ color: 0xaa44ff, emissive: 0x331166 }));
-            }
+            if (type === 'Speakerman') head = new THREE.Mesh(new THREE.SphereGeometry(0.4, 16, 16), new THREE.MeshStandardMaterial({ color: 0x44aaff }));
+            else if (type === 'Cameraman') head = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), new THREE.MeshStandardMaterial({ color: 0xff44aa }));
+            else if (type === 'Large') head = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), new THREE.MeshStandardMaterial({ color: 0xffaa44 }));
+            else head = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), new THREE.MeshStandardMaterial({ color: 0xaa44ff, emissive: 0x331166 }));
             head.position.y = 0.7;
             group.add(head);
             
             group.position.set(x, 0, z);
             scene.add(group);
             
-            return {
-                obj: group,
-                type: type,
-                cooldown: 0,
-                cooldownMax: 0.9,
-                range: 5.5,
-                damage: type === 'Large' ? 2 : (type === 'TV' ? 3 : 1),
-                head: head
-            };
+            return { obj: group, type: type, cooldown: 0, cooldownMax: 0.9, range: 5.5, damage: type === 'Large' ? 2 : (type === 'TV' ? 3 : 1), head: head };
         }
         
-        // Снаряд
-        function createBullet(fromPos, targetEnemy, damage, type) {
+        function createBullet(fromPos, targetEnemy, damage) {
             const geometry = new THREE.SphereGeometry(0.18, 8, 8);
-            let color = 0xffaa55;
-            const projectile = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: color, emissive: 0x442200 }));
+            const projectile = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: 0xffaa55, emissive: 0x442200 }));
             projectile.position.copy(fromPos);
             scene.add(projectile);
             bullets.push({ mesh: projectile, target: targetEnemy, damage: damage, speed: 9 });
         }
         
-        // Установка башни
         function tryPlaceTower(x, z) {
             const cost = towerCosts[selectedTower];
             if (coins < cost) return false;
@@ -474,22 +372,16 @@
             currentUser = username;
             saveData();
             
+            // Скрыть панель авторизации, показать игру
             document.getElementById('authPanel').classList.add('hidden');
-            document.getElementById('towerPanel').style.display = 'flex';
+            document.getElementById('ui').classList.remove('hidden');
+            document.getElementById('onlinePanel').classList.remove('hidden');
+            document.getElementById('towerPanel').classList.remove('hidden');
             
-            // Создаём своего игрока
-            myPlayer = createPlayerMesh(0xffaa44, currentUser, true);
-            myPlayer.position.set(2, 0, 2);
-            scene.add(myPlayer);
-            
-            // Создаём других игроков
-            otherPlayersList.forEach(p => {
-                const player = createPlayerMesh(0x44aa44, p.username, false);
-                player.position.set(p.x, 0, p.z);
-                scene.add(player);
-            });
-            
+            gameActive = true;
             updateUI();
+            
+            console.log(`✅ Игрок ${currentUser} вошёл в игру!`);
         };
         
         // Выбор башни
@@ -501,14 +393,14 @@
                 localStorage.setItem('ttd_tower', selectedTower);
             };
         });
-        document.querySelector(`.tower-btn[data-tower="${selectedTower}"]`)?.classList.add('selected');
         
-        // Клик по земле для установки башни
+        // Клик для установки башни
         const raycaster = new THREE.Raycaster();
         const clickPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
         
         window.addEventListener('click', (e) => {
-            if (e.target.closest('.tower-panel') || e.target.closest('.auth-panel')) return;
+            if (!gameActive) return;
+            if (e.target.closest('.tower-panel')) return;
             const mouse = new THREE.Vector2();
             mouse.x = (e.clientX / renderer.domElement.clientWidth) * 2 - 1;
             mouse.y = -(e.clientY / renderer.domElement.clientHeight) * 2 + 1;
@@ -523,12 +415,11 @@
         let lastTime = performance.now() / 1000;
         
         function gameLoop(deltaTime) {
-            if (!currentUser) return;
+            if (!gameActive) return;
             const dt = Math.min(deltaTime, 0.033);
             
-            // Спавн врагов
             lastSpawn += dt;
-            if (lastSpawn >= 1.8 && enemies.length < 12) {
+            if (lastSpawn >= 1.5 && enemies.length < 12) {
                 lastSpawn = 0;
                 enemies.push(createEnemy());
             }
@@ -542,12 +433,9 @@
                 e.obj.position.x += dir.x * e.speed * dt;
                 e.obj.position.z += dir.z * e.speed * dt;
                 
-                const healthPercent = (e.health / e.maxHealth) * 100;
-                if (e.healthFill) e.healthFill.style.width = `${healthPercent}%`;
-                
                 const distToBase = Math.hypot(e.obj.position.x, e.obj.position.z);
                 if (distToBase < 1.3) {
-                    baseHealth = Math.max(0, baseHealth - 1);
+                    baseHealth--;
                     updateUI();
                     scene.remove(e.obj);
                     enemies.splice(i, 1);
@@ -587,7 +475,7 @@
                     tower.cooldown = tower.cooldownMax;
                     const fromPos = tower.obj.position.clone();
                     fromPos.y += 1;
-                    createBullet(fromPos, closest, tower.damage, tower.type);
+                    createBullet(fromPos, closest, tower.damage);
                 }
             }
             
@@ -625,35 +513,19 @@
         }
         
         function gameOver() {
+            gameActive = false;
             userWins++;
             saveData();
-            const overlay = document.createElement('div');
-            overlay.style.position = 'absolute';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            overlay.style.backgroundColor = 'rgba(0,0,0,0.9)';
-            overlay.style.display = 'flex';
-            overlay.style.flexDirection = 'column';
-            overlay.style.alignItems = 'center';
-            overlay.style.justifyContent = 'center';
-            overlay.style.zIndex = '1000';
-            overlay.innerHTML = `<h1 style="font-size:48px;">💀 GAME OVER 💀</h1><p style="font-size:24px;">Счёт: ${Math.floor(score)}</p><p style="font-size:18px;">🏆 Побед: ${userWins}</p><button id="restartBtn" style="padding:15px 40px;font-size:20px;cursor:pointer;margin-top:20px;">🔄 ИГРАТЬ СНОВА</button>`;
-            document.body.appendChild(overlay);
-            document.getElementById('restartBtn').onclick = () => location.reload();
+            alert(`💀 ИГРА ОКОНЧЕНА 💀\nСчёт: ${Math.floor(score)}\nПобед: ${userWins}\n\nНажми ОК чтобы начать заново`);
+            location.reload();
         }
         
-        // Анимация
-        let prevTime = performance.now() / 1000;
         function animate() {
             const now = performance.now() / 1000;
-            let dt = now - prevTime;
-            prevTime = now;
+            let dt = now - lastTime;
+            lastTime = now;
             if (dt > 0.1) dt = 0.033;
-            
-            if (currentUser && baseHealth > 0) gameLoop(dt);
-            
+            gameLoop(dt);
             controls.update();
             renderer.render(scene, camera);
             labelRenderer.render(scene, camera);
@@ -666,8 +538,7 @@
             document.getElementById('username').value = currentUser;
         }
         
-        updateUI();
-        console.log('🎮 Toilet Tower Defense 3D запущена!');
+        console.log('🎮 Игра готова! Введи ник и нажми "ВОЙТИ В ИГРУ"');
     </script>
 </body>
 </html>
