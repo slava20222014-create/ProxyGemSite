@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>ProxyGem · обход & защита</title>
+    <title>ProxyGem</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
@@ -2140,7 +2140,7 @@
                                         </span>
                                         <span class="toggle-glow"></span>
                                     </span>
-                                    <span class="toggle-label" id="notifLabel">Выкл</span>
+                                    <span class="toggle-label" id="notifLabel"></span>
                                 </label>
                             </div>
                         </div>
@@ -2635,7 +2635,7 @@
         function updateNotifLabel() {
             const toggle = document.getElementById('notificationsToggle');
             const label = document.getElementById('notifLabel');
-            label.textContent = toggle.checked ? 'Вкл' : 'Выкл';
+            label.textContent = toggle.checked ? '' : '';
         }
 
         document.getElementById('copyKeyBtn').addEventListener('click', function() {
