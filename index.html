@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>ProxyGem</title>
+    <title>ProxyGem · обход & защита</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
@@ -221,24 +221,29 @@
             gap: 4px;
             align-items: center;
             animation: fadeDown 0.6s ease both;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            max-width: 95vw;
+            justify-content: center;
         }
         .nav-circle .tab-btn {
-            padding: 10px 28px;
+            padding: 10px 20px;
             border-radius: 40px;
             border: none;
             background: transparent;
             color: #888;
             font-family: 'Inter', sans-serif;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.82rem;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             position: relative;
+            white-space: nowrap;
         }
-        .nav-circle .tab-btn i { font-size: 1rem; transition: all 0.3s ease; }
+        .nav-circle .tab-btn i { font-size: 0.9rem; transition: all 0.3s ease; }
         .nav-circle .tab-btn:hover { color: #fff; background: rgba(255,255,255,0.04); }
         .nav-circle .tab-btn:hover i { transform: translateY(-2px) scale(1.1); }
         .nav-circle .tab-btn.active {
@@ -259,20 +264,21 @@
         .nav-circle .tab-btn.active .tab-glow { opacity: 0; }
 
         .nav-circle .profile-btn {
-            padding: 6px 16px 6px 12px;
+            padding: 6px 14px 6px 10px;
             border-radius: 40px;
             border: 1px solid rgba(255,255,255,0.06);
             background: rgba(255,255,255,0.03);
             color: #aaa;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.85rem;
+            gap: 8px;
+            font-size: 0.78rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-left: 8px;
+            margin-left: 6px;
             position: relative;
             overflow: hidden;
+            white-space: nowrap;
         }
         .nav-circle .profile-btn::before {
             content: '';
@@ -289,7 +295,7 @@
         }
         .nav-circle .profile-btn:hover::before { opacity: 1; }
         .nav-circle .profile-btn img {
-            width: 28px; height: 28px;
+            width: 26px; height: 26px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid rgba(255,255,255,0.06);
@@ -843,6 +849,112 @@
             font-size: 1.1rem;
         }
 
+        /* ===== ТОП ПОЛЬЗОВАТЕЛЕЙ ===== */
+        .top-users-section { padding: 30px 0 60px; }
+        .top-users-section .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .top-users-section .section-header h2 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #f0f0f0, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .top-users-section .section-header p {
+            color: #666;
+            font-size: 1.05rem;
+            margin-top: 8px;
+        }
+        .top-users-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .top-user-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.01);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .top-user-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        .top-user-item:hover::before {
+            transform: translateX(100%);
+        }
+        .top-user-item:hover {
+            background: rgba(255,255,255,0.02);
+            border-color: rgba(255,255,255,0.06);
+            transform: translateX(4px);
+        }
+        .top-user-item .rank {
+            font-weight: 800;
+            font-size: 1.2rem;
+            min-width: 40px;
+            color: #555;
+            text-align: center;
+        }
+        .top-user-item .rank.gold { color: #ffd700; }
+        .top-user-item .rank.silver { color: #c0c0c0; }
+        .top-user-item .rank.bronze { color: #cd7f32; }
+        .top-user-item .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.06);
+            transition: all 0.3s ease;
+        }
+        .top-user-item:hover .avatar {
+            border-color: rgba(255,255,255,0.12);
+            transform: scale(1.05);
+        }
+        .top-user-item .info {
+            flex: 1;
+        }
+        .top-user-item .info .name {
+            font-weight: 600;
+            color: #ddd;
+        }
+        .top-user-item .info .detail {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .top-user-item .time {
+            font-weight: 600;
+            color: #6b9fff;
+            font-size: 0.95rem;
+            background: rgba(107,159,255,0.05);
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(107,159,255,0.06);
+        }
+        .top-user-item .medal {
+            font-size: 1.5rem;
+            margin-left: 4px;
+        }
+        .top-users-empty {
+            text-align: center;
+            color: #555;
+            padding: 60px 20px;
+            font-size: 1.1rem;
+        }
+
         /* ===== АДМИН-ПАНЕЛЬ ===== */
         .admin-panel { padding: 30px 0 60px; }
         .admin-panel .section-header {
@@ -1234,7 +1346,7 @@
             opacity: 1;
         }
 
-        /* ===== СТИЛЬНЫЙ ТОГГЛ (переключатель) ===== */
+        /* ===== СТИЛЬНЫЙ ТОГГЛ ===== */
         .toggle-switch {
             position: relative;
             display: inline-flex;
@@ -1291,6 +1403,7 @@
             color: #888;
             font-size: 0.95rem;
             transition: color 0.3s ease;
+            min-width: 40px;
         }
         .toggle-switch:hover .toggle-label {
             color: #ddd;
@@ -1299,7 +1412,7 @@
             border-color: rgba(255,255,255,0.1);
         }
 
-        /* ===== СТИЛЬНАЯ КНОПКА ЗАГРУЗКИ АВАТАРКИ ===== */
+        /* ===== АВАТАР ЗАГРУЗКА ===== */
         .avatar-upload-btn {
             display: inline-flex;
             align-items: center;
@@ -1448,7 +1561,7 @@
             box-shadow: 0 8px 32px rgba(255,255,255,0.08);
         }
 
-        /* ===== МОДАЛ ВХОДА ===== */
+        /* ===== МОДАЛЫ ===== */
         .auth-modal {
             display: none;
             position: fixed;
@@ -1566,7 +1679,6 @@
             background: rgba(255,255,255,0.06);
         }
 
-        /* ===== МОДАЛ ВЫХОДА ===== */
         .logout-modal {
             display: none;
             position: fixed;
@@ -1599,6 +1711,31 @@
         }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
+        /* ===== АНИМАЦИЯ ДЛЯ ТОПА ===== */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .top-user-item {
+            animation: slideIn 0.4s ease forwards;
+            opacity: 0;
+        }
+        .top-user-item:nth-child(1) { animation-delay: 0.05s; }
+        .top-user-item:nth-child(2) { animation-delay: 0.1s; }
+        .top-user-item:nth-child(3) { animation-delay: 0.15s; }
+        .top-user-item:nth-child(4) { animation-delay: 0.2s; }
+        .top-user-item:nth-child(5) { animation-delay: 0.25s; }
+        .top-user-item:nth-child(6) { animation-delay: 0.3s; }
+        .top-user-item:nth-child(7) { animation-delay: 0.35s; }
+        .top-user-item:nth-child(8) { animation-delay: 0.4s; }
+        .top-user-item:nth-child(9) { animation-delay: 0.45s; }
+        .top-user-item:nth-child(10) { animation-delay: 0.5s; }
+        .top-user-item:nth-child(11) { animation-delay: 0.55s; }
+        .top-user-item:nth-child(12) { animation-delay: 0.6s; }
+        .top-user-item:nth-child(13) { animation-delay: 0.65s; }
+        .top-user-item:nth-child(14) { animation-delay: 0.7s; }
+        .top-user-item:nth-child(15) { animation-delay: 0.75s; }
+
         /* ===== АДАПТИВ ===== */
         @media (max-width: 850px) {
             .nav-circle {
@@ -1612,16 +1749,16 @@
                 justify-content: center;
             }
             .nav-circle .tab-btn {
-                padding: 8px 16px;
-                font-size: 0.8rem;
+                padding: 8px 14px;
+                font-size: 0.75rem;
                 white-space: nowrap;
             }
-            .nav-circle .tab-btn i { font-size: 0.8rem; }
+            .nav-circle .tab-btn i { font-size: 0.75rem; }
             .nav-circle .profile-btn {
-                padding: 4px 12px 4px 8px;
-                font-size: 0.75rem;
+                padding: 4px 10px 4px 8px;
+                font-size: 0.7rem;
             }
-            .nav-circle .profile-btn img { width: 24px; height: 24px; }
+            .nav-circle .profile-btn img { width: 22px; height: 22px; }
             .hero-content-overlay h1 { font-size: 3.2rem; letter-spacing: -2px; }
             .hero-content-overlay { max-width: 100%; padding: 0 24px; }
             .stats { gap: 30px; }
@@ -1640,14 +1777,18 @@
             .profile-content { padding: 20px; }
             .logo-text { font-size: 1.2rem; }
             .logo-icon { width: 36px; height: 36px; }
+            .top-user-item { padding: 12px 16px; }
+            .top-user-item .rank { font-size: 1rem; min-width: 30px; }
+            .top-user-item .avatar { width: 36px; height: 36px; }
+            .top-user-item .time { font-size: 0.8rem; padding: 2px 10px; }
         }
         @media (max-width: 550px) {
             .nav-circle .tab-btn {
-                padding: 6px 12px;
-                font-size: 0.7rem;
-                gap: 6px;
+                padding: 6px 10px;
+                font-size: 0.65rem;
+                gap: 4px;
             }
-            .nav-circle .tab-btn i { font-size: 0.7rem; }
+            .nav-circle .tab-btn i { font-size: 0.65rem; }
             .hero-content-overlay h1 { font-size: 2.4rem; letter-spacing: -1px; }
             .hero-content-overlay p { font-size: 1rem; }
             .btn-download { width: 100%; justify-content: center; padding: 16px 28px; }
@@ -1664,6 +1805,12 @@
             .logo-text { font-size: 1rem; }
             .logo-icon { width: 30px; height: 30px; }
             .logo-badge { display: none; }
+            .top-user-item { padding: 10px 12px; gap: 10px; }
+            .top-user-item .rank { font-size: 0.85rem; min-width: 24px; }
+            .top-user-item .avatar { width: 30px; height: 30px; }
+            .top-user-item .time { font-size: 0.7rem; padding: 2px 8px; }
+            .top-user-item .info .name { font-size: 0.9rem; }
+            .top-user-item .info .detail { font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -1680,6 +1827,7 @@
         <button class="tab-btn" data-tab="features"><i class="fas fa-cog"></i> Возможности</button>
         <button class="tab-btn" data-tab="download"><i class="fas fa-download"></i> Скачать</button>
         <button class="tab-btn" data-tab="reviews"><i class="fas fa-star"></i> Отзывы</button>
+        <button class="tab-btn" data-tab="topusers"><i class="fas fa-trophy"></i> Топ</button>
         <button class="tab-btn" data-tab="admin" id="adminTabBtn" style="display:none;"><i class="fas fa-user-shield"></i> Админ</button>
         <button class="tab-btn" data-tab="profile" id="profileTabBtn"><i class="fas fa-user"></i> Профиль</button>
         <div class="profile-btn" id="profileBtn">
@@ -1694,13 +1842,10 @@
             <button class="close-auth" id="closeAuthModalBtn">&times;</button>
             <h2>Вход в аккаунт</h2>
             <p>Войдите через Telegram</p>
-            
             <button class="tg-auth-button" id="telegramLoginBtn">
                 <i class="fab fa-telegram-plane"></i> Sign In with Telegram
             </button>
-            
             <div class="auth-divider">Придумайте ник</div>
-            
             <div style="display:flex; gap:12px; flex-direction:column;">
                 <input type="text" id="nicknameInput" placeholder="Ваш никнейм" />
                 <button class="btn-primary" id="setNicknameBtn" style="width:100%; justify-content:center; padding:12px;">Проверить и зарегистрировать</button>
@@ -1859,6 +2004,19 @@
                 </div>
             </div>
 
+            <!-- ===== ТОП ПОЛЬЗОВАТЕЛЕЙ ===== -->
+            <div class="tab-content" id="tab-topusers">
+                <div class="top-users-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-trophy"></i> Топ Пользователей</h2>
+                        <p>Топ 100 пользователей по времени на сайте</p>
+                    </div>
+                    <div class="top-users-grid" id="topUsersList">
+                        <!-- Загружается из JS -->
+                    </div>
+                </div>
+            </div>
+
             <!-- ===== ПРОФИЛЬ ===== -->
             <div class="tab-content" id="tab-profile">
                 <div class="profile-page" id="profilePage">
@@ -1959,7 +2117,7 @@
                                     <i class="fas fa-info-circle"></i> Логин: <span id="accessLoginDisplay" style="color:#ddd;">—</span>
                                 </div>
                             </div>
-                            <div class="guide-steps" style="background:rgba(255,255,255,0.01); border-radius:12px; padding:16px; color:#888; font-size:0.9rem; line-height:1.8; border:1px solid rgba(255,255,255,0.03);">
+                            <div class="guide-steps">
                                 <h4 style="color:#ddd; margin-bottom:8px;">Гайд по входу в программу:</h4>
                                 <div>1. Заходишь во вкладку Профиль в программе</div>
                                 <div>2. И нажимаешь Войти</div>
@@ -2025,54 +2183,72 @@
         // ===== НАСТРОЙКИ =====
         const CLIENT_ID = '8155864182';
         const ADMIN_TELEGRAM_ID = '123456789';
+        const SESSION_KEY = 'proxygem_session';
+        const VISITS_KEY = 'proxygem_visits';
+        const TIME_KEY = 'proxygem_time';
 
         // ===== ХРАНИЛИЩЕ =====
-        const STORAGE_KEYS = {
-            reviews: 'proxygem_reviews',
-            users: 'proxygem_users',
-            visits: 'proxygem_visits',
-            bans: 'proxygem_bans',
-            notifications: 'proxygem_notifications'
-        };
-
         function getData(key) {
             try {
                 const data = localStorage.getItem(key);
                 return data ? JSON.parse(data) : [];
             } catch { return []; }
         }
-
         function setData(key, data) {
             localStorage.setItem(key, JSON.stringify(data));
         }
-
         function getVisits() {
             try {
-                return parseInt(localStorage.getItem(STORAGE_KEYS.visits)) || 0;
+                return parseInt(localStorage.getItem(VISITS_KEY)) || 0;
             } catch { return 0; }
         }
-
         function incrementVisits() {
             const sessionKey = 'proxygem_visited';
-            if (sessionStorage.getItem(sessionKey)) {
-                return getVisits();
-            }
+            if (sessionStorage.getItem(sessionKey)) return getVisits();
             sessionStorage.setItem(sessionKey, 'true');
             const current = getVisits();
-            localStorage.setItem(STORAGE_KEYS.visits, String(current + 1));
+            localStorage.setItem(VISITS_KEY, String(current + 1));
             return current + 1;
+        }
+
+        // ===== ТРЕКИНГ ВРЕМЕНИ =====
+        let startTime = Date.now();
+        let timeInterval;
+
+        function startTimeTracking() {
+            if (currentUser) {
+                startTime = Date.now();
+                if (timeInterval) clearInterval(timeInterval);
+                timeInterval = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                    updateUserTime(elapsed);
+                }, 30000);
+            }
+        }
+
+        function updateUserTime(seconds) {
+            if (!currentUser) return;
+            const users = getData('proxygem_users');
+            const idx = users.findIndex(u => u.id === currentUser.id);
+            if (idx !== -1) {
+                users[idx].timeOnSite = (users[idx].timeOnSite || 0) + seconds;
+                users[idx].lastActive = Date.now();
+                setData('proxygem_users', users);
+                currentUser = users[idx];
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
         }
 
         // ===== СИСТЕМА ПОЛЬЗОВАТЕЛЕЙ =====
         let currentUser = null;
         let isAdmin = false;
 
-        function getUsers() { return getData(STORAGE_KEYS.users); }
-        function saveUsers(users) { setData(STORAGE_KEYS.users, users); }
-        function getBans() { return getData(STORAGE_KEYS.bans); }
-        function saveBans(bans) { setData(STORAGE_KEYS.bans, bans); }
-        function getNotifications() { return getData(STORAGE_KEYS.notifications); }
-        function saveNotifications(notifications) { setData(STORAGE_KEYS.notifications, notifications); }
+        function getUsers() { return getData('proxygem_users'); }
+        function saveUsers(users) { setData('proxygem_users', users); }
+        function getBans() { return getData('proxygem_bans'); }
+        function saveBans(bans) { setData('proxygem_bans', bans); }
+        function getNotifications() { return getData('proxygem_notifications'); }
+        function saveNotifications(notifications) { setData('proxygem_notifications', notifications); }
 
         function isUserBanned(userId) {
             const bans = getBans();
@@ -2109,6 +2285,8 @@
                 createdAt: Date.now(),
                 isAdmin: false,
                 accessKey: generateAccessKey(),
+                timeOnSite: 0,
+                lastActive: Date.now(),
                 settings: {
                     language: 'ru',
                     notifications: false
@@ -2215,11 +2393,9 @@
             document.getElementById('profileAvatar').src = currentUser.avatar || 'images/avatar.png';
             document.getElementById('profileNickname').value = currentUser.nickname || '';
             
-            // Ключ доступа
             if (currentUser.accessKey) {
                 document.getElementById('accessKeyDisplay').textContent = currentUser.accessKey;
             } else {
-                // Если ключа нет - генерируем
                 const users = getUsers();
                 const idx = users.findIndex(u => u.id === currentUser.id);
                 if (idx !== -1) {
@@ -2231,7 +2407,6 @@
             }
             document.getElementById('accessLoginDisplay').textContent = currentUser.nickname || '—';
             
-            // Настройки
             if (currentUser.settings) {
                 document.getElementById('languageSelect').value = currentUser.settings.language || 'ru';
                 document.getElementById('notificationsToggle').checked = currentUser.settings.notifications || false;
@@ -2245,13 +2420,10 @@
             label.textContent = toggle.checked ? 'Вкл' : 'Выкл';
         }
 
-        // ===== ОБРАБОТЧИК ВХОДА ЧЕРЕЗ TELEGRAM =====
+        // ===== ОБРАБОТЧИК ВХОДА =====
         window.onTelegramAuth = function(data) {
-            console.log('Telegram auth data:', data);
-            
             try {
                 const payload = JSON.parse(atob(data.id_token.split('.')[1]));
-                
                 const telegramId = payload.sub || payload.id;
                 const name = payload.name || payload.given_name || 'User';
                 const username = payload.preferred_username || name;
@@ -2278,9 +2450,8 @@
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 updateProfileUI();
                 hideAuthModal();
-                renderAdminPanel();
-                renderUsersList();
-                renderNotifications();
+                startTimeTracking();
+                renderAll();
                 alert('Добро пожаловать, ' + user.name + '!');
             } catch (e) {
                 console.error('Ошибка при обработке Telegram login:', e);
@@ -2335,10 +2506,8 @@
             updateProfileUI();
             hideAuthModal();
             showSuccessModal();
-            renderAdminPanel();
-            renderUsersList();
-            renderNotifications();
-            
+            startTimeTracking();
+            renderAll();
             window._pendingUser = null;
         });
 
@@ -2364,7 +2533,6 @@
                 });
             } else {
                 alert('Библиотека Telegram не загружена. Попробуйте обновить страницу.');
-                console.error('Telegram Login library not loaded');
             }
         });
 
@@ -2386,17 +2554,17 @@
         });
 
         document.getElementById('confirmLogoutBtn').addEventListener('click', function() {
+            if (timeInterval) clearInterval(timeInterval);
             currentUser = null;
             isAdmin = false;
             localStorage.removeItem('currentUser');
             updateProfileUI();
             hideLogoutModal();
-            renderAdminPanel();
-            renderUsersList();
+            renderAll();
             alert('Вы вышли из аккаунта');
         });
 
-        // ===== ПРОФИЛЬ - ВКЛАДКИ =====
+        // ===== ПРОФИЛЬ =====
         document.querySelectorAll('.profile-menu .menu-item').forEach(item => {
             item.addEventListener('click', function() {
                 document.querySelectorAll('.profile-menu .menu-item').forEach(el => el.classList.remove('active'));
@@ -2407,7 +2575,6 @@
             });
         });
 
-        // ===== АВАТАРКА =====
         document.getElementById('avatarInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -2431,7 +2598,6 @@
             }
         });
 
-        // ===== СМЕНА НИКА =====
         document.getElementById('saveNicknameBtn').addEventListener('click', function() {
             if (!currentUser) {
                 alert('Сначала войдите в аккаунт');
@@ -2469,10 +2635,10 @@
                 updateProfileUI();
                 status.textContent = 'Ник успешно изменён!';
                 status.style.color = '#6bff6b';
+                renderTopUsers();
             }
         });
 
-        // ===== НАСТРОЙКИ =====
         document.getElementById('saveSettingsBtn').addEventListener('click', function() {
             if (!currentUser) {
                 alert('Сначала войдите в аккаунт');
@@ -2492,24 +2658,18 @@
             }
         });
 
-        // ===== ТОГГЛ УВЕДОМЛЕНИЙ =====
         document.getElementById('notificationsToggle').addEventListener('change', function() {
             updateNotifLabel();
         });
 
-        // ===== КОПИРОВАНИЕ КЛЮЧА =====
         document.getElementById('copyKeyBtn').addEventListener('click', function() {
             const key = document.getElementById('accessKeyDisplay').textContent;
             if (key && key !== '—') {
                 if (navigator.clipboard) {
                     navigator.clipboard.writeText(key).then(() => {
                         alert('Ключ скопирован в буфер обмена!');
-                    }).catch(() => {
-                        fallbackCopy(key);
-                    });
-                } else {
-                    fallbackCopy(key);
-                }
+                    }).catch(() => { fallbackCopy(key); });
+                } else { fallbackCopy(key); }
             }
         });
 
@@ -2523,12 +2683,9 @@
             alert('Ключ скопирован в буфер обмена!');
         }
 
-        // ===== ОТКРЫТИЕ ПРОФИЛЯ =====
+        // ===== ВКЛАДКИ =====
         document.getElementById('profileTabBtn').addEventListener('click', function() {
-            if (!currentUser) {
-                showAuthModal();
-                return;
-            }
+            if (!currentUser) { showAuthModal(); return; }
             const ban = isUserBanned(currentUser.id);
             if (ban) {
                 alert('Вы забанены до ' + new Date(ban.until).toLocaleString());
@@ -2550,7 +2707,7 @@
             }
         });
 
-        // ===== ВОССТАНОВЛЕНИЕ =====
+        // ===== RESTORE SESSION =====
         function restoreSession() {
             try {
                 const saved = localStorage.getItem('currentUser');
@@ -2568,21 +2725,20 @@
                 }
             } catch { currentUser = null; }
             updateProfileUI();
+            if (currentUser) startTimeTracking();
         }
 
         // ===== СИСТЕМА ОТЗЫВОВ =====
-        function getReviews() { return getData(STORAGE_KEYS.reviews); }
-        function saveReviews(reviews) { setData(STORAGE_KEYS.reviews, reviews); }
+        function getReviews() { return getData('proxygem_reviews'); }
+        function saveReviews(reviews) { setData('proxygem_reviews', reviews); }
 
         function renderReviews() {
             const container = document.getElementById('reviewsList');
             const reviews = getReviews();
-
             if (reviews.length === 0) {
                 container.innerHTML = '<div class="no-reviews"><i class="fas fa-comment-slash"></i> Пока нет отзывов. Будьте первым!</div>';
                 return;
             }
-
             const sorted = [...reviews].sort((a, b) => b.timestamp - a.timestamp);
             container.innerHTML = sorted.map(r => {
                 const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
@@ -2603,8 +2759,7 @@
 
         // ===== ЗВЁЗДЫ =====
         let selectedRating = 0;
-        const stars = document.querySelectorAll('.star-rating .star');
-        stars.forEach(star => {
+        document.querySelectorAll('.star-rating .star').forEach(star => {
             star.addEventListener('click', () => {
                 selectedRating = parseInt(star.dataset.value);
                 document.getElementById('selectedRating').value = selectedRating;
@@ -2618,14 +2773,12 @@
             });
         });
 
-        function updateStars(rating, hover = false) {
-            stars.forEach(s => {
-                const val = parseInt(s.dataset.value);
-                s.classList.toggle('active', val <= rating);
+        function updateStars(rating) {
+            document.querySelectorAll('.star-rating .star').forEach(s => {
+                s.classList.toggle('active', parseInt(s.dataset.value) <= rating);
             });
         }
 
-        // ===== ОТПРАВКА ОТЗЫВА =====
         document.getElementById('submitReviewBtn').addEventListener('click', function() {
             const rating = parseInt(document.getElementById('selectedRating').value);
             const text = document.getElementById('reviewText').value.trim();
@@ -2644,8 +2797,7 @@
 
             const reviews = getReviews();
             reviews.push({
-                rating,
-                text,
+                rating, text,
                 author: author || (currentUser ? (currentUser.nickname || currentUser.name) : 'Аноним'),
                 timestamp: Date.now(),
                 userId: currentUser ? currentUser.id : null
@@ -2666,13 +2818,51 @@
             setTimeout(() => { btn.innerHTML = originalText; }, 2000);
         });
 
+        // ===== ТОП ПОЛЬЗОВАТЕЛЕЙ =====
+        function renderTopUsers() {
+            const container = document.getElementById('topUsersList');
+            const users = getUsers();
+            
+            // Сортируем по времени на сайте (убывание)
+            const sorted = [...users].sort((a, b) => (b.timeOnSite || 0) - (a.timeOnSite || 0));
+            const top = sorted.slice(0, 100);
+            
+            if (top.length === 0) {
+                container.innerHTML = '<div class="top-users-empty"><i class="fas fa-users"></i> Пока нет пользователей</div>';
+                return;
+            }
+
+            const medals = ['🥇', '🥈', '🥉'];
+            const rankClasses = ['gold', 'silver', 'bronze'];
+
+            container.innerHTML = top.map((user, index) => {
+                const rank = index + 1;
+                const rankDisplay = rank <= 3 ? medals[index] : '#' + rank;
+                const rankClass = rank <= 3 ? rankClasses[index] : '';
+                const timeSeconds = user.timeOnSite || 0;
+                const hours = Math.floor(timeSeconds / 3600);
+                const minutes = Math.floor((timeSeconds % 3600) / 60);
+                const timeStr = hours > 0 ? hours + 'ч ' + minutes + 'м' : minutes + 'м';
+                const isCurrentUser = currentUser && currentUser.id === user.id;
+                
+                return '<div class="top-user-item" style="' + (isCurrentUser ? 'border-color: rgba(107,159,255,0.2); background: rgba(107,159,255,0.02);' : '') + '">' +
+                    '<div class="rank ' + rankClass + '">' + rankDisplay + '</div>' +
+                    '<img class="avatar" src="' + (user.avatar || 'images/avatar.png') + '" alt="avatar" />' +
+                    '<div class="info">' +
+                        '<div class="name">' + escapeHtml(user.nickname || user.name) + (isCurrentUser ? ' <span style="color:#6b9fff;font-size:0.8rem;">(Вы)</span>' : '') + '</div>' +
+                        '<div class="detail">' + (user.isAdmin ? '👑 Администратор' : 'Пользователь') + '</div>' +
+                    '</div>' +
+                    '<div class="time"><i class="fas fa-clock"></i> ' + timeStr + '</div>' +
+                '</div>';
+            }).join('');
+        }
+
         // ===== АДМИН-ПАНЕЛЬ =====
         function renderAdminPanel() {
             if (!isAdmin) return;
             const users = getUsers();
             const reviews = getReviews();
             const visits = getVisits();
-
             document.getElementById('adminTotalUsers').textContent = visits;
             document.getElementById('adminTotalReviews').textContent = reviews.length;
             document.getElementById('adminTotalUsersReg').textContent = users.length;
@@ -2681,12 +2871,10 @@
         function renderAdminReviews() {
             const container = document.getElementById('adminReviewsList');
             const reviews = getReviews();
-
             if (reviews.length === 0) {
                 container.innerHTML = '<div class="no-reviews">Нет отзывов</div>';
                 return;
             }
-
             const sorted = [...reviews].sort((a, b) => b.timestamp - a.timestamp);
             container.innerHTML = sorted.map((r, index) => {
                 const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
@@ -2694,7 +2882,6 @@
                 const author = r.author || 'Аноним';
                 return '<div class="review-item"><div class="review-header"><span class="review-author">' + escapeHtml(author) + '</span><div style="display:flex; gap:12px; align-items:center;"><span class="review-stars">' + stars + '</span><button class="admin-delete-btn" data-index="' + index + '"><i class="fas fa-trash"></i> Удалить</button></div></div><div class="review-text">' + escapeHtml(r.text) + '</div><div class="review-date">' + date + '</div></div>';
             }).join('');
-
             container.querySelectorAll('.admin-delete-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const index = parseInt(this.dataset.index);
@@ -2715,26 +2902,22 @@
             const users = getUsers();
             const bans = getBans();
             const now = Date.now();
-
             if (users.length === 0) {
                 container.innerHTML = '<div style="color:#555; padding:20px; text-align:center;">Нет пользователей</div>';
                 return;
             }
-
             container.innerHTML = users.map(u => {
                 const activeBan = bans.find(b => b.userId === u.id && b.until > now);
                 const isBanned = !!activeBan;
                 const banTime = activeBan ? Math.ceil((activeBan.until - now) / 1000 / 60) : 0;
                 return '<div class="admin-user-item"><div class="user-info"><img src="' + (u.avatar || 'images/avatar.png') + '" alt="avatar" /><div><div class="name">' + escapeHtml(u.nickname || u.name) + '</div><div class="email">' + escapeHtml(u.telegramId || '') + '</div></div></div><div class="user-status ' + (isBanned ? 'banned' : '') + '">' + (isBanned ? 'Забанен (' + banTime + ' мин)' : 'Активен') + '</div><div class="ban-controls"><input type="number" id="banTime_' + u.id + '" placeholder="минут" min="1" value="60" style="width:80px;" /><button class="btn-ban ' + (isBanned ? 'unban' : '') + '" data-userid="' + u.id + '">' + (isBanned ? 'Разбанить' : 'Забанить') + '</button></div></div>';
             }).join('');
-
             container.querySelectorAll('.btn-ban').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const userId = this.dataset.userid;
                     const bans = getBans();
                     const now = Date.now();
                     const existingBan = bans.find(b => b.userId === userId && b.until > now);
-
                     if (existingBan) {
                         if (confirm('Разбанить пользователя?')) {
                             const newBans = bans.filter(b => b.userId !== userId || b.until <= now);
@@ -2747,13 +2930,11 @@
                         const minutes = parseInt(timeInput.value) || 60;
                         if (minutes < 1) { alert('Минимум 1 минута'); return; }
                         if (confirm('Забанить пользователя на ' + minutes + ' минут?')) {
-                            bans.push({
-                                userId: userId,
-                                until: now + minutes * 60 * 1000
-                            });
+                            bans.push({ userId: userId, until: now + minutes * 60 * 1000 });
                             saveBans(bans);
                             renderUsersList();
                             if (currentUser && currentUser.id === userId) {
+                                if (timeInterval) clearInterval(timeInterval);
                                 currentUser = null;
                                 isAdmin = false;
                                 localStorage.removeItem('currentUser');
@@ -2772,12 +2953,10 @@
         function renderNotifications() {
             const container = document.getElementById('notificationsArea');
             const notifications = getNotifications();
-
             if (notifications.length === 0) {
                 container.innerHTML = '<div style="color:#555; text-align:center; padding:20px;">Нет уведомлений</div>';
                 return;
             }
-
             const sorted = [...notifications].sort((a, b) => b.timestamp - a.timestamp);
             container.innerHTML = sorted.map(n => {
                 return '<div class="notification-item">' + (n.image ? '<img src="' + n.image + '" alt="notification" />' : '') + '<div class="content"><h4>' + escapeHtml(n.title) + '</h4><p>' + escapeHtml(n.text) + '</p><div class="date">' + new Date(n.timestamp).toLocaleDateString('ru-RU') + '</div></div></div>';
@@ -2788,50 +2967,35 @@
             const title = document.getElementById('notifTitle').value.trim();
             const text = document.getElementById('notifText').value.trim();
             const image = document.getElementById('notifImage').value.trim();
-
             if (!title || !text) {
                 alert('Заполните заголовок и текст уведомления');
                 return;
             }
-
             const notifications = getNotifications();
-            notifications.push({
-                title,
-                text,
-                image: image || null,
-                timestamp: Date.now()
-            });
+            notifications.push({ title, text, image: image || null, timestamp: Date.now() });
             saveNotifications(notifications);
             renderNotifications();
-
             document.getElementById('notifTitle').value = '';
             document.getElementById('notifText').value = '';
             document.getElementById('notifImage').value = '';
             alert('Уведомление опубликовано!');
         });
 
-        // ===== НАВИГАЦИЯ ПО URL =====
+        // ===== НАВИГАЦИЯ =====
         const routes = {
-            '': 'home',
-            'home': 'home',
-            'features': 'features',
-            'download': 'download',
-            'reviews': 'reviews',
-            'admin': 'admin',
-            'profile': 'profile'
+            '': 'home', 'home': 'home', 'features': 'features',
+            'download': 'download', 'reviews': 'reviews',
+            'topusers': 'topusers', 'admin': 'admin', 'profile': 'profile'
+        };
+
+        const tabMap = {
+            'home': 'tab-home', 'features': 'tab-features',
+            'download': 'tab-download', 'reviews': 'tab-reviews',
+            'topusers': 'tab-topusers', 'admin': 'tab-admin', 'profile': 'tab-profile'
         };
 
         function navigateTo(route) {
             const tabId = routes[route] || 'home';
-            const tabMap = {
-                'home': 'tab-home',
-                'features': 'tab-features',
-                'download': 'tab-download',
-                'reviews': 'tab-reviews',
-                'admin': 'tab-admin',
-                'profile': 'tab-profile'
-            };
-
             const contentId = tabMap[tabId];
             if (!contentId) return;
 
@@ -2860,10 +3024,8 @@
                 renderUsersList();
                 renderNotifications();
             }
-            
-            if (tabId === 'profile') {
-                updateProfilePage();
-            }
+            if (tabId === 'profile') updateProfilePage();
+            if (tabId === 'topusers') renderTopUsers();
         }
 
         // ===== ОБРАБОТЧИКИ =====
@@ -2881,13 +3043,21 @@
             navigateTo(path || 'home');
         });
 
+        // ===== RENDER ALL =====
+        function renderAll() {
+            renderReviews();
+            renderTopUsers();
+            renderNotifications();
+            renderAdminPanel();
+            renderAdminReviews();
+            renderUsersList();
+            document.getElementById('statUsers').textContent = getVisits();
+        }
+
         // ===== ИНИЦИАЛИЗАЦИЯ =====
         function init() {
             incrementVisits();
             restoreSession();
-            renderReviews();
-            renderNotifications();
-            updateNotifLabel();
 
             const path = window.location.pathname.slice(1);
             const route = path || 'home';
@@ -2905,6 +3075,8 @@
                             createdAt: Date.now(),
                             isAdmin: true,
                             accessKey: generateAccessKey(),
+                            timeOnSite: 0,
+                            lastActive: Date.now(),
                             settings: { language: 'ru', notifications: false }
                         };
                         currentUser = tempUser;
@@ -2912,6 +3084,7 @@
                         localStorage.setItem('currentUser', JSON.stringify(currentUser));
                         updateProfileUI();
                         alert('Доступ к админ-панели получен!');
+                        startTimeTracking();
                     } else {
                         const users = getUsers();
                         const idx = users.findIndex(u => u.id === currentUser.id);
@@ -2944,11 +3117,10 @@
                 renderNotifications();
             }
 
-            if (route === 'profile') {
-                updateProfilePage();
-            }
+            if (route === 'profile') updateProfilePage();
+            if (route === 'topusers') renderTopUsers();
 
-            document.getElementById('statUsers').textContent = getVisits();
+            renderAll();
 
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
@@ -2959,6 +3131,15 @@
                 });
             }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
             revealElements.forEach(el => revealObserver.observe(el));
+
+            // Сохраняем время при закрытии
+            window.addEventListener('beforeunload', function() {
+                if (currentUser && timeInterval) {
+                    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                    updateUserTime(elapsed);
+                    clearInterval(timeInterval);
+                }
+            });
         }
 
         init();
