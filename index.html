@@ -1279,6 +1279,84 @@
             background: rgba(255,255,255,0.04);
         }
 
+        /* ===== АВАТАР В НАСТРОЙКАХ НА ВЕСЬ БЛОК ===== */
+        .avatar-full-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.03);
+            margin-bottom: 24px;
+        }
+        .avatar-full-section .avatar-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.06);
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
+        }
+        .avatar-full-section .avatar-preview:hover {
+            transform: scale(1.03);
+            border-color: rgba(255,255,255,0.12);
+        }
+        .avatar-full-section .avatar-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 28px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            color: #aaa;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-full-section .avatar-upload-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.03), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .avatar-full-section .avatar-upload-btn:hover {
+            border-color: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .avatar-full-section .avatar-upload-btn:hover::before { opacity: 1; }
+        .avatar-full-section .avatar-upload-btn i { font-size: 1.1rem; transition: transform 0.3s ease; }
+        .avatar-full-section .avatar-upload-btn:hover i { transform: scale(1.1); }
+        .avatar-full-section .avatar-upload-btn input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .avatar-full-section .avatar-upload-btn .upload-glow {
+            position: absolute;
+            inset: -2px;
+            border-radius: 42px;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.03), transparent, rgba(255,255,255,0.01), transparent);
+            animation: uploadGlow 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        .avatar-full-section .avatar-upload-btn:hover .upload-glow { opacity: 1; }
+
         /* ===== СТИЛЬНЫЙ СЕЛЕКТ ===== */
         .custom-select {
             position: relative;
@@ -1321,9 +1399,7 @@
             z-index: 2;
             transition: all 0.3s ease;
         }
-        .custom-select:hover .select-arrow {
-            color: #aaa;
-        }
+        .custom-select:hover .select-arrow { color: #aaa; }
         .custom-select select option {
             background: #1a1a1a;
             color: #eaeaea;
@@ -1339,145 +1415,83 @@
             pointer-events: none;
             z-index: 0;
         }
-        .custom-select:hover .select-glow {
-            opacity: 1;
-        }
-        .custom-select select:focus + .select-glow {
-            opacity: 1;
-        }
+        .custom-select:hover .select-glow { opacity: 1; }
+        .custom-select select:focus + .select-glow { opacity: 1; }
 
-        /* ===== СТИЛЬНЫЙ ТОГГЛ ===== */
-        .toggle-switch {
-            position: relative;
-            display: inline-flex;
+        /* ===== НОВЫЙ СТИЛЬНЫЙ ТОГГЛ ===== */
+        .toggle-switch-modern {
+            display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 16px;
             cursor: pointer;
             user-select: none;
         }
-        .toggle-switch input {
+        .toggle-switch-modern input {
             display: none;
         }
-        .toggle-switch .toggle-track {
-            width: 56px;
-            height: 32px;
+        .toggle-switch-modern .toggle-track {
+            width: 60px;
+            height: 34px;
             border-radius: 20px;
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.06);
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
         }
-        .toggle-switch .toggle-thumb {
+        .toggle-switch-modern .toggle-track .toggle-thumb {
             position: absolute;
             top: 2px;
             left: 2px;
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background: #555;
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-        .toggle-switch .toggle-thumb i {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0.7rem;
-            color: #888;
-            transition: all 0.3s ease;
-        }
-        .toggle-switch input:checked + .toggle-track {
-            background: rgba(107, 159, 255, 0.15);
-            border-color: rgba(107, 159, 255, 0.2);
-        }
-        .toggle-switch input:checked + .toggle-track .toggle-thumb {
-            left: 26px;
-            background: #6b9fff;
-            box-shadow: 0 2px 16px rgba(107, 159, 255, 0.3);
-        }
-        .toggle-switch input:checked + .toggle-track .toggle-thumb i {
-            color: #fff;
-        }
-        .toggle-switch .toggle-label {
-            color: #888;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-            min-width: 40px;
-        }
-        .toggle-switch:hover .toggle-label {
-            color: #ddd;
-        }
-        .toggle-switch:hover .toggle-track {
-            border-color: rgba(255,255,255,0.1);
-        }
-
-        /* ===== АВАТАР ЗАГРУЗКА ===== */
-        .avatar-upload-btn {
-            display: inline-flex;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+            display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 24px;
-            border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.06);
-            background: rgba(255,255,255,0.02);
-            color: #aaa;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
+            justify-content: center;
+        }
+        .toggle-switch-modern .toggle-track .toggle-thumb i {
+            font-size: 0.75rem;
+            color: #888;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
-        .avatar-upload-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.03), transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .avatar-upload-btn:hover {
-            border-color: rgba(255,255,255,0.12);
-            background: rgba(255,255,255,0.04);
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
-        .avatar-upload-btn:hover::before {
-            opacity: 1;
-        }
-        .avatar-upload-btn i {
-            font-size: 1.1rem;
-            transition: transform 0.3s ease;
-        }
-        .avatar-upload-btn:hover i {
-            transform: scale(1.1);
-        }
-        .avatar-upload-btn input[type="file"] {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            cursor: pointer;
-            z-index: 2;
-        }
-        .avatar-upload-btn .upload-glow {
+        .toggle-switch-modern .toggle-track .toggle-glow {
             position: absolute;
             inset: -2px;
-            border-radius: 42px;
-            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.03), transparent, rgba(255,255,255,0.01), transparent);
-            animation: uploadGlow 4s linear infinite;
+            border-radius: 22px;
+            background: radial-gradient(circle at center, rgba(107,159,255,0.05), transparent 70%);
             opacity: 0;
             transition: opacity 0.4s ease;
             pointer-events: none;
         }
-        .avatar-upload-btn:hover .upload-glow {
+        .toggle-switch-modern input:checked + .toggle-track {
+            background: rgba(107, 159, 255, 0.12);
+            border-color: rgba(107, 159, 255, 0.15);
+        }
+        .toggle-switch-modern input:checked + .toggle-track .toggle-thumb {
+            left: 28px;
+            background: linear-gradient(135deg, #6b9fff, #4a7fd4);
+            box-shadow: 0 2px 20px rgba(107, 159, 255, 0.3);
+        }
+        .toggle-switch-modern input:checked + .toggle-track .toggle-thumb i {
+            color: #fff;
+        }
+        .toggle-switch-modern input:checked + .toggle-track .toggle-glow {
             opacity: 1;
         }
-        @keyframes uploadGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .toggle-switch-modern .toggle-label {
+            color: #888;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            min-width: 40px;
+        }
+        .toggle-switch-modern:hover .toggle-label { color: #ddd; }
+        .toggle-switch-modern:hover .toggle-track {
+            border-color: rgba(255,255,255,0.1);
         }
 
         /* ===== КЛЮЧ ДОСТУПА ===== */
@@ -1525,9 +1539,7 @@
             font-size: 0.9rem;
             line-height: 1.8;
         }
-        .access-key-box .guide-steps span {
-            color: #ddd;
-        }
+        .access-key-box .guide-steps span { color: #ddd; }
 
         .btn-logout {
             padding: 12px 32px;
@@ -1736,6 +1748,11 @@
         .top-user-item:nth-child(14) { animation-delay: 0.7s; }
         .top-user-item:nth-child(15) { animation-delay: 0.75s; }
 
+        @keyframes uploadGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* ===== АДАПТИВ ===== */
         @media (max-width: 850px) {
             .nav-circle {
@@ -1781,6 +1798,7 @@
             .top-user-item .rank { font-size: 1rem; min-width: 30px; }
             .top-user-item .avatar { width: 36px; height: 36px; }
             .top-user-item .time { font-size: 0.8rem; padding: 2px 10px; }
+            .avatar-full-section .avatar-preview { width: 80px; height: 80px; }
         }
         @media (max-width: 550px) {
             .nav-circle .tab-btn {
@@ -1811,6 +1829,11 @@
             .top-user-item .time { font-size: 0.7rem; padding: 2px 8px; }
             .top-user-item .info .name { font-size: 0.9rem; }
             .top-user-item .info .detail { font-size: 0.7rem; }
+            .avatar-full-section .avatar-preview { width: 60px; height: 60px; }
+            .avatar-full-section .avatar-upload-btn { font-size: 0.8rem; padding: 10px 20px; }
+            .toggle-switch-modern .toggle-track { width: 50px; height: 28px; }
+            .toggle-switch-modern .toggle-track .toggle-thumb { width: 22px; height: 22px; top: 2px; left: 2px; }
+            .toggle-switch-modern input:checked + .toggle-track .toggle-thumb { left: 24px; }
         }
     </style>
 </head>
@@ -2011,9 +2034,7 @@
                         <h2><i class="fas fa-trophy"></i> Топ Пользователей</h2>
                         <p>Топ 100 пользователей по времени на сайте</p>
                     </div>
-                    <div class="top-users-grid" id="topUsersList">
-                        <!-- Загружается из JS -->
-                    </div>
+                    <div class="top-users-grid" id="topUsersList"></div>
                 </div>
             </div>
 
@@ -2035,17 +2056,17 @@
                         <!-- Личные Данные -->
                         <div class="profile-tab active" id="profile-personal">
                             <h3><i class="fas fa-user"></i> Личные Данные</h3>
-                            <div class="form-group">
-                                <label>Аватарка</label>
-                                <div class="avatar-upload">
-                                    <img src="images/avatar.png" alt="Avatar" id="profileAvatar" />
-                                    <label class="avatar-upload-btn">
-                                        <i class="fas fa-cloud-upload-alt"></i> Выберите файл
-                                        <input type="file" id="avatarInput" accept="image/*" />
-                                        <span class="upload-glow"></span>
-                                    </label>
-                                </div>
+                            
+                            <!-- Аватарка на весь блок -->
+                            <div class="avatar-full-section">
+                                <img src="images/avatar.png" alt="Avatar" class="avatar-preview" id="profileAvatar" />
+                                <label class="avatar-upload-btn">
+                                    <i class="fas fa-cloud-upload-alt"></i> Выберите файл
+                                    <input type="file" id="avatarInput" accept="image/*" />
+                                    <span class="upload-glow"></span>
+                                </label>
                             </div>
+                            
                             <div class="form-group">
                                 <label>Никнейм</label>
                                 <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
@@ -2092,12 +2113,13 @@
                             <div class="form-group">
                                 <label>Уведомления</label>
                                 <div style="margin-top:8px;">
-                                    <label class="toggle-switch">
+                                    <label class="toggle-switch-modern">
                                         <input type="checkbox" id="notificationsToggle" />
                                         <span class="toggle-track">
                                             <span class="toggle-thumb">
                                                 <i class="fas fa-check"></i>
                                             </span>
+                                            <span class="toggle-glow"></span>
                                         </span>
                                         <span class="toggle-label" id="notifLabel">Выкл</span>
                                     </label>
@@ -2655,8 +2677,20 @@
                 currentUser = users[idx];
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 alert('Настройки сохранены!');
+                // Применяем язык сразу
+                applyLanguage(language);
             }
         });
+
+        function applyLanguage(lang) {
+            const langMap = {
+                'ru': 'Русский',
+                'en': 'English',
+                'tr': 'Türkçe'
+            };
+            // Можно добавить перевод интерфейса
+            console.log('Язык изменён на:', langMap[lang] || lang);
+        }
 
         document.getElementById('notificationsToggle').addEventListener('change', function() {
             updateNotifLabel();
@@ -2823,7 +2857,6 @@
             const container = document.getElementById('topUsersList');
             const users = getUsers();
             
-            // Сортируем по времени на сайте (убывание)
             const sorted = [...users].sort((a, b) => (b.timeOnSite || 0) - (a.timeOnSite || 0));
             const top = sorted.slice(0, 100);
             
@@ -3132,7 +3165,6 @@
             }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
             revealElements.forEach(el => revealObserver.observe(el));
 
-            // Сохраняем время при закрытии
             window.addEventListener('beforeunload', function() {
                 if (currentUser && timeInterval) {
                     const elapsed = Math.floor((Date.now() - startTime) / 1000);
