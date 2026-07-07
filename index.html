@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>ProxyGem · обход & защита</title>
+    <title>ProxyGem</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
@@ -27,7 +27,6 @@
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-        /* ===== ФОН С ЭФФЕКТАМИ ===== */
         .bg-gradient-overlay {
             position: fixed;
             inset: 0;
@@ -1159,32 +1158,213 @@
             color: #eaeaea;
             font-family: 'Inter', sans-serif;
             font-size: 1rem;
+            transition: all 0.3s ease;
         }
         .profile-content .profile-tab .form-group input:focus,
         .profile-content .profile-tab .form-group select:focus {
             outline: none;
             border-color: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
         }
-        .profile-content .profile-tab .form-group .avatar-upload {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
+
+        /* ===== СТИЛЬНЫЙ СЕЛЕКТ ===== */
+        .custom-select {
+            position: relative;
+            max-width: 400px;
+            width: 100%;
         }
-        .profile-content .profile-tab .form-group .avatar-upload img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .profile-content .profile-tab .form-group .avatar-upload input[type="file"] {
-            max-width: 200px;
-            padding: 8px;
+        .custom-select select {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 14px;
             border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 8px;
             background: rgba(255,255,255,0.02);
+            color: #eaeaea;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .custom-select select:hover {
+            border-color: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+        }
+        .custom-select select:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.06);
+            box-shadow: 0 0 30px rgba(255,255,255,0.02);
+        }
+        .custom-select .select-arrow {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            pointer-events: none;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        .custom-select:hover .select-arrow {
+            color: #aaa;
+        }
+        .custom-select select option {
+            background: #1a1a1a;
+            color: #eaeaea;
+            padding: 12px;
+        }
+        .custom-select .select-glow {
+            position: absolute;
+            inset: -2px;
+            border-radius: 16px;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.03), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .custom-select:hover .select-glow {
+            opacity: 1;
+        }
+        .custom-select select:focus + .select-glow {
+            opacity: 1;
+        }
+
+        /* ===== СТИЛЬНЫЙ ТОГГЛ (переключатель) ===== */
+        .toggle-switch {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .toggle-switch input {
+            display: none;
+        }
+        .toggle-switch .toggle-track {
+            width: 56px;
+            height: 32px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+        .toggle-switch .toggle-thumb {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #555;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .toggle-switch .toggle-thumb i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7rem;
             color: #888;
-            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        .toggle-switch input:checked + .toggle-track {
+            background: rgba(107, 159, 255, 0.15);
+            border-color: rgba(107, 159, 255, 0.2);
+        }
+        .toggle-switch input:checked + .toggle-track .toggle-thumb {
+            left: 26px;
+            background: #6b9fff;
+            box-shadow: 0 2px 16px rgba(107, 159, 255, 0.3);
+        }
+        .toggle-switch input:checked + .toggle-track .toggle-thumb i {
+            color: #fff;
+        }
+        .toggle-switch .toggle-label {
+            color: #888;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+        .toggle-switch:hover .toggle-label {
+            color: #ddd;
+        }
+        .toggle-switch:hover .toggle-track {
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        /* ===== СТИЛЬНАЯ КНОПКА ЗАГРУЗКИ АВАТАРКИ ===== */
+        .avatar-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            color: #aaa;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-upload-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.03), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .avatar-upload-btn:hover {
+            border-color: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .avatar-upload-btn:hover::before {
+            opacity: 1;
+        }
+        .avatar-upload-btn i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+        .avatar-upload-btn:hover i {
+            transform: scale(1.1);
+        }
+        .avatar-upload-btn input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .avatar-upload-btn .upload-glow {
+            position: absolute;
+            inset: -2px;
+            border-radius: 42px;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.03), transparent, rgba(255,255,255,0.01), transparent);
+            animation: uploadGlow 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        .avatar-upload-btn:hover .upload-glow {
+            opacity: 1;
+        }
+        @keyframes uploadGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* ===== КЛЮЧ ДОСТУПА ===== */
@@ -1217,6 +1397,7 @@
             transition: all 0.3s ease;
             padding: 4px 8px;
             border-radius: 8px;
+            flex-shrink: 0;
         }
         .access-key-box .key-display .copy-btn:hover {
             color: #fff;
@@ -1700,7 +1881,11 @@
                                 <label>Аватарка</label>
                                 <div class="avatar-upload">
                                     <img src="images/avatar.png" alt="Avatar" id="profileAvatar" />
-                                    <input type="file" id="avatarInput" accept="image/*" />
+                                    <label class="avatar-upload-btn">
+                                        <i class="fas fa-cloud-upload-alt"></i> Выберите файл
+                                        <input type="file" id="avatarInput" accept="image/*" />
+                                        <span class="upload-glow"></span>
+                                    </label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -1736,17 +1921,29 @@
                             <h3><i class="fas fa-sliders-h"></i> Настройки сайта</h3>
                             <div class="form-group">
                                 <label>Язык</label>
-                                <select id="languageSelect">
-                                    <option value="ru">Русский</option>
-                                    <option value="en">English</option>
-                                    <option value="tr">Türkçe</option>
-                                </select>
+                                <div class="custom-select">
+                                    <select id="languageSelect">
+                                        <option value="ru">Русский</option>
+                                        <option value="en">English</option>
+                                        <option value="tr">Türkçe</option>
+                                    </select>
+                                    <span class="select-arrow"><i class="fas fa-chevron-down"></i></span>
+                                    <span class="select-glow"></span>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label style="display:flex; align-items:center; gap:12px; cursor:pointer;">
-                                    <input type="checkbox" id="notificationsToggle" />
-                                    Уведомления
-                                </label>
+                                <label>Уведомления</label>
+                                <div style="margin-top:8px;">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="notificationsToggle" />
+                                        <span class="toggle-track">
+                                            <span class="toggle-thumb">
+                                                <i class="fas fa-check"></i>
+                                            </span>
+                                        </span>
+                                        <span class="toggle-label" id="notifLabel">Выкл</span>
+                                    </label>
+                                </div>
                             </div>
                             <button class="btn-save" id="saveSettingsBtn">Сохранить настройки</button>
                         </div>
@@ -1827,7 +2024,7 @@
     <script>
         // ===== НАСТРОЙКИ =====
         const CLIENT_ID = '8155864182';
-        const ADMIN_TELEGRAM_ID = '123456789'; // Замените на реальный ID MisterGemer
+        const ADMIN_TELEGRAM_ID = '123456789';
 
         // ===== ХРАНИЛИЩЕ =====
         const STORAGE_KEYS = {
@@ -2017,14 +2214,35 @@
             
             document.getElementById('profileAvatar').src = currentUser.avatar || 'images/avatar.png';
             document.getElementById('profileNickname').value = currentUser.nickname || '';
-            document.getElementById('accessKeyDisplay').textContent = currentUser.accessKey || '—';
+            
+            // Ключ доступа
+            if (currentUser.accessKey) {
+                document.getElementById('accessKeyDisplay').textContent = currentUser.accessKey;
+            } else {
+                // Если ключа нет - генерируем
+                const users = getUsers();
+                const idx = users.findIndex(u => u.id === currentUser.id);
+                if (idx !== -1) {
+                    users[idx].accessKey = generateAccessKey();
+                    saveUsers(users);
+                    currentUser = users[idx];
+                    document.getElementById('accessKeyDisplay').textContent = currentUser.accessKey;
+                }
+            }
             document.getElementById('accessLoginDisplay').textContent = currentUser.nickname || '—';
             
             // Настройки
             if (currentUser.settings) {
                 document.getElementById('languageSelect').value = currentUser.settings.language || 'ru';
                 document.getElementById('notificationsToggle').checked = currentUser.settings.notifications || false;
+                updateNotifLabel();
             }
+        }
+
+        function updateNotifLabel() {
+            const toggle = document.getElementById('notificationsToggle');
+            const label = document.getElementById('notifLabel');
+            label.textContent = toggle.checked ? 'Вкл' : 'Выкл';
         }
 
         // ===== ОБРАБОТЧИК ВХОДА ЧЕРЕЗ TELEGRAM =====
@@ -2033,7 +2251,6 @@
             
             try {
                 const payload = JSON.parse(atob(data.id_token.split('.')[1]));
-                console.log('Decoded payload:', payload);
                 
                 const telegramId = payload.sub || payload.id;
                 const name = payload.name || payload.given_name || 'User';
@@ -2071,7 +2288,7 @@
             }
         };
 
-        // ===== РЕГИСТРАЦИЯ НОВОГО ПОЛЬЗОВАТЕЛЯ =====
+        // ===== РЕГИСТРАЦИЯ =====
         document.getElementById('setNicknameBtn').addEventListener('click', function() {
             const nickname = document.getElementById('nicknameInput').value.trim();
             const status = document.getElementById('nicknameStatus');
@@ -2104,7 +2321,6 @@
             const { telegramId, name, avatar } = window._pendingUser;
             const user = createUser(telegramId, name, nickname, avatar);
             
-            // Проверяем, является ли пользователь MisterGemer
             if (telegramId === ADMIN_TELEGRAM_ID || name.toLowerCase().includes('mistergemer')) {
                 user.isAdmin = true;
                 const users = getUsers();
@@ -2126,12 +2342,11 @@
             window._pendingUser = null;
         });
 
-        // ===== ЗАВЕРШЕНИЕ РЕГИСТРАЦИИ =====
         document.getElementById('finishRegistrationBtn').addEventListener('click', function() {
             hideSuccessModal();
         });
 
-        // ===== ЗАПУСК ВХОДА ЧЕРЕЗ TELEGRAM =====
+        // ===== ЗАПУСК ВХОДА =====
         document.getElementById('telegramLoginBtn').addEventListener('click', function() {
             if (typeof Telegram !== 'undefined' && Telegram.Login) {
                 Telegram.Login.auth({
@@ -2165,7 +2380,7 @@
             if (e.target === this) hideLogoutModal();
         });
 
-        // ===== ВЫХОД ИЗ АККАУНТА =====
+        // ===== ВЫХОД =====
         document.getElementById('logoutBtn').addEventListener('click', function() {
             showLogoutModal();
         });
@@ -2181,7 +2396,7 @@
             alert('Вы вышли из аккаунта');
         });
 
-        // ===== ПРОФИЛЬ - ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК =====
+        // ===== ПРОФИЛЬ - ВКЛАДКИ =====
         document.querySelectorAll('.profile-menu .menu-item').forEach(item => {
             item.addEventListener('click', function() {
                 document.querySelectorAll('.profile-menu .menu-item').forEach(el => el.classList.remove('active'));
@@ -2192,7 +2407,7 @@
             });
         });
 
-        // ===== ПРОФИЛЬ - СМЕНА АВАТАРКИ =====
+        // ===== АВАТАРКА =====
         document.getElementById('avatarInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -2216,7 +2431,7 @@
             }
         });
 
-        // ===== ПРОФИЛЬ - СМЕНА НИКА =====
+        // ===== СМЕНА НИКА =====
         document.getElementById('saveNicknameBtn').addEventListener('click', function() {
             if (!currentUser) {
                 alert('Сначала войдите в аккаунт');
@@ -2257,7 +2472,7 @@
             }
         });
 
-        // ===== ПРОФИЛЬ - СОХРАНЕНИЕ НАСТРОЕК =====
+        // ===== НАСТРОЙКИ =====
         document.getElementById('saveSettingsBtn').addEventListener('click', function() {
             if (!currentUser) {
                 alert('Сначала войдите в аккаунт');
@@ -2277,24 +2492,36 @@
             }
         });
 
-        // ===== ПРОФИЛЬ - КОПИРОВАНИЕ КЛЮЧА =====
+        // ===== ТОГГЛ УВЕДОМЛЕНИЙ =====
+        document.getElementById('notificationsToggle').addEventListener('change', function() {
+            updateNotifLabel();
+        });
+
+        // ===== КОПИРОВАНИЕ КЛЮЧА =====
         document.getElementById('copyKeyBtn').addEventListener('click', function() {
             const key = document.getElementById('accessKeyDisplay').textContent;
             if (key && key !== '—') {
-                navigator.clipboard.writeText(key).then(() => {
-                    alert('Ключ скопирован в буфер обмена!');
-                }).catch(() => {
-                    // Fallback
-                    const textarea = document.createElement('textarea');
-                    textarea.value = key;
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-                    alert('Ключ скопирован в буфер обмена!');
-                });
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(key).then(() => {
+                        alert('Ключ скопирован в буфер обмена!');
+                    }).catch(() => {
+                        fallbackCopy(key);
+                    });
+                } else {
+                    fallbackCopy(key);
+                }
             }
         });
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Ключ скопирован в буфер обмена!');
+        }
 
         // ===== ОТКРЫТИЕ ПРОФИЛЯ =====
         document.getElementById('profileTabBtn').addEventListener('click', function() {
@@ -2323,7 +2550,7 @@
             }
         });
 
-        // ===== ВОССТАНОВЛЕНИЕ СЕССИИ =====
+        // ===== ВОССТАНОВЛЕНИЕ =====
         function restoreSession() {
             try {
                 const saved = localStorage.getItem('currentUser');
@@ -2639,7 +2866,7 @@
             }
         }
 
-        // ===== ОБРАБОТЧИКИ КНОПОК =====
+        // ===== ОБРАБОТЧИКИ =====
         document.querySelectorAll('.nav-circle .tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 navigateTo(this.dataset.tab);
@@ -2660,6 +2887,7 @@
             restoreSession();
             renderReviews();
             renderNotifications();
+            updateNotifLabel();
 
             const path = window.location.pathname.slice(1);
             const route = path || 'home';
@@ -2722,7 +2950,6 @@
 
             document.getElementById('statUsers').textContent = getVisits();
 
-            // Анимация
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
