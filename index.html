@@ -10,12 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     
     <!-- Telegram Login OIDC - redirect_uri добавлен в атрибуты -->
-    <script async src="https://oauth.telegram.org/js/telegram-login.js?5" 
-            data-client-id="8155864182" 
-            data-onauth="onTelegramAuth(data)" 
-            data-request-access="write"
-            data-redirect-uri="http://localhost:5500">
-    </script>
+<script async src="https://oauth.telegram.org/js/telegram-login.js?5" data-client-id="8155864182" data-onauth="console.log(data)" data-request-access="write"></script>
+
+<button class="tg-auth-button">Sign In with Telegram</button>
     
     <style>
         * {
