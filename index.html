@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>ProxyGem</title>
+    <title>ProxyGem · обход & защита</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
@@ -27,7 +27,7 @@
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-        /* ===== ФОН ===== */
+        /* ===== ФОН С ЭФФЕКТАМИ ===== */
         .bg-gradient-overlay {
             position: fixed;
             inset: 0;
@@ -78,7 +78,7 @@
             100% { transform: translate(-50px,-30px) scale(1.15); }
         }
 
-        /* ===== ЛОГОТИП С АНИМАЦИЯМИ ===== */
+        /* ===== ЛОГОТИП ===== */
         .logo-container {
             display: flex;
             align-items: center;
@@ -87,8 +87,8 @@
             position: relative;
         }
         .logo-icon {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             position: relative;
             display: flex;
             align-items: center;
@@ -158,12 +158,10 @@
             0%, 100% { transform: translate(0,0) scale(1); opacity: 0.3; }
             50% { transform: translate(var(--tx, 10px), var(--ty, -10px)) scale(1.5); opacity: 1; }
         }
-
         .logo-text {
             font-weight: 800;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             letter-spacing: -0.5px;
-            position: relative;
             background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 30%, #aaa 70%, #888 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -187,7 +185,6 @@
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-3px) rotate(8deg); }
         }
-
         .logo-badge {
             position: absolute;
             top: -6px;
@@ -300,7 +297,6 @@
             transition: all 0.3s ease;
         }
         .nav-circle .profile-btn:hover img { border-color: rgba(255,255,255,0.15); transform: scale(1.05); }
-        .nav-circle .profile-btn .fa-user { font-size: 1.1rem; color: #666; }
 
         @keyframes fadeDown {
             0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
@@ -1075,6 +1071,11 @@
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid rgba(255,255,255,0.06);
+            transition: all 0.3s ease;
+        }
+        .profile-sidebar .profile-avatar img:hover {
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.12);
         }
         .profile-sidebar .profile-avatar .name {
             color: #ddd;
@@ -1168,6 +1169,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
+            flex-wrap: wrap;
         }
         .profile-content .profile-tab .form-group .avatar-upload img {
             width: 60px;
@@ -1383,6 +1385,20 @@
             background: rgba(255,255,255,0.06);
         }
 
+        /* ===== МОДАЛ ВЫХОДА ===== */
+        .logout-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeUp 0.3s ease;
+        }
+        .logout-modal.open { display: flex; }
+
         /* ===== ПОДВАЛ ===== */
         footer {
             text-align: center;
@@ -1438,7 +1454,7 @@
             .profile-page { flex-direction: column; }
             .profile-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.03); }
             .profile-sidebar .profile-menu { display: flex; flex-wrap: wrap; }
-            .profile-sidebar .profile-menu .menu-item { border-left: none; border-bottom: 2px solid transparent; }
+            .profile-sidebar .profile-menu .menu-item { border-left: none; border-bottom: 2px solid transparent; padding: 10px 16px; }
             .profile-sidebar .profile-menu .menu-item.active { border-bottom-color: #fff; border-left-color: transparent; }
             .profile-content { padding: 20px; }
             .logo-text { font-size: 1.2rem; }
@@ -1484,6 +1500,7 @@
         <button class="tab-btn" data-tab="download"><i class="fas fa-download"></i> Скачать</button>
         <button class="tab-btn" data-tab="reviews"><i class="fas fa-star"></i> Отзывы</button>
         <button class="tab-btn" data-tab="admin" id="adminTabBtn" style="display:none;"><i class="fas fa-user-shield"></i> Админ</button>
+        <button class="tab-btn" data-tab="profile" id="profileTabBtn"><i class="fas fa-user"></i> Профиль</button>
         <div class="profile-btn" id="profileBtn">
             <i class="fas fa-user"></i>
             <span id="profileName">Войти</span>
@@ -1515,11 +1532,25 @@
     <!-- ===== МОДАЛ УСПЕШНОЙ РЕГИСТРАЦИИ ===== -->
     <div class="auth-modal" id="successModal">
         <div class="auth-modal-content">
-            <h2>✅ Успешная регистрация!</h2>
+            <h2>Успешная регистрация</h2>
             <p style="color: #6bff6b; font-size: 1.2rem; margin: 20px 0;">Добро пожаловать в ProxyGem!</p>
             <button class="btn-primary" id="finishRegistrationBtn" style="width:100%; justify-content:center; padding:14px;">
                 <i class="fas fa-check"></i> Завершить
             </button>
+        </div>
+    </div>
+
+    <!-- ===== МОДАЛ ВЫХОДА ===== -->
+    <div class="logout-modal" id="logoutModal">
+        <div class="auth-modal-content">
+            <h2>Выйти из аккаунта</h2>
+            <p style="color: #888; margin: 20px 0;">Вы уверены, что хотите выйти?</p>
+            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+                <button class="btn-secondary" id="cancelLogoutBtn" style="padding:12px 32px;">Отмена</button>
+                <button class="btn-primary" id="confirmLogoutBtn" style="padding:12px 32px; background:#ff4444; color:#fff;">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1647,6 +1678,103 @@
                 </div>
             </div>
 
+            <!-- ===== ПРОФИЛЬ ===== -->
+            <div class="tab-content" id="tab-profile">
+                <div class="profile-page" id="profilePage">
+                    <div class="profile-sidebar">
+                        <div class="profile-avatar">
+                            <img src="images/avatar.png" alt="Avatar" id="profileAvatarDisplay" />
+                            <div class="name" id="profileNameDisplay">Гость</div>
+                        </div>
+                        <div class="profile-menu">
+                            <div class="menu-item active" data-tab="personal"><i class="fas fa-user"></i> Личные Данные</div>
+                            <div class="menu-item" data-tab="settings"><i class="fas fa-sliders-h"></i> Настройки сайта</div>
+                            <div class="menu-item" data-tab="access"><i class="fas fa-key"></i> Вход в ProxyGem</div>
+                        </div>
+                    </div>
+                    <div class="profile-content">
+                        <!-- Личные Данные -->
+                        <div class="profile-tab active" id="profile-personal">
+                            <h3><i class="fas fa-user"></i> Личные Данные</h3>
+                            <div class="form-group">
+                                <label>Аватарка</label>
+                                <div class="avatar-upload">
+                                    <img src="images/avatar.png" alt="Avatar" id="profileAvatar" />
+                                    <input type="file" id="avatarInput" accept="image/*" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Никнейм</label>
+                                <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+                                    <input type="text" id="profileNickname" placeholder="Ваш никнейм" style="max-width:300px;" />
+                                    <button class="btn-save" id="saveNicknameBtn">Сохранить</button>
+                                </div>
+                                <div id="nicknameStatusProfile" style="color:#888; font-size:0.85rem; margin-top:4px;"></div>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">User Telegram</span>
+                                <span class="value" id="profileTelegram">Не авторизован</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">ID</span>
+                                <span class="value" id="profileId">—</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Забанен</span>
+                                <span class="value" id="profileBanned">Нет</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Группа</span>
+                                <span class="value" id="profileGroup">Пользователь</span>
+                            </div>
+                            <div style="margin-top:20px;">
+                                <button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+                            </div>
+                        </div>
+                        <!-- Настройки сайта -->
+                        <div class="profile-tab" id="profile-settings">
+                            <h3><i class="fas fa-sliders-h"></i> Настройки сайта</h3>
+                            <div class="form-group">
+                                <label>Язык</label>
+                                <select id="languageSelect">
+                                    <option value="ru">Русский</option>
+                                    <option value="en">English</option>
+                                    <option value="tr">Türkçe</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="display:flex; align-items:center; gap:12px; cursor:pointer;">
+                                    <input type="checkbox" id="notificationsToggle" />
+                                    Уведомления
+                                </label>
+                            </div>
+                            <button class="btn-save" id="saveSettingsBtn">Сохранить настройки</button>
+                        </div>
+                        <!-- Вход в ProxyGem -->
+                        <div class="profile-tab" id="profile-access">
+                            <h3><i class="fas fa-key"></i> Вход в ProxyGem</h3>
+                            <div class="access-key-box">
+                                <div class="key-display">
+                                    <span id="accessKeyDisplay">—</span>
+                                    <button class="copy-btn" id="copyKeyBtn" title="Скопировать ключ"><i class="fas fa-copy"></i></button>
+                                </div>
+                                <div style="margin-top:8px; color:#555; font-size:0.85rem;">
+                                    <i class="fas fa-info-circle"></i> Логин: <span id="accessLoginDisplay" style="color:#ddd;">—</span>
+                                </div>
+                            </div>
+                            <div class="guide-steps" style="background:rgba(255,255,255,0.01); border-radius:12px; padding:16px; color:#888; font-size:0.9rem; line-height:1.8; border:1px solid rgba(255,255,255,0.03);">
+                                <h4 style="color:#ddd; margin-bottom:8px;">Гайд по входу в программу:</h4>
+                                <div>1. Заходишь во вкладку Профиль в программе</div>
+                                <div>2. И нажимаешь Войти</div>
+                                <div>3. Пишешь логин — и пишет ниже <span style="color:#6b9fff;">логин пользователя</span></div>
+                                <div>4. Пишешь Пароль и ниже <span style="color:#6b9fff;">скрытые пароль</span> который можно раскрыть или скопировать</div>
+                                <div>5. <span style="color:#6bff6b;">Вошёл</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- ===== АДМИН-ПАНЕЛЬ ===== -->
             <div class="tab-content" id="tab-admin">
                 <div class="admin-panel">
@@ -1676,7 +1804,6 @@
                     <h3 style="margin: 30px 0 16px; color:#ddd;"><i class="fas fa-comments"></i> Управление отзывами</h3>
                     <div class="admin-reviews-list" id="adminReviewsList"></div>
 
-                    <!-- Уведомления -->
                     <h3 style="margin: 30px 0 16px; color:#ddd;"><i class="fas fa-bell"></i> Уведомления</h3>
                     <div class="notifications-area" id="notificationsArea"></div>
 
@@ -1700,6 +1827,7 @@
     <script>
         // ===== НАСТРОЙКИ =====
         const CLIENT_ID = '8155864182';
+        const ADMIN_TELEGRAM_ID = '123456789'; // Замените на реальный ID MisterGemer
 
         // ===== ХРАНИЛИЩЕ =====
         const STORAGE_KEYS = {
@@ -1728,7 +1856,6 @@
         }
 
         function incrementVisits() {
-            // Проверяем, был ли уже посетитель в этой сессии
             const sessionKey = 'proxygem_visited';
             if (sessionStorage.getItem(sessionKey)) {
                 return getVisits();
@@ -1812,6 +1939,14 @@
             document.getElementById('successModal').classList.remove('open');
         }
 
+        function showLogoutModal() {
+            document.getElementById('logoutModal').classList.add('open');
+        }
+
+        function hideLogoutModal() {
+            document.getElementById('logoutModal').classList.remove('open');
+        }
+
         function updateProfileUI() {
             const profileBtn = document.getElementById('profileBtn');
             const nameSpan = document.getElementById('profileName');
@@ -1820,7 +1955,7 @@
                 const ban = isUserBanned(currentUser.id);
                 if (ban) {
                     const remaining = Math.ceil((ban.until - Date.now()) / 1000 / 60);
-                    nameSpan.textContent = `🔒 Забанен (${remaining} мин)`;
+                    nameSpan.textContent = 'Забанен (' + remaining + ' мин)';
                     profileBtn.style.borderColor = 'rgba(255,50,50,0.3)';
                     return;
                 }
@@ -1834,6 +1969,61 @@
             } else {
                 nameSpan.textContent = 'Войти';
                 document.getElementById('adminTabBtn').style.display = 'none';
+            }
+            updateProfilePage();
+        }
+
+        function updateProfilePage() {
+            if (!currentUser) {
+                document.getElementById('profileNameDisplay').textContent = 'Гость';
+                document.getElementById('profileAvatarDisplay').src = 'images/avatar.png';
+                document.getElementById('profileTelegram').textContent = 'Не авторизован';
+                document.getElementById('profileId').textContent = '—';
+                document.getElementById('profileBanned').textContent = 'Нет';
+                document.getElementById('profileBanned').className = 'value';
+                document.getElementById('profileGroup').textContent = 'Гость';
+                document.getElementById('profileGroup').className = 'value';
+                document.getElementById('profileAvatar').src = 'images/avatar.png';
+                document.getElementById('profileNickname').value = '';
+                document.getElementById('accessKeyDisplay').textContent = '—';
+                document.getElementById('accessLoginDisplay').textContent = '—';
+                return;
+            }
+
+            const ban = isUserBanned(currentUser.id);
+            document.getElementById('profileNameDisplay').textContent = currentUser.nickname || currentUser.name;
+            document.getElementById('profileAvatarDisplay').src = currentUser.avatar || 'images/avatar.png';
+            document.getElementById('profileTelegram').textContent = currentUser.name || 'Неизвестно';
+            document.getElementById('profileId').textContent = currentUser.telegramId || '—';
+            
+            const bannedEl = document.getElementById('profileBanned');
+            if (ban) {
+                const remaining = Math.ceil((ban.until - Date.now()) / 1000 / 60);
+                bannedEl.textContent = 'Да (' + remaining + ' мин)';
+                bannedEl.className = 'value banned';
+            } else {
+                bannedEl.textContent = 'Нет';
+                bannedEl.className = 'value';
+            }
+            
+            const groupEl = document.getElementById('profileGroup');
+            if (currentUser.isAdmin) {
+                groupEl.textContent = 'ADMIN';
+                groupEl.className = 'value admin';
+            } else {
+                groupEl.textContent = 'Пользователь';
+                groupEl.className = 'value';
+            }
+            
+            document.getElementById('profileAvatar').src = currentUser.avatar || 'images/avatar.png';
+            document.getElementById('profileNickname').value = currentUser.nickname || '';
+            document.getElementById('accessKeyDisplay').textContent = currentUser.accessKey || '—';
+            document.getElementById('accessLoginDisplay').textContent = currentUser.nickname || '—';
+            
+            // Настройки
+            if (currentUser.settings) {
+                document.getElementById('languageSelect').value = currentUser.settings.language || 'ru';
+                document.getElementById('notificationsToggle').checked = currentUser.settings.notifications || false;
             }
         }
 
@@ -1853,21 +2043,16 @@
                 let user = findUserByTelegramId(telegramId);
                 
                 if (!user) {
-                    // Новый пользователь - показываем модал с выбором ника
-                    const authModal = document.getElementById('authModal');
-                    if (!authModal.classList.contains('open')) {
-                        showAuthModal();
-                    }
-                    // Сохраняем данные для регистрации
                     window._pendingUser = { telegramId, name, username, avatar };
-                    document.getElementById('nicknameStatus').textContent = '👋 Придумайте уникальный никнейм';
+                    document.getElementById('nicknameStatus').textContent = 'Придумайте уникальный никнейм';
                     document.getElementById('nicknameStatus').style.color = '#888';
+                    showAuthModal();
                     return;
                 }
 
                 const ban = isUserBanned(user.id);
                 if (ban) {
-                    alert(`Ваш аккаунт забанен до ${new Date(ban.until).toLocaleString()}`);
+                    alert('Ваш аккаунт забанен до ' + new Date(ban.until).toLocaleString());
                     return;
                 }
 
@@ -1879,7 +2064,7 @@
                 renderAdminPanel();
                 renderUsersList();
                 renderNotifications();
-                alert(`Добро пожаловать, ${user.name}!`);
+                alert('Добро пожаловать, ' + user.name + '!');
             } catch (e) {
                 console.error('Ошибка при обработке Telegram login:', e);
                 alert('Ошибка входа через Telegram. Попробуйте снова.');
@@ -1892,37 +2077,35 @@
             const status = document.getElementById('nicknameStatus');
 
             if (!window._pendingUser) {
-                status.textContent = '❌ Сначала войдите через Telegram';
+                status.textContent = 'Сначала войдите через Telegram';
                 status.style.color = '#ff6b6b';
                 return;
             }
 
             if (!nickname) {
-                status.textContent = '❌ Введите никнейм';
+                status.textContent = 'Введите никнейм';
                 status.style.color = '#ff6b6b';
                 return;
             }
 
             if (nickname.length < 3) {
-                status.textContent = '❌ Ник должен быть минимум 3 символа';
+                status.textContent = 'Ник должен быть минимум 3 символа';
                 status.style.color = '#ff6b6b';
                 return;
             }
 
             const existing = findUserByNickname(nickname);
             if (existing) {
-                status.textContent = '❌ Этот ник уже занят, выберите другой';
+                status.textContent = 'Этот ник уже занят, выберите другой';
                 status.style.color = '#ff6b6b';
                 return;
             }
 
-            // Создаём пользователя
             const { telegramId, name, avatar } = window._pendingUser;
             const user = createUser(telegramId, name, nickname, avatar);
             
             // Проверяем, является ли пользователь MisterGemer
-            const telegramUsername = name; // В payload может быть preferred_username
-            if (name.toLowerCase().includes('mistergemer') || telegramId === '123456789') {
+            if (telegramId === ADMIN_TELEGRAM_ID || name.toLowerCase().includes('mistergemer')) {
                 user.isAdmin = true;
                 const users = getUsers();
                 const idx = users.findIndex(u => u.id === user.id);
@@ -1977,37 +2160,164 @@
             if (e.target === this) hideAuthModal();
         });
 
-        // ===== ПРОФИЛЬ =====
-        let currentProfileTab = 'personal';
+        document.getElementById('cancelLogoutBtn').addEventListener('click', hideLogoutModal);
+        document.getElementById('logoutModal').addEventListener('click', function(e) {
+            if (e.target === this) hideLogoutModal();
+        });
 
-        function openProfile() {
+        // ===== ВЫХОД ИЗ АККАУНТА =====
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            showLogoutModal();
+        });
+
+        document.getElementById('confirmLogoutBtn').addEventListener('click', function() {
+            currentUser = null;
+            isAdmin = false;
+            localStorage.removeItem('currentUser');
+            updateProfileUI();
+            hideLogoutModal();
+            renderAdminPanel();
+            renderUsersList();
+            alert('Вы вышли из аккаунта');
+        });
+
+        // ===== ПРОФИЛЬ - ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК =====
+        document.querySelectorAll('.profile-menu .menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.profile-menu .menu-item').forEach(el => el.classList.remove('active'));
+                this.classList.add('active');
+                const tab = this.dataset.tab;
+                document.querySelectorAll('.profile-tab').forEach(el => el.classList.remove('active'));
+                document.getElementById('profile-' + tab).classList.add('active');
+            });
+        });
+
+        // ===== ПРОФИЛЬ - СМЕНА АВАТАРКИ =====
+        document.getElementById('avatarInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const avatarUrl = ev.target.result;
+                    document.getElementById('profileAvatar').src = avatarUrl;
+                    document.getElementById('profileAvatarDisplay').src = avatarUrl;
+                    if (currentUser) {
+                        currentUser.avatar = avatarUrl;
+                        const users = getUsers();
+                        const idx = users.findIndex(u => u.id === currentUser.id);
+                        if (idx !== -1) {
+                            users[idx].avatar = avatarUrl;
+                            saveUsers(users);
+                            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        }
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // ===== ПРОФИЛЬ - СМЕНА НИКА =====
+        document.getElementById('saveNicknameBtn').addEventListener('click', function() {
+            if (!currentUser) {
+                alert('Сначала войдите в аккаунт');
+                return;
+            }
+            const nickname = document.getElementById('profileNickname').value.trim();
+            const status = document.getElementById('nicknameStatusProfile');
+
+            if (!nickname) {
+                status.textContent = 'Введите никнейм';
+                status.style.color = '#ff6b6b';
+                return;
+            }
+
+            if (nickname.length < 3) {
+                status.textContent = 'Ник должен быть минимум 3 символа';
+                status.style.color = '#ff6b6b';
+                return;
+            }
+
+            const existing = findUserByNickname(nickname);
+            if (existing && existing.id !== currentUser.id) {
+                status.textContent = 'Этот ник уже занят';
+                status.style.color = '#ff6b6b';
+                return;
+            }
+
+            const users = getUsers();
+            const idx = users.findIndex(u => u.id === currentUser.id);
+            if (idx !== -1) {
+                users[idx].nickname = nickname;
+                saveUsers(users);
+                currentUser = users[idx];
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateProfileUI();
+                status.textContent = 'Ник успешно изменён!';
+                status.style.color = '#6bff6b';
+            }
+        });
+
+        // ===== ПРОФИЛЬ - СОХРАНЕНИЕ НАСТРОЕК =====
+        document.getElementById('saveSettingsBtn').addEventListener('click', function() {
+            if (!currentUser) {
+                alert('Сначала войдите в аккаунт');
+                return;
+            }
+            const language = document.getElementById('languageSelect').value;
+            const notifications = document.getElementById('notificationsToggle').checked;
+            
+            const users = getUsers();
+            const idx = users.findIndex(u => u.id === currentUser.id);
+            if (idx !== -1) {
+                users[idx].settings = { language, notifications };
+                saveUsers(users);
+                currentUser = users[idx];
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                alert('Настройки сохранены!');
+            }
+        });
+
+        // ===== ПРОФИЛЬ - КОПИРОВАНИЕ КЛЮЧА =====
+        document.getElementById('copyKeyBtn').addEventListener('click', function() {
+            const key = document.getElementById('accessKeyDisplay').textContent;
+            if (key && key !== '—') {
+                navigator.clipboard.writeText(key).then(() => {
+                    alert('Ключ скопирован в буфер обмена!');
+                }).catch(() => {
+                    // Fallback
+                    const textarea = document.createElement('textarea');
+                    textarea.value = key;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    alert('Ключ скопирован в буфер обмена!');
+                });
+            }
+        });
+
+        // ===== ОТКРЫТИЕ ПРОФИЛЯ =====
+        document.getElementById('profileTabBtn').addEventListener('click', function() {
             if (!currentUser) {
                 showAuthModal();
                 return;
             }
             const ban = isUserBanned(currentUser.id);
             if (ban) {
-                alert(`Вы забанены до ${new Date(ban.until).toLocaleString()}`);
+                alert('Вы забанены до ' + new Date(ban.until).toLocaleString());
                 return;
             }
-            // Показываем профиль (переход на вкладку)
-            document.querySelector('.tab-btn[data-tab="profile"]')?.click();
-            // Если нет вкладки профиля в навигации, создаём
-            if (!document.querySelector('.tab-btn[data-tab="profile"]')) {
-                // TODO: добавить вкладку профиля
-                alert('Вкладка профиля будет добавлена');
-            }
-        }
+            updateProfilePage();
+        });
 
         document.getElementById('profileBtn').addEventListener('click', function() {
             if (currentUser) {
                 const ban = isUserBanned(currentUser.id);
                 if (ban) {
-                    alert(`Вы забанены до ${new Date(ban.until).toLocaleString()}`);
+                    alert('Вы забанены до ' + new Date(ban.until).toLocaleString());
                     return;
                 }
-                // Показываем профиль
-                document.querySelector('.tab-btn[data-tab="profile"]')?.click();
+                document.querySelector('.tab-btn[data-tab="profile"]').click();
             } else {
                 showAuthModal();
             }
@@ -2034,20 +2344,15 @@
         }
 
         // ===== СИСТЕМА ОТЗЫВОВ =====
-        function getReviews() {
-            return getData(STORAGE_KEYS.reviews);
-        }
-
-        function saveReviews(reviews) {
-            setData(STORAGE_KEYS.reviews, reviews);
-        }
+        function getReviews() { return getData(STORAGE_KEYS.reviews); }
+        function saveReviews(reviews) { setData(STORAGE_KEYS.reviews, reviews); }
 
         function renderReviews() {
             const container = document.getElementById('reviewsList');
             const reviews = getReviews();
 
             if (reviews.length === 0) {
-                container.innerHTML = `<div class="no-reviews"><i class="fas fa-comment-slash"></i> Пока нет отзывов. Будьте первым!</div>`;
+                container.innerHTML = '<div class="no-reviews"><i class="fas fa-comment-slash"></i> Пока нет отзывов. Будьте первым!</div>';
                 return;
             }
 
@@ -2058,16 +2363,7 @@
                     day: 'numeric', month: 'long', year: 'numeric'
                 });
                 const author = r.author || 'Аноним';
-                return `
-                    <div class="review-item">
-                        <div class="review-header">
-                            <span class="review-author">${escapeHtml(author)}</span>
-                            <span class="review-stars">${stars}</span>
-                        </div>
-                        <div class="review-text">${escapeHtml(r.text)}</div>
-                        <div class="review-date">${date}</div>
-                    </div>
-                `;
+                return '<div class="review-item"><div class="review-header"><span class="review-author">' + escapeHtml(author) + '</span><span class="review-stars">' + stars + '</span></div><div class="review-text">' + escapeHtml(r.text) + '</div><div class="review-date">' + date + '</div></div>';
             }).join('');
         }
 
@@ -2114,7 +2410,7 @@
             if (currentUser) {
                 const ban = isUserBanned(currentUser.id);
                 if (ban) {
-                    alert(`Вы забанены и не можете оставлять отзывы до ${new Date(ban.until).toLocaleString()}`);
+                    alert('Вы забанены и не можете оставлять отзывы до ' + new Date(ban.until).toLocaleString());
                     return;
                 }
             }
@@ -2160,7 +2456,7 @@
             const reviews = getReviews();
 
             if (reviews.length === 0) {
-                container.innerHTML = `<div class="no-reviews">Нет отзывов</div>`;
+                container.innerHTML = '<div class="no-reviews">Нет отзывов</div>';
                 return;
             }
 
@@ -2169,19 +2465,7 @@
                 const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
                 const date = new Date(r.timestamp).toLocaleDateString('ru-RU');
                 const author = r.author || 'Аноним';
-                return `
-                    <div class="review-item">
-                        <div class="review-header">
-                            <span class="review-author">${escapeHtml(author)}</span>
-                            <div style="display:flex; gap:12px; align-items:center;">
-                                <span class="review-stars">${stars}</span>
-                                <button class="admin-delete-btn" data-index="${index}"><i class="fas fa-trash"></i> Удалить</button>
-                            </div>
-                        </div>
-                        <div class="review-text">${escapeHtml(r.text)}</div>
-                        <div class="review-date">${date}</div>
-                    </div>
-                `;
+                return '<div class="review-item"><div class="review-header"><span class="review-author">' + escapeHtml(author) + '</span><div style="display:flex; gap:12px; align-items:center;"><span class="review-stars">' + stars + '</span><button class="admin-delete-btn" data-index="' + index + '"><i class="fas fa-trash"></i> Удалить</button></div></div><div class="review-text">' + escapeHtml(r.text) + '</div><div class="review-date">' + date + '</div></div>';
             }).join('');
 
             container.querySelectorAll('.admin-delete-btn').forEach(btn => {
@@ -2206,7 +2490,7 @@
             const now = Date.now();
 
             if (users.length === 0) {
-                container.innerHTML = `<div style="color:#555; padding:20px; text-align:center;">Нет пользователей</div>`;
+                container.innerHTML = '<div style="color:#555; padding:20px; text-align:center;">Нет пользователей</div>';
                 return;
             }
 
@@ -2214,26 +2498,7 @@
                 const activeBan = bans.find(b => b.userId === u.id && b.until > now);
                 const isBanned = !!activeBan;
                 const banTime = activeBan ? Math.ceil((activeBan.until - now) / 1000 / 60) : 0;
-                return `
-                    <div class="admin-user-item">
-                        <div class="user-info">
-                            <img src="${u.avatar || 'images/avatar.png'}" alt="avatar" />
-                            <div>
-                                <div class="name">${escapeHtml(u.nickname || u.name)}</div>
-                                <div class="email">${escapeHtml(u.telegramId || '')}</div>
-                            </div>
-                        </div>
-                        <div class="user-status ${isBanned ? 'banned' : ''}">
-                            ${isBanned ? `🔒 Забанен (${banTime} мин)` : '✅ Активен'}
-                        </div>
-                        <div class="ban-controls">
-                            <input type="number" id="banTime_${u.id}" placeholder="минут" min="1" value="60" style="width:80px;" />
-                            <button class="btn-ban ${isBanned ? 'unban' : ''}" data-userid="${u.id}">
-                                ${isBanned ? 'Разбанить' : 'Забанить'}
-                            </button>
-                        </div>
-                    </div>
-                `;
+                return '<div class="admin-user-item"><div class="user-info"><img src="' + (u.avatar || 'images/avatar.png') + '" alt="avatar" /><div><div class="name">' + escapeHtml(u.nickname || u.name) + '</div><div class="email">' + escapeHtml(u.telegramId || '') + '</div></div></div><div class="user-status ' + (isBanned ? 'banned' : '') + '">' + (isBanned ? 'Забанен (' + banTime + ' мин)' : 'Активен') + '</div><div class="ban-controls"><input type="number" id="banTime_' + u.id + '" placeholder="минут" min="1" value="60" style="width:80px;" /><button class="btn-ban ' + (isBanned ? 'unban' : '') + '" data-userid="' + u.id + '">' + (isBanned ? 'Разбанить' : 'Забанить') + '</button></div></div>';
             }).join('');
 
             container.querySelectorAll('.btn-ban').forEach(btn => {
@@ -2251,10 +2516,10 @@
                             updateProfileUI();
                         }
                     } else {
-                        const timeInput = document.getElementById(`banTime_${userId}`);
+                        const timeInput = document.getElementById('banTime_' + userId);
                         const minutes = parseInt(timeInput.value) || 60;
                         if (minutes < 1) { alert('Минимум 1 минута'); return; }
-                        if (confirm(`Забанить пользователя на ${minutes} минут?`)) {
+                        if (confirm('Забанить пользователя на ' + minutes + ' минут?')) {
                             bans.push({
                                 userId: userId,
                                 until: now + minutes * 60 * 1000
@@ -2282,21 +2547,14 @@
             const notifications = getNotifications();
 
             if (notifications.length === 0) {
-                container.innerHTML = `<div style="color:#555; text-align:center; padding:20px;">Нет уведомлений</div>`;
+                container.innerHTML = '<div style="color:#555; text-align:center; padding:20px;">Нет уведомлений</div>';
                 return;
             }
 
             const sorted = [...notifications].sort((a, b) => b.timestamp - a.timestamp);
-            container.innerHTML = sorted.map(n => `
-                <div class="notification-item">
-                    ${n.image ? `<img src="${n.image}" alt="notification" />` : ''}
-                    <div class="content">
-                        <h4>${escapeHtml(n.title)}</h4>
-                        <p>${escapeHtml(n.text)}</p>
-                        <div class="date">${new Date(n.timestamp).toLocaleDateString('ru-RU')}</div>
-                    </div>
-                </div>
-            `).join('');
+            container.innerHTML = sorted.map(n => {
+                return '<div class="notification-item">' + (n.image ? '<img src="' + n.image + '" alt="notification" />' : '') + '<div class="content"><h4>' + escapeHtml(n.title) + '</h4><p>' + escapeHtml(n.text) + '</p><div class="date">' + new Date(n.timestamp).toLocaleDateString('ru-RU') + '</div></div></div>';
+            }).join('');
         }
 
         document.getElementById('createNotifBtn').addEventListener('click', function() {
@@ -2332,7 +2590,8 @@
             'features': 'features',
             'download': 'download',
             'reviews': 'reviews',
-            'admin': 'admin'
+            'admin': 'admin',
+            'profile': 'profile'
         };
 
         function navigateTo(route) {
@@ -2342,7 +2601,8 @@
                 'features': 'tab-features',
                 'download': 'tab-download',
                 'reviews': 'tab-reviews',
-                'admin': 'tab-admin'
+                'admin': 'tab-admin',
+                'profile': 'tab-profile'
             };
 
             const contentId = tabMap[tabId];
@@ -2353,7 +2613,7 @@
             if (target) target.classList.add('active');
 
             document.querySelectorAll('.nav-circle .tab-btn').forEach(btn => btn.classList.remove('active'));
-            const btn = document.querySelector(`.nav-circle .tab-btn[data-tab="${tabId}"]`);
+            const btn = document.querySelector('.nav-circle .tab-btn[data-tab="' + tabId + '"]');
             if (btn) btn.classList.add('active');
 
             if (tabId !== 'home') {
@@ -2372,6 +2632,10 @@
                 renderAdminReviews();
                 renderUsersList();
                 renderNotifications();
+            }
+            
+            if (tabId === 'profile') {
+                updateProfilePage();
             }
         }
 
@@ -2392,23 +2656,14 @@
 
         // ===== ИНИЦИАЛИЗАЦИЯ =====
         function init() {
-            // Считаем уникальных посетителей
             incrementVisits();
-
-            // Восстанавливаем сессию
             restoreSession();
-
-            // Рендерим отзывы
             renderReviews();
-
-            // Рендерим уведомления
             renderNotifications();
 
-            // Определяем маршрут из URL
             const path = window.location.pathname.slice(1);
             const route = path || 'home';
 
-            // Проверка доступа к админке (код 2105)
             if (route === 'admin' && !isAdmin) {
                 const code = prompt('Введите код доступа к админ-панели:');
                 if (code === '2105') {
@@ -2461,6 +2716,12 @@
                 renderNotifications();
             }
 
+            if (route === 'profile') {
+                updateProfilePage();
+            }
+
+            document.getElementById('statUsers').textContent = getVisits();
+
             // Анимация
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
@@ -2471,12 +2732,8 @@
                 });
             }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
             revealElements.forEach(el => revealObserver.observe(el));
-
-            // Обновляем счётчик посетителей
-            document.getElementById('statUsers').textContent = getVisits();
         }
 
-        // Запуск
         init();
     </script>
 
