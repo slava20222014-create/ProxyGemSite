@@ -484,8 +484,15 @@
             background: #0a0a0a;
             padding-top: 20px;
         }
-        .tab-content { display: none; animation: fadeUp 0.5s ease both; }
-        .tab-content.active { display: block; }
+        .section-block {
+            display: block !important;
+            animation: fadeUp 0.5s ease both;
+            padding: 40px 0 60px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .section-block:last-of-type {
+            border-bottom: none;
+        }
 
         /* ===== СТАТИСТИКА ===== */
         .stats {
@@ -708,147 +715,6 @@
         .download-info i { color: #888; width: 18px; transition: all 0.3s ease; }
         .download-info span:hover i { color: #fff; }
 
-        /* ===== ОТЗЫВЫ ===== */
-        .reviews-section { padding: 30px 0 60px; }
-        .reviews-section .section-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .reviews-section .section-header h2 {
-            font-size: 2.6rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #f0f0f0, #888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .reviews-section .section-header p { color: #666; font-size: 1.05rem; margin-top: 8px; }
-        .review-form {
-            background: rgba(255,255,255,0.02);
-            border-radius: 32px;
-            border: 1px solid rgba(255,255,255,0.03);
-            padding: 32px;
-            margin-bottom: 40px;
-            backdrop-filter: blur(8px);
-        }
-        .review-form h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #e0e0e0;
-            margin-bottom: 20px;
-        }
-        .star-rating {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            font-size: 2rem;
-            cursor: pointer;
-        }
-        .star-rating .star { color: #444; transition: all 0.2s ease; user-select: none; }
-        .star-rating .star.active { color: #f5c518; }
-        .star-rating .star:hover { transform: scale(1.15); }
-        .review-form textarea {
-            width: 100%;
-            padding: 16px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.06);
-            background: rgba(255,255,255,0.02);
-            color: #eaeaea;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            resize: vertical;
-            min-height: 100px;
-            transition: all 0.3s ease;
-        }
-        .review-form textarea:focus {
-            outline: none;
-            border-color: rgba(255,255,255,0.12);
-            background: rgba(255,255,255,0.04);
-        }
-        .review-form .form-row {
-            display: flex;
-            gap: 16px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-        .review-form .form-row input {
-            flex: 1;
-            min-width: 200px;
-            padding: 14px 18px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.06);
-            background: rgba(255,255,255,0.02);
-            color: #eaeaea;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        .review-form .form-row input:focus {
-            outline: none;
-            border-color: rgba(255,255,255,0.12);
-            background: rgba(255,255,255,0.04);
-        }
-        .review-form .form-row input::placeholder { color: #555; }
-        .btn-submit-review {
-            padding: 14px 40px;
-            border-radius: 40px;
-            border: none;
-            background: #fff;
-            color: #0a0a0a;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 16px;
-        }
-        .btn-submit-review:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(255,255,255,0.08);
-        }
-        .reviews-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .review-item {
-            background: rgba(255,255,255,0.01);
-            border: 1px solid rgba(255,255,255,0.03);
-            border-radius: 24px;
-            padding: 24px 28px;
-            transition: all 0.3s ease;
-        }
-        .review-item:hover {
-            background: rgba(255,255,255,0.02);
-            border-color: rgba(255,255,255,0.06);
-        }
-        .review-item .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 8px;
-        }
-        .review-item .review-author {
-            font-weight: 700;
-            color: #ddd;
-            font-size: 1.05rem;
-        }
-        .review-item .review-stars {
-            color: #f5c518;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-        }
-        .review-item .review-stars .empty { color: #444; }
-        .review-item .review-text { color: #aaa; line-height: 1.7; margin-top: 4px; }
-        .review-item .review-date { color: #555; font-size: 0.75rem; margin-top: 8px; }
-        .no-reviews {
-            text-align: center;
-            color: #555;
-            padding: 40px;
-            font-size: 1.1rem;
-        }
-
         /* ===== ТОП ПОЛЬЗОВАТЕЛЕЙ ===== */
         .top-users-section { padding: 30px 0 60px; }
         .top-users-section .section-header {
@@ -912,6 +778,7 @@
         .top-user-item .rank.gold { color: #ffd700; }
         .top-user-item .rank.silver { color: #c0c0c0; }
         .top-user-item .rank.bronze { color: #cd7f32; }
+        .top-user-item .rank .rank-icon { font-size: 1.4rem; }
         .top-user-item .avatar {
             width: 44px;
             height: 44px;
@@ -944,10 +811,6 @@
             border-radius: 20px;
             border: 1px solid rgba(107,159,255,0.06);
         }
-        .top-user-item .medal {
-            font-size: 1.5rem;
-            margin-left: 4px;
-        }
         .top-users-empty {
             text-align: center;
             color: #555;
@@ -955,21 +818,58 @@
             font-size: 1.1rem;
         }
 
-        /* ===== АДМИН-ПАНЕЛЬ ===== */
-        .admin-panel { padding: 30px 0 60px; }
-        .admin-panel .section-header {
-            text-align: center;
-            margin-bottom: 40px;
+        /* ===== МОДАЛЬНЫЕ ОКНА ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+            overflow-y: auto;
+            animation: fadeUp 0.3s ease;
         }
-        .admin-panel .section-header h2 {
-            font-size: 2.6rem;
+        .modal-overlay.open { display: flex; }
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 32px;
+            padding: 48px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            position: relative;
+            margin: auto;
+        }
+        .modal-content .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .modal-content .modal-close:hover { color: #fff; transform: rotate(90deg); }
+        .modal-content h2 {
+            font-size: 2rem;
             font-weight: 800;
-            letter-spacing: -1px;
+            margin-bottom: 8px;
             background: linear-gradient(135deg, #f0f0f0, #888);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+        .modal-content .subtitle { color: #666; margin-bottom: 24px; font-size: 1.05rem; }
+
+        /* ===== АДМИН-ПАНЕЛЬ в модалке ===== */
+        .admin-panel { padding: 0; }
         .admin-stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -1153,7 +1053,7 @@
             resize: vertical;
         }
 
-        /* ===== ПРОФИЛЬ ===== */
+        /* ===== ПРОФИЛЬ в модалке ===== */
         .profile-page {
             display: flex;
             min-height: 500px;
@@ -1162,7 +1062,7 @@
             border-radius: 32px;
             border: 1px solid rgba(255,255,255,0.03);
             overflow: hidden;
-            margin: 30px 0;
+            margin: 0;
         }
         .profile-sidebar {
             width: 220px;
@@ -1222,6 +1122,8 @@
         .profile-content {
             flex: 1;
             padding: 30px 40px;
+            overflow-y: auto;
+            max-height: 600px;
         }
         .profile-content .profile-tab { display: none; }
         .profile-content .profile-tab.active { display: block; }
@@ -1279,7 +1181,6 @@
             background: rgba(255,255,255,0.04);
         }
 
-        /* ===== АВАТАР В НАСТРОЙКАХ НА ВЕСЬ БЛОК ===== */
         .avatar-full-section {
             display: flex;
             flex-direction: column;
@@ -1357,7 +1258,6 @@
         }
         .avatar-full-section .avatar-upload-btn:hover .upload-glow { opacity: 1; }
 
-        /* ===== СТИЛЬНЫЙ СЕЛЕКТ ===== */
         .custom-select {
             position: relative;
             max-width: 400px;
@@ -1418,7 +1318,7 @@
         .custom-select:hover .select-glow { opacity: 1; }
         .custom-select select:focus + .select-glow { opacity: 1; }
 
-        /* ===== НОВЫЙ СТИЛЬНЫЙ ТОГГЛ ===== */
+        /* ===== ТОГГЛ ===== */
         .toggle-switch-modern {
             display: flex;
             align-items: center;
@@ -1438,6 +1338,7 @@
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
             box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+            flex-shrink: 0;
         }
         .toggle-switch-modern .toggle-track .toggle-thumb {
             position: absolute;
@@ -1494,7 +1395,6 @@
             border-color: rgba(255,255,255,0.1);
         }
 
-        /* ===== КЛЮЧ ДОСТУПА ===== */
         .access-key-box {
             background: rgba(255,255,255,0.02);
             border-radius: 16px;
@@ -1573,31 +1473,138 @@
             box-shadow: 0 8px 32px rgba(255,255,255,0.08);
         }
 
-        /* ===== МОДАЛЫ ===== */
-        .auth-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            animation: fadeUp 0.3s ease;
-        }
-        .auth-modal.open { display: flex; }
-        .auth-modal-content {
-            background: #1a1a1a;
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 32px;
-            padding: 48px;
-            max-width: 420px;
-            width: 90%;
+        .no-reviews {
             text-align: center;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-            position: relative;
+            color: #555;
+            padding: 40px;
+            font-size: 1.1rem;
         }
-        .auth-modal-content h2 {
+
+        /* ===== ОТЗЫВЫ в модалке ===== */
+        .review-form {
+            background: rgba(255,255,255,0.02);
+            border-radius: 32px;
+            border: 1px solid rgba(255,255,255,0.03);
+            padding: 32px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(8px);
+        }
+        .review-form h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+        }
+        .star-rating {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .star-rating .star { color: #444; transition: all 0.2s ease; user-select: none; }
+        .star-rating .star.active { color: #f5c518; }
+        .star-rating .star:hover { transform: scale(1.15); }
+        .review-form textarea {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            color: #eaeaea;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            transition: all 0.3s ease;
+        }
+        .review-form textarea:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+        }
+        .review-form .form-row {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .review-form .form-row input {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            color: #eaeaea;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .review-form .form-row input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+        }
+        .review-form .form-row input::placeholder { color: #555; }
+        .btn-submit-review {
+            padding: 14px 40px;
+            border-radius: 40px;
+            border: none;
+            background: #fff;
+            color: #0a0a0a;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 16px;
+        }
+        .btn-submit-review:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(255,255,255,0.08);
+        }
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .review-item {
+            background: rgba(255,255,255,0.01);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 24px;
+            padding: 24px 28px;
+            transition: all 0.3s ease;
+        }
+        .review-item:hover {
+            background: rgba(255,255,255,0.02);
+            border-color: rgba(255,255,255,0.06);
+        }
+        .review-item .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+        .review-item .review-author {
+            font-weight: 700;
+            color: #ddd;
+            font-size: 1.05rem;
+        }
+        .review-item .review-stars {
+            color: #f5c518;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+        .review-item .review-stars .empty { color: #444; }
+        .review-item .review-text { color: #aaa; line-height: 1.7; margin-top: 4px; }
+        .review-item .review-date { color: #555; font-size: 0.75rem; margin-top: 8px; }
+
+        /* ===== АВТОРИЗАЦИЯ в модалке ===== */
+        .auth-modal-inner {
+            max-width: 420px;
+        }
+        .auth-modal-inner h2 {
             font-size: 1.8rem;
             font-weight: 800;
             margin-bottom: 8px;
@@ -1606,30 +1613,7 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .auth-modal-content p { color: #666; margin-bottom: 24px; }
-        .auth-modal-content .close-auth {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: #666;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .auth-modal-content .close-auth:hover { color: #fff; }
-        .auth-modal-content .auth-close-btn {
-            margin-top: 16px;
-            background: none;
-            border: none;
-            color: #555;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-        }
-        .auth-modal-content .auth-close-btn:hover { color: #aaa; }
-
+        .auth-modal-inner p { color: #666; margin-bottom: 24px; }
         .tg-auth-button {
             display: inline-flex;
             align-items: center;
@@ -1653,7 +1637,21 @@
             box-shadow: 0 8px 32px rgba(0,136,204,0.3);
         }
         .tg-auth-button i { font-size: 1.4rem; }
-
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 16px 0;
+            color: #444;
+            font-size: 0.85rem;
+        }
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+        }
         #nicknameInput {
             padding: 12px 16px;
             border-radius: 16px;
@@ -1675,34 +1673,6 @@
             color: #888;
             min-height: 20px;
         }
-        .auth-divider {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin: 16px 0;
-            color: #444;
-            font-size: 0.85rem;
-        }
-        .auth-divider::before,
-        .auth-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(255,255,255,0.06);
-        }
-
-        .logout-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            animation: fadeUp 0.3s ease;
-        }
-        .logout-modal.open { display: flex; }
 
         /* ===== ПОДВАЛ ===== */
         footer {
@@ -1723,7 +1693,6 @@
         }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        /* ===== АНИМАЦИЯ ДЛЯ ТОПА ===== */
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(-20px); }
             to { opacity: 1; transform: translateX(0); }
@@ -1753,7 +1722,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* ===== АДАПТИВ ===== */
         @media (max-width: 850px) {
             .nav-circle {
                 top: 12px;
@@ -1781,23 +1749,24 @@
             .stats { gap: 30px; }
             .why-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
             .download-mega { padding: 32px 20px; }
-            .review-form .form-row { flex-direction: column; }
-            .review-form .form-row input { min-width: unset; }
-            .admin-stats-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-            .admin-user-item { flex-direction: column; align-items: stretch; }
-            .admin-user-item .ban-controls { justify-content: flex-start; }
+            .modal-content { padding: 32px 20px; }
             .profile-page { flex-direction: column; }
             .profile-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.03); }
             .profile-sidebar .profile-menu { display: flex; flex-wrap: wrap; }
             .profile-sidebar .profile-menu .menu-item { border-left: none; border-bottom: 2px solid transparent; padding: 10px 16px; }
             .profile-sidebar .profile-menu .menu-item.active { border-bottom-color: #fff; border-left-color: transparent; }
-            .profile-content { padding: 20px; }
+            .profile-content { padding: 20px; max-height: none; }
             .logo-text { font-size: 1.2rem; }
             .logo-icon { width: 36px; height: 36px; }
             .top-user-item { padding: 12px 16px; }
             .top-user-item .rank { font-size: 1rem; min-width: 30px; }
             .top-user-item .avatar { width: 36px; height: 36px; }
             .top-user-item .time { font-size: 0.8rem; padding: 2px 10px; }
+            .admin-stats-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .admin-user-item { flex-direction: column; align-items: stretch; }
+            .admin-user-item .ban-controls { justify-content: flex-start; }
+            .review-form .form-row { flex-direction: column; }
+            .review-form .form-row input { min-width: unset; }
             .avatar-full-section .avatar-preview { width: 80px; height: 80px; }
         }
         @media (max-width: 550px) {
@@ -1815,9 +1784,7 @@
             .hero-actions { flex-direction: column; align-items: center; }
             .why-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
             .stats { gap: 20px; }
-            .review-form { padding: 20px; }
-            .star-rating { font-size: 1.6rem; }
-            .auth-modal-content { padding: 32px 24px; }
+            .modal-content { padding: 24px 16px; }
             .profile-content .profile-tab .info-row { flex-direction: column; gap: 4px; }
             .profile-content .profile-tab .info-row .label { width: 100%; }
             .logo-text { font-size: 1rem; }
@@ -1834,6 +1801,7 @@
             .toggle-switch-modern .toggle-track { width: 50px; height: 28px; }
             .toggle-switch-modern .toggle-track .toggle-thumb { width: 22px; height: 22px; top: 2px; left: 2px; }
             .toggle-switch-modern input:checked + .toggle-track .toggle-thumb { left: 24px; }
+            .star-rating { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -1849,10 +1817,10 @@
         <button class="tab-btn active" data-tab="home"><i class="fas fa-home"></i> Главная</button>
         <button class="tab-btn" data-tab="features"><i class="fas fa-cog"></i> Возможности</button>
         <button class="tab-btn" data-tab="download"><i class="fas fa-download"></i> Скачать</button>
-        <button class="tab-btn" data-tab="reviews"><i class="fas fa-star"></i> Отзывы</button>
         <button class="tab-btn" data-tab="topusers"><i class="fas fa-trophy"></i> Топ</button>
-        <button class="tab-btn" data-tab="admin" id="adminTabBtn" style="display:none;"><i class="fas fa-user-shield"></i> Админ</button>
-        <button class="tab-btn" data-tab="profile" id="profileTabBtn"><i class="fas fa-user"></i> Профиль</button>
+        <button class="tab-btn modal-trigger" data-modal="reviews"><i class="fas fa-star"></i> Отзывы</button>
+        <button class="tab-btn modal-trigger" data-modal="admin" id="adminTabBtn" style="display:none;"><i class="fas fa-user-shield"></i> Админ</button>
+        <button class="tab-btn modal-trigger" data-modal="profile" id="profileTabBtn"><i class="fas fa-user"></i> Профиль</button>
         <div class="profile-btn" id="profileBtn">
             <i class="fas fa-user"></i>
             <span id="profileName">Войти</span>
@@ -1860,9 +1828,9 @@
     </nav>
 
     <!-- ===== МОДАЛ ВХОДА ===== -->
-    <div class="auth-modal" id="authModal">
-        <div class="auth-modal-content">
-            <button class="close-auth" id="closeAuthModalBtn">&times;</button>
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-content auth-modal-inner">
+            <button class="modal-close" id="closeAuthModalBtn">&times;</button>
             <h2>Вход в аккаунт</h2>
             <p>Войдите через Telegram</p>
             <button class="tg-auth-button" id="telegramLoginBtn">
@@ -1874,13 +1842,13 @@
                 <button class="btn-primary" id="setNicknameBtn" style="width:100%; justify-content:center; padding:12px;">Проверить и зарегистрировать</button>
             </div>
             <div id="nicknameStatus"></div>
-            <button class="auth-close-btn" id="closeAuthModal">Закрыть</button>
+            <button class="btn-secondary" id="closeAuthModal" style="margin-top:16px; width:100%; justify-content:center;">Закрыть</button>
         </div>
     </div>
 
     <!-- ===== МОДАЛ УСПЕШНОЙ РЕГИСТРАЦИИ ===== -->
-    <div class="auth-modal" id="successModal">
-        <div class="auth-modal-content">
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-content auth-modal-inner">
             <h2>Успешная регистрация</h2>
             <p style="color: #6bff6b; font-size: 1.2rem; margin: 20px 0;">Добро пожаловать в ProxyGem!</p>
             <button class="btn-primary" id="finishRegistrationBtn" style="width:100%; justify-content:center; padding:14px;">
@@ -1890,8 +1858,8 @@
     </div>
 
     <!-- ===== МОДАЛ ВЫХОДА ===== -->
-    <div class="logout-modal" id="logoutModal">
-        <div class="auth-modal-content">
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-content auth-modal-inner">
             <h2>Выйти из аккаунта</h2>
             <p style="color: #888; margin: 20px 0;">Вы уверены, что хотите выйти?</p>
             <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
@@ -1924,12 +1892,12 @@
         </div>
     </section>
 
-    <!-- ===== КОНТЕНТ ===== -->
+    <!-- ===== КОНТЕНТ (секции, которые листаются) ===== -->
     <div class="content-below">
         <div class="container">
 
-            <!-- ===== ГЛАВНАЯ ===== -->
-            <div class="tab-content active" id="tab-home">
+            <!-- ГЛАВНАЯ -->
+            <div class="section-block" id="section-home-content">
                 <div class="stats">
                     <div class="stats-item">
                         <div class="num" id="statUsers">0</div>
@@ -1946,8 +1914,8 @@
                 </div>
             </div>
 
-            <!-- ===== ВОЗМОЖНОСТИ ===== -->
-            <div class="tab-content" id="tab-features">
+            <!-- ВОЗМОЖНОСТИ -->
+            <div class="section-block" id="section-features">
                 <div class="why-us">
                     <div class="section-header">
                         <h2>Возможности ProxyGem</h2>
@@ -1984,8 +1952,8 @@
                 </div>
             </div>
 
-            <!-- ===== СКАЧАТЬ ===== -->
-            <div class="tab-content" id="tab-download">
+            <!-- СКАЧАТЬ -->
+            <div class="section-block" id="section-download">
                 <div class="download-mega reveal">
                     <h2>Скачай ProxyGem</h2>
                     <p class="sub"><i class="fas fa-windows"></i> Windows 10 / 11 · 32 / 64 bit</p>
@@ -2000,35 +1968,8 @@
                 </div>
             </div>
 
-            <!-- ===== ОТЗЫВЫ ===== -->
-            <div class="tab-content" id="tab-reviews">
-                <div class="reviews-section">
-                    <div class="section-header">
-                        <h2>Отзывы пользователей</h2>
-                        <p>Оцените ProxyGem и поделитесь своим мнением</p>
-                    </div>
-                    <div class="review-form">
-                        <h3><i class="fas fa-pen"></i> Оставить отзыв</h3>
-                        <div class="star-rating" id="starRating">
-                            <span class="star" data-value="1">★</span>
-                            <span class="star" data-value="2">★</span>
-                            <span class="star" data-value="3">★</span>
-                            <span class="star" data-value="4">★</span>
-                            <span class="star" data-value="5">★</span>
-                        </div>
-                        <input type="hidden" id="selectedRating" value="0" />
-                        <textarea id="reviewText" placeholder="Расскажите о вашем опыте использования ProxyGem..."></textarea>
-                        <div class="form-row">
-                            <input type="text" id="reviewAuthor" placeholder="Ваше имя (необязательно)" />
-                            <button class="btn-submit-review" id="submitReviewBtn"><i class="fas fa-paper-plane"></i> Отправить</button>
-                        </div>
-                    </div>
-                    <div id="reviewsList" class="reviews-list"></div>
-                </div>
-            </div>
-
-            <!-- ===== ТОП ПОЛЬЗОВАТЕЛЕЙ ===== -->
-            <div class="tab-content" id="tab-topusers">
+            <!-- ТОП ПОЛЬЗОВАТЕЛЕЙ -->
+            <div class="section-block" id="section-topusers">
                 <div class="top-users-section">
                     <div class="section-header">
                         <h2><i class="fas fa-trophy"></i> Топ Пользователей</h2>
@@ -2038,166 +1979,196 @@
                 </div>
             </div>
 
-            <!-- ===== ПРОФИЛЬ ===== -->
-            <div class="tab-content" id="tab-profile">
-                <div class="profile-page" id="profilePage">
-                    <div class="profile-sidebar">
-                        <div class="profile-avatar">
-                            <img src="images/avatar.png" alt="Avatar" id="profileAvatarDisplay" />
-                            <div class="name" id="profileNameDisplay">Гость</div>
-                        </div>
-                        <div class="profile-menu">
-                            <div class="menu-item active" data-tab="personal"><i class="fas fa-user"></i> Личные Данные</div>
-                            <div class="menu-item" data-tab="settings"><i class="fas fa-sliders-h"></i> Настройки сайта</div>
-                            <div class="menu-item" data-tab="access"><i class="fas fa-key"></i> Вход в ProxyGem</div>
-                        </div>
-                    </div>
-                    <div class="profile-content">
-                        <!-- Личные Данные -->
-                        <div class="profile-tab active" id="profile-personal">
-                            <h3><i class="fas fa-user"></i> Личные Данные</h3>
-                            
-                            <!-- Аватарка на весь блок -->
-                            <div class="avatar-full-section">
-                                <img src="images/avatar.png" alt="Avatar" class="avatar-preview" id="profileAvatar" />
-                                <label class="avatar-upload-btn">
-                                    <i class="fas fa-cloud-upload-alt"></i> Выберите файл
-                                    <input type="file" id="avatarInput" accept="image/*" />
-                                    <span class="upload-glow"></span>
-                                </label>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Никнейм</label>
-                                <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
-                                    <input type="text" id="profileNickname" placeholder="Ваш никнейм" style="max-width:300px;" />
-                                    <button class="btn-save" id="saveNicknameBtn">Сохранить</button>
-                                </div>
-                                <div id="nicknameStatusProfile" style="color:#888; font-size:0.85rem; margin-top:4px;"></div>
-                            </div>
-                            <div class="info-row">
-                                <span class="label">User Telegram</span>
-                                <span class="value" id="profileTelegram">Не авторизован</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="label">ID</span>
-                                <span class="value" id="profileId">—</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="label">Забанен</span>
-                                <span class="value" id="profileBanned">Нет</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="label">Группа</span>
-                                <span class="value" id="profileGroup">Пользователь</span>
-                            </div>
-                            <div style="margin-top:20px;">
-                                <button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Выйти</button>
-                            </div>
-                        </div>
-                        <!-- Настройки сайта -->
-                        <div class="profile-tab" id="profile-settings">
-                            <h3><i class="fas fa-sliders-h"></i> Настройки сайта</h3>
-                            <div class="form-group">
-                                <label>Язык</label>
-                                <div class="custom-select">
-                                    <select id="languageSelect">
-                                        <option value="ru">Русский</option>
-                                        <option value="en">English</option>
-                                        <option value="tr">Türkçe</option>
-                                    </select>
-                                    <span class="select-arrow"><i class="fas fa-chevron-down"></i></span>
-                                    <span class="select-glow"></span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Уведомления</label>
-                                <div style="margin-top:8px;">
-                                    <label class="toggle-switch-modern">
-                                        <input type="checkbox" id="notificationsToggle" />
-                                        <span class="toggle-track">
-                                            <span class="toggle-thumb">
-                                                <i class="fas fa-check"></i>
-                                            </span>
-                                            <span class="toggle-glow"></span>
-                                        </span>
-                                        <span class="toggle-label" id="notifLabel">Выкл</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <button class="btn-save" id="saveSettingsBtn">Сохранить настройки</button>
-                        </div>
-                        <!-- Вход в ProxyGem -->
-                        <div class="profile-tab" id="profile-access">
-                            <h3><i class="fas fa-key"></i> Вход в ProxyGem</h3>
-                            <div class="access-key-box">
-                                <div class="key-display">
-                                    <span id="accessKeyDisplay">—</span>
-                                    <button class="copy-btn" id="copyKeyBtn" title="Скопировать ключ"><i class="fas fa-copy"></i></button>
-                                </div>
-                                <div style="margin-top:8px; color:#555; font-size:0.85rem;">
-                                    <i class="fas fa-info-circle"></i> Логин: <span id="accessLoginDisplay" style="color:#ddd;">—</span>
-                                </div>
-                            </div>
-                            <div class="guide-steps">
-                                <h4 style="color:#ddd; margin-bottom:8px;">Гайд по входу в программу:</h4>
-                                <div>1. Заходишь во вкладку Профиль в программе</div>
-                                <div>2. И нажимаешь Войти</div>
-                                <div>3. Пишешь логин — и пишет ниже <span style="color:#6b9fff;">логин пользователя</span></div>
-                                <div>4. Пишешь Пароль и ниже <span style="color:#6b9fff;">скрытые пароль</span> который можно раскрыть или скопировать</div>
-                                <div>5. <span style="color:#6bff6b;">Вошёл</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ===== АДМИН-ПАНЕЛЬ ===== -->
-            <div class="tab-content" id="tab-admin">
-                <div class="admin-panel">
-                    <div class="section-header">
-                        <h2><i class="fas fa-user-shield"></i> Админ-панель</h2>
-                        <p>Управление сайтом и пользователями</p>
-                    </div>
-
-                    <div class="admin-stats-grid">
-                        <div class="admin-stat-card">
-                            <div class="number" id="adminTotalUsers">0</div>
-                            <div class="label">Всего посетителей</div>
-                        </div>
-                        <div class="admin-stat-card">
-                            <div class="number" id="adminTotalReviews">0</div>
-                            <div class="label">Всего отзывов</div>
-                        </div>
-                        <div class="admin-stat-card">
-                            <div class="number" id="adminTotalUsersReg">0</div>
-                            <div class="label">Зарегистрировано</div>
-                        </div>
-                    </div>
-
-                    <h3 style="margin: 30px 0 16px; color:#ddd;"><i class="fas fa-users"></i> Пользователи</h3>
-                    <div class="admin-users-list" id="adminUsersList"></div>
-
-                    <h3 style="margin: 30px 0 16px; color:#ddd;"><i class="fas fa-comments"></i> Управление отзывами</h3>
-                    <div class="admin-reviews-list" id="adminReviewsList"></div>
-
-                    <h3 style="margin: 30px 0 16px; color:#ddd;"><i class="fas fa-bell"></i> Уведомления</h3>
-                    <div class="notifications-area" id="notificationsArea"></div>
-
-                    <div class="admin-notification-form">
-                        <h4 style="color:#ddd; margin-bottom:12px;">Создать уведомление</h4>
-                        <input type="text" id="notifTitle" placeholder="Заголовок" />
-                        <textarea id="notifText" placeholder="Текст уведомления"></textarea>
-                        <input type="text" id="notifImage" placeholder="URL картинки (опционально)" />
-                        <button class="btn-primary" id="createNotifBtn" style="padding:12px 32px;">Опубликовать</button>
-                    </div>
-                </div>
-            </div>
-
             <footer>
                 <i class="fas fa-gem"></i> ProxyGem · 2026 · безопасность и свобода в сети
             </footer>
 
+        </div>
+    </div>
+
+    <!-- ===== МОДАЛ ОТЗЫВЫ ===== -->
+    <div class="modal-overlay" id="reviewsModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeReviewsModal">&times;</button>
+            <h2>Отзывы пользователей</h2>
+            <p class="subtitle">Оцените ProxyGem и поделитесь своим мнением</p>
+            
+            <div class="review-form">
+                <h3><i class="fas fa-pen"></i> Оставить отзыв</h3>
+                <div class="star-rating" id="starRating">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <input type="hidden" id="selectedRating" value="0" />
+                <textarea id="reviewText" placeholder="Расскажите о вашем опыте использования ProxyGem..."></textarea>
+                <div class="form-row">
+                    <input type="text" id="reviewAuthor" placeholder="Ваше имя (необязательно)" />
+                    <button class="btn-submit-review" id="submitReviewBtn"><i class="fas fa-paper-plane"></i> Отправить</button>
+                </div>
+            </div>
+            <div id="reviewsList" class="reviews-list"></div>
+        </div>
+    </div>
+
+    <!-- ===== МОДАЛ АДМИН-ПАНЕЛЬ ===== -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeAdminModal">&times;</button>
+            <h2><i class="fas fa-user-shield"></i> Админ-панель</h2>
+            <p class="subtitle">Управление сайтом и пользователями</p>
+            
+            <div class="admin-panel">
+                <div class="admin-stats-grid">
+                    <div class="admin-stat-card">
+                        <div class="number" id="adminTotalUsers">0</div>
+                        <div class="label">Всего посетителей</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="number" id="adminTotalReviews">0</div>
+                        <div class="label">Всего отзывов</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="number" id="adminTotalUsersReg">0</div>
+                        <div class="label">Зарегистрировано</div>
+                    </div>
+                </div>
+
+                <h3 style="margin: 30px 0 16px; color:#ddd;"><i class="fas fa-users"></i> Пользователи</h3>
+                <div class="admin-users-list" id="adminUsersList"></div>
+
+                <h3 style="margin: 30px 0 16px; color:#ddd;"><i class="fas fa-comments"></i> Управление отзывами</h3>
+                <div class="admin-reviews-list" id="adminReviewsList"></div>
+
+                <h3 style="margin: 30px 0 16px; color:#ddd;"><i class="fas fa-bell"></i> Уведомления</h3>
+                <div class="notifications-area" id="notificationsArea"></div>
+
+                <div class="admin-notification-form">
+                    <h4 style="color:#ddd; margin-bottom:12px;">Создать уведомление</h4>
+                    <input type="text" id="notifTitle" placeholder="Заголовок" />
+                    <textarea id="notifText" placeholder="Текст уведомления"></textarea>
+                    <input type="text" id="notifImage" placeholder="URL картинки (опционально)" />
+                    <button class="btn-primary" id="createNotifBtn" style="padding:12px 32px;">Опубликовать</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== МОДАЛ ПРОФИЛЬ ===== -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeProfileModal">&times;</button>
+            <div class="profile-page" id="profilePage">
+                <div class="profile-sidebar">
+                    <div class="profile-avatar">
+                        <img src="images/avatar.png" alt="Avatar" id="profileAvatarDisplay" />
+                        <div class="name" id="profileNameDisplay">Гость</div>
+                    </div>
+                    <div class="profile-menu">
+                        <div class="menu-item active" data-tab="personal"><i class="fas fa-user"></i> Личные Данные</div>
+                        <div class="menu-item" data-tab="settings"><i class="fas fa-sliders-h"></i> Настройки сайта</div>
+                        <div class="menu-item" data-tab="access"><i class="fas fa-key"></i> Вход в ProxyGem</div>
+                    </div>
+                </div>
+                <div class="profile-content">
+                    <!-- Личные Данные -->
+                    <div class="profile-tab active" id="profile-personal">
+                        <h3><i class="fas fa-user"></i> Личные Данные</h3>
+                        
+                        <div class="avatar-full-section">
+                            <img src="images/avatar.png" alt="Avatar" class="avatar-preview" id="profileAvatar" />
+                            <label class="avatar-upload-btn">
+                                <i class="fas fa-cloud-upload-alt"></i> Выберите файл
+                                <input type="file" id="avatarInput" accept="image/*" />
+                                <span class="upload-glow"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Никнейм</label>
+                            <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+                                <input type="text" id="profileNickname" placeholder="Ваш никнейм" style="max-width:300px;" />
+                                <button class="btn-save" id="saveNicknameBtn">Сохранить</button>
+                            </div>
+                            <div id="nicknameStatusProfile" style="color:#888; font-size:0.85rem; margin-top:4px;"></div>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">User Telegram</span>
+                            <span class="value" id="profileTelegram">Не авторизован</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">ID</span>
+                            <span class="value" id="profileId">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Забанен</span>
+                            <span class="value" id="profileBanned">Нет</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Группа</span>
+                            <span class="value" id="profileGroup">Пользователь</span>
+                        </div>
+                        <div style="margin-top:20px;">
+                            <button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+                        </div>
+                    </div>
+                    <!-- Настройки сайта -->
+                    <div class="profile-tab" id="profile-settings">
+                        <h3><i class="fas fa-sliders-h"></i> Настройки сайта</h3>
+                        <div class="form-group">
+                            <label>Язык</label>
+                            <div class="custom-select">
+                                <select id="languageSelect">
+                                    <option value="ru">Русский</option>
+                                    <option value="en">English</option>
+                                    <option value="tr">Türkçe</option>
+                                </select>
+                                <span class="select-arrow"><i class="fas fa-chevron-down"></i></span>
+                                <span class="select-glow"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Уведомления</label>
+                            <div style="margin-top:8px;">
+                                <label class="toggle-switch-modern">
+                                    <input type="checkbox" id="notificationsToggle" />
+                                    <span class="toggle-track">
+                                        <span class="toggle-thumb">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="toggle-glow"></span>
+                                    </span>
+                                    <span class="toggle-label" id="notifLabel">Выкл</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button class="btn-save" id="saveSettingsBtn">Сохранить настройки</button>
+                    </div>
+                    <!-- Вход в ProxyGem -->
+                    <div class="profile-tab" id="profile-access">
+                        <h3><i class="fas fa-key"></i> Вход в ProxyGem</h3>
+                        <div class="access-key-box">
+                            <div class="key-display">
+                                <span id="accessKeyDisplay">—</span>
+                                <button class="copy-btn" id="copyKeyBtn" title="Скопировать ключ"><i class="fas fa-copy"></i></button>
+                            </div>
+                            <div style="margin-top:8px; color:#555; font-size:0.85rem;">
+                                <i class="fas fa-info-circle"></i> Логин: <span id="accessLoginDisplay" style="color:#ddd;">—</span>
+                            </div>
+                        </div>
+                        <div class="guide-steps">
+                            <h4 style="color:#ddd; margin-bottom:8px;">Гайд по входу в программу:</h4>
+                            <div>1. Заходишь во вкладку Профиль в программе</div>
+                            <div>2. И нажимаешь Войти</div>
+                            <div>3. Пишешь логин — и пишет ниже <span style="color:#6b9fff;">логин пользователя</span></div>
+                            <div>4. Пишешь Пароль и ниже <span style="color:#6b9fff;">скрытые пароль</span> который можно раскрыть или скопировать</div>
+                            <div>5. <span style="color:#6bff6b;">Вошёл</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -2319,130 +2290,109 @@
             return newUser;
         }
 
-        // ===== АУТЕНТИФИКАЦИЯ =====
-        function showAuthModal() {
-            document.getElementById('authModal').classList.add('open');
+        // ===== МОДАЛЫ =====
+        function openModal(id) {
+            document.getElementById(id).classList.add('open');
+            document.body.style.overflow = 'hidden';
         }
 
-        function hideAuthModal() {
-            document.getElementById('authModal').classList.remove('open');
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('open');
+            document.body.style.overflow = '';
         }
 
-        function showSuccessModal() {
-            document.getElementById('successModal').classList.add('open');
-        }
+        function showAuthModal() { openModal('authModal'); }
+        function hideAuthModal() { closeModal('authModal'); }
+        function showSuccessModal() { openModal('successModal'); }
+        function hideSuccessModal() { closeModal('successModal'); }
+        function showLogoutModal() { openModal('logoutModal'); }
+        function hideLogoutModal() { closeModal('logoutModal'); }
 
-        function hideSuccessModal() {
-            document.getElementById('successModal').classList.remove('open');
-        }
-
-        function showLogoutModal() {
-            document.getElementById('logoutModal').classList.add('open');
-        }
-
-        function hideLogoutModal() {
-            document.getElementById('logoutModal').classList.remove('open');
-        }
-
-        function updateProfileUI() {
-            const profileBtn = document.getElementById('profileBtn');
-            const nameSpan = document.getElementById('profileName');
-
-            if (currentUser) {
-                const ban = isUserBanned(currentUser.id);
-                if (ban) {
-                    const remaining = Math.ceil((ban.until - Date.now()) / 1000 / 60);
-                    nameSpan.textContent = 'Забанен (' + remaining + ' мин)';
-                    profileBtn.style.borderColor = 'rgba(255,50,50,0.3)';
+        // ===== ОБРАБОТЧИКИ МОДАЛОВ =====
+        document.querySelectorAll('.modal-trigger').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const modalId = this.dataset.modal;
+                if (modalId === 'admin' && !isAdmin) {
+                    const code = prompt('Введите код доступа к админ-панели:');
+                    if (code === '2105') {
+                        if (!currentUser) {
+                            const tempUser = {
+                                id: 'admin_' + Date.now(),
+                                telegramId: 'admin',
+                                name: 'Admin',
+                                nickname: 'Admin',
+                                avatar: 'images/avatar.png',
+                                createdAt: Date.now(),
+                                isAdmin: true,
+                                accessKey: generateAccessKey(),
+                                timeOnSite: 0,
+                                lastActive: Date.now(),
+                                settings: { language: 'ru', notifications: false }
+                            };
+                            currentUser = tempUser;
+                            isAdmin = true;
+                            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                            updateProfileUI();
+                            alert('Доступ к админ-панели получен!');
+                            startTimeTracking();
+                        } else {
+                            const users = getUsers();
+                            const idx = users.findIndex(u => u.id === currentUser.id);
+                            if (idx !== -1) {
+                                users[idx].isAdmin = true;
+                                saveUsers(users);
+                                currentUser = users[idx];
+                                isAdmin = true;
+                                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                                updateProfileUI();
+                                alert('Вы получили права администратора!');
+                            }
+                        }
+                    } else if (code !== null) {
+                        alert('Неверный код доступа');
+                        return;
+                    } else {
+                        return;
+                    }
+                }
+                if (modalId === 'profile' && !currentUser) {
+                    showAuthModal();
                     return;
                 }
-                nameSpan.textContent = currentUser.nickname || currentUser.name;
-                profileBtn.style.borderColor = 'rgba(255,255,255,0.06)';
-                if (currentUser.isAdmin) {
-                    document.getElementById('adminTabBtn').style.display = 'flex';
-                } else {
-                    document.getElementById('adminTabBtn').style.display = 'none';
+                if (modalId === 'profile') {
+                    updateProfilePage();
                 }
-            } else {
-                nameSpan.textContent = 'Войти';
-                document.getElementById('adminTabBtn').style.display = 'none';
-            }
-            updateProfilePage();
-        }
-
-        function updateProfilePage() {
-            if (!currentUser) {
-                document.getElementById('profileNameDisplay').textContent = 'Гость';
-                document.getElementById('profileAvatarDisplay').src = 'images/avatar.png';
-                document.getElementById('profileTelegram').textContent = 'Не авторизован';
-                document.getElementById('profileId').textContent = '—';
-                document.getElementById('profileBanned').textContent = 'Нет';
-                document.getElementById('profileBanned').className = 'value';
-                document.getElementById('profileGroup').textContent = 'Гость';
-                document.getElementById('profileGroup').className = 'value';
-                document.getElementById('profileAvatar').src = 'images/avatar.png';
-                document.getElementById('profileNickname').value = '';
-                document.getElementById('accessKeyDisplay').textContent = '—';
-                document.getElementById('accessLoginDisplay').textContent = '—';
-                return;
-            }
-
-            const ban = isUserBanned(currentUser.id);
-            document.getElementById('profileNameDisplay').textContent = currentUser.nickname || currentUser.name;
-            document.getElementById('profileAvatarDisplay').src = currentUser.avatar || 'images/avatar.png';
-            document.getElementById('profileTelegram').textContent = currentUser.name || 'Неизвестно';
-            document.getElementById('profileId').textContent = currentUser.telegramId || '—';
-            
-            const bannedEl = document.getElementById('profileBanned');
-            if (ban) {
-                const remaining = Math.ceil((ban.until - Date.now()) / 1000 / 60);
-                bannedEl.textContent = 'Да (' + remaining + ' мин)';
-                bannedEl.className = 'value banned';
-            } else {
-                bannedEl.textContent = 'Нет';
-                bannedEl.className = 'value';
-            }
-            
-            const groupEl = document.getElementById('profileGroup');
-            if (currentUser.isAdmin) {
-                groupEl.textContent = 'ADMIN';
-                groupEl.className = 'value admin';
-            } else {
-                groupEl.textContent = 'Пользователь';
-                groupEl.className = 'value';
-            }
-            
-            document.getElementById('profileAvatar').src = currentUser.avatar || 'images/avatar.png';
-            document.getElementById('profileNickname').value = currentUser.nickname || '';
-            
-            if (currentUser.accessKey) {
-                document.getElementById('accessKeyDisplay').textContent = currentUser.accessKey;
-            } else {
-                const users = getUsers();
-                const idx = users.findIndex(u => u.id === currentUser.id);
-                if (idx !== -1) {
-                    users[idx].accessKey = generateAccessKey();
-                    saveUsers(users);
-                    currentUser = users[idx];
-                    document.getElementById('accessKeyDisplay').textContent = currentUser.accessKey;
+                if (modalId === 'reviews') {
+                    renderReviews();
                 }
-            }
-            document.getElementById('accessLoginDisplay').textContent = currentUser.nickname || '—';
-            
-            if (currentUser.settings) {
-                document.getElementById('languageSelect').value = currentUser.settings.language || 'ru';
-                document.getElementById('notificationsToggle').checked = currentUser.settings.notifications || false;
-                updateNotifLabel();
-            }
-        }
+                if (modalId === 'admin' && isAdmin) {
+                    renderAdminPanel();
+                    renderAdminReviews();
+                    renderUsersList();
+                    renderNotifications();
+                }
+                openModal(modalId + 'Modal');
+            });
+        });
 
-        function updateNotifLabel() {
-            const toggle = document.getElementById('notificationsToggle');
-            const label = document.getElementById('notifLabel');
-            label.textContent = toggle.checked ? 'Вкл' : 'Выкл';
-        }
+        // Закрытие модалов по крестику
+        document.getElementById('closeReviewsModal').addEventListener('click', () => closeModal('reviewsModal'));
+        document.getElementById('closeAdminModal').addEventListener('click', () => closeModal('adminModal'));
+        document.getElementById('closeProfileModal').addEventListener('click', () => closeModal('profileModal'));
+        document.getElementById('closeAuthModalBtn').addEventListener('click', hideAuthModal);
+        document.getElementById('closeAuthModal').addEventListener('click', hideAuthModal);
 
-        // ===== ОБРАБОТЧИК ВХОДА =====
+        // Закрытие по клику на фон
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // ===== АУТЕНТИФИКАЦИЯ =====
         window.onTelegramAuth = function(data) {
             try {
                 const payload = JSON.parse(atob(data.id_token.split('.')[1]));
@@ -2481,7 +2431,26 @@
             }
         };
 
-        // ===== РЕГИСТРАЦИЯ =====
+        document.getElementById('telegramLoginBtn').addEventListener('click', function() {
+            if (typeof Telegram !== 'undefined' && Telegram.Login) {
+                Telegram.Login.auth({
+                    client_id: CLIENT_ID,
+                    scope: ['profile', 'phone'],
+                    lang: 'ru',
+                    nonce: Math.random().toString(36).substr(2, 10)
+                }, function(data) {
+                    if (data.error) {
+                        console.error('Telegram login error:', data.error);
+                        alert('Ошибка входа: ' + data.error);
+                    } else if (data.id_token) {
+                        window.onTelegramAuth(data);
+                    }
+                });
+            } else {
+                alert('Библиотека Telegram не загружена. Попробуйте обновить страницу.');
+            }
+        });
+
         document.getElementById('setNicknameBtn').addEventListener('click', function() {
             const nickname = document.getElementById('nicknameInput').value.trim();
             const status = document.getElementById('nicknameStatus');
@@ -2537,39 +2506,6 @@
             hideSuccessModal();
         });
 
-        // ===== ЗАПУСК ВХОДА =====
-        document.getElementById('telegramLoginBtn').addEventListener('click', function() {
-            if (typeof Telegram !== 'undefined' && Telegram.Login) {
-                Telegram.Login.auth({
-                    client_id: CLIENT_ID,
-                    scope: ['profile', 'phone'],
-                    lang: 'ru',
-                    nonce: Math.random().toString(36).substr(2, 10)
-                }, function(data) {
-                    if (data.error) {
-                        console.error('Telegram login error:', data.error);
-                        alert('Ошибка входа: ' + data.error);
-                    } else if (data.id_token) {
-                        window.onTelegramAuth(data);
-                    }
-                });
-            } else {
-                alert('Библиотека Telegram не загружена. Попробуйте обновить страницу.');
-            }
-        });
-
-        // ===== ЗАКРЫТИЕ МОДАЛОВ =====
-        document.getElementById('closeAuthModal').addEventListener('click', hideAuthModal);
-        document.getElementById('closeAuthModalBtn').addEventListener('click', hideAuthModal);
-        document.getElementById('authModal').addEventListener('click', function(e) {
-            if (e.target === this) hideAuthModal();
-        });
-
-        document.getElementById('cancelLogoutBtn').addEventListener('click', hideLogoutModal);
-        document.getElementById('logoutModal').addEventListener('click', function(e) {
-            if (e.target === this) hideLogoutModal();
-        });
-
         // ===== ВЫХОД =====
         document.getElementById('logoutBtn').addEventListener('click', function() {
             showLogoutModal();
@@ -2585,6 +2521,8 @@
             renderAll();
             alert('Вы вышли из аккаунта');
         });
+
+        document.getElementById('cancelLogoutBtn').addEventListener('click', hideLogoutModal);
 
         // ===== ПРОФИЛЬ =====
         document.querySelectorAll('.profile-menu .menu-item').forEach(item => {
@@ -2677,7 +2615,6 @@
                 currentUser = users[idx];
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 alert('Настройки сохранены!');
-                // Применяем язык сразу
                 applyLanguage(language);
             }
         });
@@ -2688,13 +2625,18 @@
                 'en': 'English',
                 'tr': 'Türkçe'
             };
-            // Можно добавить перевод интерфейса
             console.log('Язык изменён на:', langMap[lang] || lang);
         }
 
         document.getElementById('notificationsToggle').addEventListener('change', function() {
             updateNotifLabel();
         });
+
+        function updateNotifLabel() {
+            const toggle = document.getElementById('notificationsToggle');
+            const label = document.getElementById('notifLabel');
+            label.textContent = toggle.checked ? 'Вкл' : 'Выкл';
+        }
 
         document.getElementById('copyKeyBtn').addEventListener('click', function() {
             const key = document.getElementById('accessKeyDisplay').textContent;
@@ -2717,16 +2659,99 @@
             alert('Ключ скопирован в буфер обмена!');
         }
 
-        // ===== ВКЛАДКИ =====
-        document.getElementById('profileTabBtn').addEventListener('click', function() {
-            if (!currentUser) { showAuthModal(); return; }
-            const ban = isUserBanned(currentUser.id);
-            if (ban) {
-                alert('Вы забанены до ' + new Date(ban.until).toLocaleString());
-                return;
+        // ===== ПРОФИЛЬ UI =====
+        function updateProfileUI() {
+            const profileBtn = document.getElementById('profileBtn');
+            const nameSpan = document.getElementById('profileName');
+
+            if (currentUser) {
+                const ban = isUserBanned(currentUser.id);
+                if (ban) {
+                    const remaining = Math.ceil((ban.until - Date.now()) / 1000 / 60);
+                    nameSpan.textContent = 'Забанен (' + remaining + ' мин)';
+                    profileBtn.style.borderColor = 'rgba(255,50,50,0.3)';
+                    document.getElementById('adminTabBtn').style.display = 'none';
+                    return;
+                }
+                nameSpan.textContent = currentUser.nickname || currentUser.name;
+                profileBtn.style.borderColor = 'rgba(255,255,255,0.06)';
+                if (currentUser.isAdmin) {
+                    document.getElementById('adminTabBtn').style.display = 'flex';
+                } else {
+                    document.getElementById('adminTabBtn').style.display = 'none';
+                }
+            } else {
+                nameSpan.textContent = 'Войти';
+                document.getElementById('adminTabBtn').style.display = 'none';
             }
             updateProfilePage();
-        });
+        }
+
+        function updateProfilePage() {
+            if (!currentUser) {
+                document.getElementById('profileNameDisplay').textContent = 'Гость';
+                document.getElementById('profileAvatarDisplay').src = 'images/avatar.png';
+                document.getElementById('profileTelegram').textContent = 'Не авторизован';
+                document.getElementById('profileId').textContent = '—';
+                document.getElementById('profileBanned').textContent = 'Нет';
+                document.getElementById('profileBanned').className = 'value';
+                document.getElementById('profileGroup').textContent = 'Гость';
+                document.getElementById('profileGroup').className = 'value';
+                document.getElementById('profileAvatar').src = 'images/avatar.png';
+                document.getElementById('profileNickname').value = '';
+                document.getElementById('accessKeyDisplay').textContent = '—';
+                document.getElementById('accessLoginDisplay').textContent = '—';
+                return;
+            }
+
+            const ban = isUserBanned(currentUser.id);
+            document.getElementById('profileNameDisplay').textContent = currentUser.nickname || currentUser.name;
+            document.getElementById('profileAvatarDisplay').src = currentUser.avatar || 'images/avatar.png';
+            document.getElementById('profileTelegram').textContent = currentUser.name || 'Неизвестно';
+            document.getElementById('profileId').textContent = currentUser.telegramId || '—';
+            
+            const bannedEl = document.getElementById('profileBanned');
+            if (ban) {
+                const remaining = Math.ceil((ban.until - Date.now()) / 1000 / 60);
+                bannedEl.textContent = 'Да (' + remaining + ' мин)';
+                bannedEl.className = 'value banned';
+            } else {
+                bannedEl.textContent = 'Нет';
+                bannedEl.className = 'value';
+            }
+            
+            const groupEl = document.getElementById('profileGroup');
+            if (currentUser.isAdmin) {
+                groupEl.textContent = 'ADMIN';
+                groupEl.className = 'value admin';
+            } else {
+                groupEl.textContent = 'Пользователь';
+                groupEl.className = 'value';
+            }
+            
+            document.getElementById('profileAvatar').src = currentUser.avatar || 'images/avatar.png';
+            document.getElementById('profileNickname').value = currentUser.nickname || '';
+            
+            if (currentUser.accessKey) {
+                document.getElementById('accessKeyDisplay').textContent = currentUser.accessKey;
+            } else {
+                const users = getUsers();
+                const idx = users.findIndex(u => u.id === currentUser.id);
+                if (idx !== -1) {
+                    users[idx].accessKey = generateAccessKey();
+                    saveUsers(users);
+                    currentUser = users[idx];
+                    document.getElementById('accessKeyDisplay').textContent = currentUser.accessKey;
+                }
+            }
+            document.getElementById('accessLoginDisplay').textContent = currentUser.nickname || '—';
+            
+            if (currentUser.settings) {
+                document.getElementById('languageSelect').value = currentUser.settings.language || 'ru';
+                document.getElementById('notificationsToggle').checked = currentUser.settings.notifications || false;
+                updateNotifLabel();
+            }
+        }
 
         document.getElementById('profileBtn').addEventListener('click', function() {
             if (currentUser) {
@@ -2735,32 +2760,12 @@
                     alert('Вы забанены до ' + new Date(ban.until).toLocaleString());
                     return;
                 }
-                document.querySelector('.tab-btn[data-tab="profile"]').click();
+                openModal('profileModal');
+                updateProfilePage();
             } else {
                 showAuthModal();
             }
         });
-
-        // ===== RESTORE SESSION =====
-        function restoreSession() {
-            try {
-                const saved = localStorage.getItem('currentUser');
-                if (saved) {
-                    const user = JSON.parse(saved);
-                    const ban = isUserBanned(user.id);
-                    if (ban) {
-                        localStorage.removeItem('currentUser');
-                        currentUser = null;
-                        isAdmin = false;
-                    } else {
-                        currentUser = user;
-                        isAdmin = user.isAdmin || false;
-                    }
-                }
-            } catch { currentUser = null; }
-            updateProfileUI();
-            if (currentUser) startTimeTracking();
-        }
 
         // ===== СИСТЕМА ОТЗЫВОВ =====
         function getReviews() { return getData('proxygem_reviews'); }
@@ -2865,12 +2870,12 @@
                 return;
             }
 
-            const medals = ['🥇', '🥈', '🥉'];
+            const rankIcons = ['<i class="fas fa-crown" style="color:#ffd700;"></i>', '<i class="fas fa-medal" style="color:#c0c0c0;"></i>', '<i class="fas fa-medal" style="color:#cd7f32;"></i>'];
             const rankClasses = ['gold', 'silver', 'bronze'];
 
             container.innerHTML = top.map((user, index) => {
                 const rank = index + 1;
-                const rankDisplay = rank <= 3 ? medals[index] : '#' + rank;
+                const rankDisplay = rank <= 3 ? rankIcons[index] : '#' + rank;
                 const rankClass = rank <= 3 ? rankClasses[index] : '';
                 const timeSeconds = user.timeOnSite || 0;
                 const hours = Math.floor(timeSeconds / 3600);
@@ -2879,11 +2884,11 @@
                 const isCurrentUser = currentUser && currentUser.id === user.id;
                 
                 return '<div class="top-user-item" style="' + (isCurrentUser ? 'border-color: rgba(107,159,255,0.2); background: rgba(107,159,255,0.02);' : '') + '">' +
-                    '<div class="rank ' + rankClass + '">' + rankDisplay + '</div>' +
+                    '<div class="rank ' + rankClass + '"><span class="rank-icon">' + rankDisplay + '</span></div>' +
                     '<img class="avatar" src="' + (user.avatar || 'images/avatar.png') + '" alt="avatar" />' +
                     '<div class="info">' +
                         '<div class="name">' + escapeHtml(user.nickname || user.name) + (isCurrentUser ? ' <span style="color:#6b9fff;font-size:0.8rem;">(Вы)</span>' : '') + '</div>' +
-                        '<div class="detail">' + (user.isAdmin ? '👑 Администратор' : 'Пользователь') + '</div>' +
+                        '<div class="detail">' + (user.isAdmin ? '<i class="fas fa-crown" style="color:#ffd700;"></i> Администратор' : 'Пользователь') + '</div>' +
                     '</div>' +
                     '<div class="time"><i class="fas fa-clock"></i> ' + timeStr + '</div>' +
                 '</div>';
@@ -3017,32 +3022,23 @@
         // ===== НАВИГАЦИЯ =====
         const routes = {
             '': 'home', 'home': 'home', 'features': 'features',
-            'download': 'download', 'reviews': 'reviews',
-            'topusers': 'topusers', 'admin': 'admin', 'profile': 'profile'
-        };
-
-        const tabMap = {
-            'home': 'tab-home', 'features': 'tab-features',
-            'download': 'tab-download', 'reviews': 'tab-reviews',
-            'topusers': 'tab-topusers', 'admin': 'tab-admin', 'profile': 'tab-profile'
+            'download': 'download', 'topusers': 'topusers'
         };
 
         function navigateTo(route) {
             const tabId = routes[route] || 'home';
-            const contentId = tabMap[tabId];
-            if (!contentId) return;
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tab === tabId) btn.classList.add('active');
+            });
 
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            const target = document.getElementById(contentId);
-            if (target) target.classList.add('active');
-
-            document.querySelectorAll('.nav-circle .tab-btn').forEach(btn => btn.classList.remove('active'));
-            const btn = document.querySelector('.nav-circle .tab-btn[data-tab="' + tabId + '"]');
-            if (btn) btn.classList.add('active');
-
-            if (tabId !== 'home') {
-                document.querySelector('.content-below').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
+            // Прокрутка к секции
+            const sectionId = 'section-' + (tabId === 'home' ? 'home-content' : tabId);
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else if (tabId === 'home') {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
@@ -3050,19 +3046,10 @@
             if (window.location.pathname !== newPath) {
                 window.history.pushState({}, '', newPath);
             }
-
-            if (tabId === 'admin' && isAdmin) {
-                renderAdminPanel();
-                renderAdminReviews();
-                renderUsersList();
-                renderNotifications();
-            }
-            if (tabId === 'profile') updateProfilePage();
-            if (tabId === 'topusers') renderTopUsers();
         }
 
         // ===== ОБРАБОТЧИКИ =====
-        document.querySelectorAll('.nav-circle .tab-btn').forEach(btn => {
+        document.querySelectorAll('.tab-btn:not(.modal-trigger)').forEach(btn => {
             btn.addEventListener('click', function() {
                 navigateTo(this.dataset.tab);
             });
@@ -3075,6 +3062,27 @@
             const path = window.location.pathname.slice(1);
             navigateTo(path || 'home');
         });
+
+        // ===== RESTORE SESSION =====
+        function restoreSession() {
+            try {
+                const saved = localStorage.getItem('currentUser');
+                if (saved) {
+                    const user = JSON.parse(saved);
+                    const ban = isUserBanned(user.id);
+                    if (ban) {
+                        localStorage.removeItem('currentUser');
+                        currentUser = null;
+                        isAdmin = false;
+                    } else {
+                        currentUser = user;
+                        isAdmin = user.isAdmin || false;
+                    }
+                }
+            } catch { currentUser = null; }
+            updateProfileUI();
+            if (currentUser) startTimeTracking();
+        }
 
         // ===== RENDER ALL =====
         function renderAll() {
@@ -3093,65 +3101,7 @@
             restoreSession();
 
             const path = window.location.pathname.slice(1);
-            const route = path || 'home';
-
-            if (route === 'admin' && !isAdmin) {
-                const code = prompt('Введите код доступа к админ-панели:');
-                if (code === '2105') {
-                    if (!currentUser) {
-                        const tempUser = {
-                            id: 'admin_' + Date.now(),
-                            telegramId: 'admin',
-                            name: 'Admin',
-                            nickname: 'Admin',
-                            avatar: 'images/avatar.png',
-                            createdAt: Date.now(),
-                            isAdmin: true,
-                            accessKey: generateAccessKey(),
-                            timeOnSite: 0,
-                            lastActive: Date.now(),
-                            settings: { language: 'ru', notifications: false }
-                        };
-                        currentUser = tempUser;
-                        isAdmin = true;
-                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                        updateProfileUI();
-                        alert('Доступ к админ-панели получен!');
-                        startTimeTracking();
-                    } else {
-                        const users = getUsers();
-                        const idx = users.findIndex(u => u.id === currentUser.id);
-                        if (idx !== -1) {
-                            users[idx].isAdmin = true;
-                            saveUsers(users);
-                            currentUser = users[idx];
-                            isAdmin = true;
-                            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                            updateProfileUI();
-                            alert('Вы получили права администратора!');
-                        }
-                    }
-                } else if (code !== null) {
-                    alert('Неверный код доступа');
-                    navigateTo('home');
-                    return;
-                } else {
-                    navigateTo('home');
-                    return;
-                }
-            }
-
-            navigateTo(route);
-
-            if (route === 'admin' && isAdmin) {
-                renderAdminPanel();
-                renderAdminReviews();
-                renderUsersList();
-                renderNotifications();
-            }
-
-            if (route === 'profile') updateProfilePage();
-            if (route === 'topusers') renderTopUsers();
+            navigateTo(path || 'home');
 
             renderAll();
 
