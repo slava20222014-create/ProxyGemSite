@@ -13,10 +13,12 @@
     <script async src="https://oauth.telegram.org/js/telegram-login.js?5" 
             data-client-id="8155864182" 
             data-onauth="onTelegramAuth(data)" 
-            data-request-access="write">
+            data-request-access="write"
+            data-redirect-uri="http://localhost:5500">
     </script>
     
     <style>
+        /* ... все стили такие же как в предыдущей версии ... */
         * {
             margin: 0;
             padding: 0;
@@ -1564,6 +1566,10 @@
         // ===== НАСТРОЙКИ TELEGRAM OIDC =====
         const TELEGRAM_CLIENT_ID = '8155864182';
         const TELEGRAM_CLIENT_SECRET = 'BEpfZ2rc9-jCURwEcL7C00najcW5vXZIwndovDLT-KJwjncJrQ62Qw';
+        const REDIRECT_URI = window.location.origin;
+
+        console.log('Telegram OIDC настроен с Client ID:', TELEGRAM_CLIENT_ID);
+        console.log('Redirect URI:', REDIRECT_URI);
 
         // ===== ХРАНИЛИЩЕ =====
         const STORAGE_KEYS = {
@@ -1735,6 +1741,7 @@
             if (typeof Telegram !== 'undefined' && Telegram.Login) {
                 Telegram.Login.auth({
                     client_id: TELEGRAM_CLIENT_ID,
+                    redirect_uri: REDIRECT_URI,
                     scope: ['profile', 'phone'],
                     lang: 'ru',
                     nonce: Math.random().toString(36).substr(2, 10)
@@ -2151,8 +2158,41 @@
             navigateTo(path || 'home');
         });
 
+        // ===== ОБРАБОТКА РЕДИРЕКТА =====
+        // Проверяем, есть ли параметры в URL после редиректа
+        function handleRedirect() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const idToken = urlParams.get('id_token');
+            const error = urlParams.get('error');
+            
+            if (error) {
+                console.error('Telegram auth error:', error);
+                alert('Ошибка авторизации: ' + error);
+                // Очищаем URL
+                window.history.replaceState({}, '', window.location.pathname);
+                return;
+            }
+            
+            if (idToken) {
+                // Если пришёл id_token через редирект
+                try {
+                    const payload = JSON.parse(atob(idToken.split('.')[1]));
+                    console.log('Auth from redirect:', payload);
+                    // Обрабатываем как обычный вход
+                    window.onTelegramAuth({ id_token: idToken });
+                    // Очищаем URL
+                    window.history.replaceState({}, '', window.location.pathname);
+                } catch (e) {
+                    console.error('Error parsing id_token from redirect:', e);
+                }
+            }
+        }
+
         // ===== ИНИЦИАЛИЗАЦИЯ =====
         function init() {
+            // Сначала обрабатываем возможный редирект
+            handleRedirect();
+
             // Считаем посещение
             incrementVisits();
 
