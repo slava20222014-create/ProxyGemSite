@@ -9,8 +9,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     
-    <!-- Telegram Login Widget -->
-    <script src="https://telegram.org/js/telegram-widget.js?22" async></script>
+    <!-- Telegram Login OIDC -->
+    <script async src="https://oauth.telegram.org/js/telegram-login.js?5" 
+            data-client-id="8155864182" 
+            data-onauth="onTelegramAuth(data)" 
+            data-request-access="write">
+    </script>
     
     <style>
         * {
@@ -1130,6 +1134,35 @@
             color: #aaa;
         }
 
+        /* Telegram Login Button */
+        .telegram-login-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 14px 24px;
+            border-radius: 40px;
+            border: none;
+            background: #0088cc;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .telegram-login-btn:hover {
+            background: #0077b3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 136, 204, 0.3);
+        }
+
+        .telegram-login-btn i {
+            font-size: 1.4rem;
+        }
+
         #nicknameInput {
             padding: 12px 16px;
             border-radius: 16px;
@@ -1169,17 +1202,6 @@
             flex: 1;
             height: 1px;
             background: rgba(255,255,255,0.06);
-        }
-
-        /* Telegram Login Button */
-        .telegram-login-container {
-            display: flex;
-            justify-content: center;
-            margin: 8px 0 12px 0;
-        }
-
-        .telegram-login-container iframe {
-            border-radius: 30px !important;
         }
 
         /* ===== ПОДВАЛ ===== */
@@ -1326,9 +1348,9 @@
             .auth-modal-content {
                 padding: 32px 24px;
             }
-            .telegram-login-container iframe {
-                width: 100% !important;
-                max-width: 280px;
+            .telegram-login-btn {
+                font-size: 0.9rem;
+                padding: 12px 20px;
             }
         }
     </style>
@@ -1360,10 +1382,10 @@
             <h2>Вход в аккаунт</h2>
             <p>Используйте Telegram для входа</p>
             
-            <!-- Telegram Login Widget -->
-            <div class="telegram-login-container" id="telegramLoginContainer">
-                <!-- Сюда будет вставлен виджет через JS -->
-            </div>
+            <!-- Telegram Login Button (OIDC) -->
+            <button class="telegram-login-btn" id="telegramLoginBtn">
+                <i class="fab fa-telegram-plane"></i> Войти через Telegram
+            </button>
             
             <div class="auth-divider">или</div>
             
@@ -1539,13 +1561,9 @@
     </div>
 
     <script>
-        // ===== НАСТРОЙКИ TELEGRAM =====
-        // ЗАМЕНИТЕ НА ВАШИ ДАННЫЕ:
-        // 1. Создайте бота у @BotFather
-        // 2. Получите bot_id (например: 1234567890)
-        // 3. Установите bot_username (например: MyProxyBot)
-        const TELEGRAM_BOT_ID = '8155864182'; // Замените на ID вашего бота
-        const TELEGRAM_BOT_USERNAME = 'proxygem_bot'; // Замените на username вашего бота (без @)
+        // ===== НАСТРОЙКИ TELEGRAM OIDC =====
+        const TELEGRAM_CLIENT_ID = '8155864182';
+        const TELEGRAM_CLIENT_SECRET = 'BEpfZ2rc9-jCURwEcL7C00najcW5vXZIwndovDLT-KJwjncJrQ62Qw';
 
         // ===== ХРАНИЛИЩЕ =====
         const STORAGE_KEYS = {
@@ -1607,23 +1625,23 @@
         }
 
         function findUserByTelegramId(telegramId) {
-            return getUsers().find(u => u.telegramId === telegramId);
+            return getUsers().find(u => u.telegramId === String(telegramId));
         }
 
         function findUserByNickname(nickname) {
             return getUsers().find(u => u.nickname && u.nickname.toLowerCase() === nickname.toLowerCase());
         }
 
-        function createUser(telegramId, name, nickname) {
+        function createUser(telegramId, name, nickname, avatar) {
             const users = getUsers();
             const newUser = {
                 id: Date.now().toString(36) + Math.random().toString(36).substr(2, 4),
                 telegramId: String(telegramId),
                 name: name,
                 nickname: nickname || name,
+                avatar: avatar || null,
                 createdAt: Date.now(),
-                isAdmin: false,
-                avatar: null
+                isAdmin: false
             };
             users.push(newUser);
             saveUsers(users);
@@ -1633,8 +1651,6 @@
         // ===== АУТЕНТИФИКАЦИЯ =====
         function showAuthModal() {
             document.getElementById('authModal').classList.add('open');
-            // Загружаем Telegram виджет при открытии модала
-            loadTelegramWidget();
         }
 
         function hideAuthModal() {
@@ -1666,89 +1682,75 @@
             }
         }
 
-        // ===== ЗАГРУЗКА TELEGRAM WIDGET =====
-        function loadTelegramWidget() {
-            const container = document.getElementById('telegramLoginContainer');
+        // ===== ОБРАБОТЧИК ВХОДА ЧЕРЕЗ TELEGRAM (OIDC) =====
+        window.onTelegramAuth = function(data) {
+            console.log('Telegram auth data:', data);
             
-            // Очищаем контейнер
-            container.innerHTML = '';
-            
-            // Проверяем, что данные бота заданы
-            if (TELEGRAM_BOT_ID === '8155864182' || TELEGRAM_BOT_USERNAME === 'proxygem_bot') {
-                container.innerHTML = `
-                    <div style="color:#888; padding:16px; background:rgba(255,255,255,0.02); border-radius:16px; border:1px solid rgba(255,255,255,0.06);">
-                        <p style="margin-bottom:8px;">⚠️ Настройте Telegram бота</p>
-                        <p style="font-size:0.85rem; color:#666;">
-                            1. Создайте бота у @BotFather<br>
-                            2. Замените YOUR_BOT_ID и YOUR_BOT_USERNAME<br>
-                            3. Добавьте домен в <a href="https://t.me/botfather" target="_blank" style="color:#6b9fff;">@BotFather</a> командой /setdomain
-                        </p>
-                    </div>
-                `;
-                return;
-            }
+            try {
+                // Декодируем id_token (JWT)
+                const payload = JSON.parse(atob(data.id_token.split('.')[1]));
+                console.log('Decoded payload:', payload);
+                
+                const telegramId = payload.sub || payload.id;
+                const name = payload.name || payload.given_name || 'User';
+                const username = payload.preferred_username || name;
+                const avatar = payload.picture || null;
 
-            // Создаём скрипт для виджета
-            const script = document.createElement('script');
-            script.src = 'https://telegram.org/js/telegram-widget.js?22';
-            script.async = true;
-            script.setAttribute('data-telegram-login', TELEGRAM_BOT_USERNAME);
-            script.setAttribute('data-size', 'large');
-            script.setAttribute('data-auth-url', window.location.origin + '/telegram-auth');
-            script.setAttribute('data-request-access', 'write');
-            script.setAttribute('data-onauth', 'onTelegramAuth(user)');
-            
-            container.appendChild(script);
-        }
-
-        // ===== ОБРАБОТЧИК ВХОДА ЧЕРЕЗ TELEGRAM =====
-        window.onTelegramAuth = function(user) {
-            // user.id, user.first_name, user.last_name, user.username, user.photo_url
-            const telegramId = user.id;
-            const name = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-            const username = user.username || name;
-
-            let existingUser = findUserByTelegramId(telegramId);
-            
-            if (!existingUser) {
-                existingUser = createUser(telegramId, name, username);
-                // Первый пользователь становится админом
-                if (getUsers().length === 1) {
-                    existingUser.isAdmin = true;
-                    const users = getUsers();
-                    const idx = users.findIndex(u => u.id === existingUser.id);
-                    if (idx !== -1) users[idx].isAdmin = true;
-                    saveUsers(users);
+                let user = findUserByTelegramId(telegramId);
+                
+                if (!user) {
+                    user = createUser(telegramId, name, username, avatar);
+                    // Первый пользователь становится админом
+                    if (getUsers().length === 1) {
+                        user.isAdmin = true;
+                        const users = getUsers();
+                        const idx = users.findIndex(u => u.id === user.id);
+                        if (idx !== -1) users[idx].isAdmin = true;
+                        saveUsers(users);
+                    }
                 }
-            }
 
-            const ban = isUserBanned(existingUser.id);
-            if (ban) {
-                alert(`Ваш аккаунт забанен до ${new Date(ban.until).toLocaleString()}`);
-                return;
-            }
+                const ban = isUserBanned(user.id);
+                if (ban) {
+                    alert(`Ваш аккаунт забанен до ${new Date(ban.until).toLocaleString()}`);
+                    return;
+                }
 
-            currentUser = existingUser;
-            isAdmin = existingUser.isAdmin || false;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            updateProfileUI();
-            hideAuthModal();
-            renderAdminPanel();
-            renderUsersList();
-            alert(`Добро пожаловать, ${existingUser.name}!`);
+                currentUser = user;
+                isAdmin = user.isAdmin || false;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateProfileUI();
+                hideAuthModal();
+                renderAdminPanel();
+                renderUsersList();
+                alert(`Добро пожаловать, ${user.name}!`);
+            } catch (e) {
+                console.error('Ошибка при обработке Telegram login:', e);
+                alert('Ошибка входа через Telegram. Попробуйте снова.');
+            }
         };
 
-        // ===== ОБРАБОТЧИК ДЛЯ ТЕСТОВОГО ВХОДА (если виджет не работает) =====
-        // Это запасной вариант для тестирования
-        function testTelegramLogin() {
-            const testUser = {
-                id: 123456789,
-                first_name: 'Test',
-                last_name: 'User',
-                username: 'testuser'
-            };
-            window.onTelegramAuth(testUser);
-        }
+        // ===== ЗАПУСК ВХОДА ЧЕРЕЗ TELEGRAM =====
+        document.getElementById('telegramLoginBtn').addEventListener('click', function() {
+            if (typeof Telegram !== 'undefined' && Telegram.Login) {
+                Telegram.Login.auth({
+                    client_id: TELEGRAM_CLIENT_ID,
+                    scope: ['profile', 'phone'],
+                    lang: 'ru',
+                    nonce: Math.random().toString(36).substr(2, 10)
+                }, function(data) {
+                    if (data.error) {
+                        console.error('Telegram login error:', data.error);
+                        alert('Ошибка входа: ' + data.error);
+                    } else if (data.id_token) {
+                        window.onTelegramAuth(data);
+                    }
+                });
+            } else {
+                alert('Библиотека Telegram не загружена. Попробуйте обновить страницу.');
+                console.error('Telegram Login library not loaded');
+            }
+        });
 
         // ===== УСТАНОВКА НИКА =====
         document.getElementById('setNicknameBtn').addEventListener('click', function() {
