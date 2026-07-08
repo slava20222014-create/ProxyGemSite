@@ -1324,9 +1324,8 @@
 
         /* ===== ТОГГЛ ===== */
         .toggle-switch-modern {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 16px;
             cursor: pointer;
             user-select: none;
         }
@@ -2124,7 +2123,7 @@
                             <label>Язык</label>
                             <div class="custom-select">
                                 <select id="languageSelect">
-                                    <option value="ru">Русский</option>
+                                    <option value="ru" selected>Русский</option>
                                     <option value="en">English</option>
                                     <option value="tr">Türkçe</option>
                                 </select>
@@ -2428,31 +2427,36 @@
         };
 
         let currentLang = 'ru';
+        let langTextElements = {};
 
         function applyTranslations(lang) {
             const t = translations[lang];
             if (!t) return;
             currentLang = lang;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.dataset.i18n;
-                if (t[key]) {
-                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                        el.placeholder = t[key];
-                    } else {
-                        el.innerHTML = t[key];
-                    }
-                }
+            
+            // Навигация
+            document.querySelectorAll('.tab-btn:not(.modal-trigger)').forEach(btn => {
+                const tab = btn.dataset.tab;
+                if (tab === 'home') btn.innerHTML = '<i class="fas fa-home"></i> ' + t.nav_home;
+                else if (tab === 'features') btn.innerHTML = '<i class="fas fa-cog"></i> ' + t.nav_features;
+                else if (tab === 'download') btn.innerHTML = '<i class="fas fa-download"></i> ' + t.nav_download;
+                else if (tab === 'topusers') btn.innerHTML = '<i class="fas fa-trophy"></i> ' + t.nav_top;
             });
-            // Обновляем тексты, которые не через data-i18n
-            document.getElementById('statUsersLabel').textContent = t.stats_visitors;
-            document.querySelectorAll('.stats-item .label').forEach((el, idx) => {
-                if (idx === 1) el.textContent = t.stats_countries;
-                else if (idx === 2) el.textContent = t.stats_uptime;
-            });
-            document.querySelector('.why-us .section-header h2').innerHTML = t.features_title;
+            
+            // Герой
+            document.querySelector('.hero-badge').innerHTML = '<i class="fas fa-shield-alt"></i> ' + t.hero_badge;
+            document.querySelector('.hero-content-overlay h1').innerHTML = t.hero_title;
+            document.querySelector('.hero-content-overlay p').textContent = t.hero_desc;
+            document.getElementById('heroDownloadBtn').innerHTML = '<i class="fas fa-rocket"></i> ' + t.hero_start;
+            document.getElementById('heroFeaturesBtn').innerHTML = '<i class="fas fa-play-circle"></i> ' + t.hero_how;
+            
+            // Возможности
+            document.querySelector('.why-us .section-header h2').textContent = t.features_title;
             document.querySelector('.why-us .section-header p').textContent = t.features_sub;
+            
+            // Скачать
             document.querySelector('.download-mega h2').textContent = t.download_title;
-            document.querySelector('.download-mega .sub').innerHTML = t.download_sub;
+            document.querySelector('.download-mega .sub').textContent = t.download_sub;
             document.querySelector('.btn-download').innerHTML = '<i class="fas fa-download"></i> ' + t.download_btn;
             const downloadInfo = document.querySelectorAll('.download-info span');
             if (downloadInfo.length >= 3) {
@@ -2460,9 +2464,27 @@
                 downloadInfo[1].innerHTML = '<i class="fas fa-rocket"></i> <span class="hl">' + t.download_fast.split('·')[0].trim() + '</span> · ' + t.download_fast.split('·')[1].trim();
                 downloadInfo[2].innerHTML = '<i class="fas fa-download"></i> <span class="hl">18 742</span> ' + t.download_count.split(' ').slice(2).join(' ');
             }
+            
+            // Топ
             document.querySelector('.top-users-section .section-header h2').innerHTML = '<i class="fas fa-trophy"></i> ' + t.top_title;
             document.querySelector('.top-users-section .section-header p').textContent = t.top_sub;
+            
+            // Футер
             document.querySelector('footer').innerHTML = '<i class="fas fa-gem"></i> ' + t.footer;
+            
+            // Статистика
+            document.querySelectorAll('.stats-item .label')[0].textContent = t.stats_visitors;
+            document.querySelectorAll('.stats-item .label')[1].textContent = t.stats_countries;
+            document.querySelectorAll('.stats-item .label')[2].textContent = t.stats_uptime;
+            
+            // Отзывы в модалке
+            document.querySelector('#reviewsModal h2').textContent = t.review_title;
+            document.querySelector('#reviewsModal .subtitle').textContent = t.review_sub;
+            document.querySelector('.review-form h3').innerHTML = '<i class="fas fa-pen"></i> ' + t.review_leave;
+            document.querySelector('#reviewText').placeholder = t.review_placeholder;
+            document.querySelector('#reviewAuthor').placeholder = t.review_name;
+            document.querySelector('#submitReviewBtn').innerHTML = '<i class="fas fa-paper-plane"></i> ' + t.review_submit;
+            
             // Профиль
             document.querySelector('#profile-personal h3').innerHTML = '<i class="fas fa-user"></i> ' + t.profile_name;
             document.querySelector('#profile-settings h3').innerHTML = '<i class="fas fa-sliders-h"></i> ' + t.profile_settings;
@@ -2490,10 +2512,38 @@
                 guideSteps[4].innerHTML = t.profile_guide_5.replace('Вошёл', '<span style="color:#6bff6b;">Вошёл</span>');
             }
             document.querySelector('#profile-access .access-key-box .key-display + div i + span').innerHTML = ' ' + t.profile_access_login;
-            document.querySelector('.review-form h3').innerHTML = '<i class="fas fa-pen"></i> ' + t.review_leave;
-            document.querySelector('#reviewText').placeholder = t.review_placeholder;
-            document.querySelector('#reviewAuthor').placeholder = t.review_name;
-            document.querySelector('#submitReviewBtn').innerHTML = '<i class="fas fa-paper-plane"></i> ' + t.review_submit;
+            
+            // Админ
+            document.querySelector('#adminModal h2').innerHTML = '<i class="fas fa-user-shield"></i> ' + t.admin_title;
+            document.querySelector('#adminModal .subtitle').textContent = t.admin_sub;
+            document.querySelector('#adminModal h3:nth-of-type(1)').innerHTML = '<i class="fas fa-users"></i> ' + t.admin_users;
+            document.querySelector('#adminModal h3:nth-of-type(2)').innerHTML = '<i class="fas fa-comments"></i> ' + t.admin_reviews;
+            document.querySelector('#adminModal h3:nth-of-type(3)').innerHTML = '<i class="fas fa-bell"></i> ' + t.admin_notifications;
+            document.querySelector('.admin-notification-form h4').textContent = t.admin_create_notif;
+            document.querySelector('#notifTitle').placeholder = t.admin_notif_title;
+            document.querySelector('#notifText').placeholder = t.admin_notif_text;
+            document.querySelector('#notifImage').placeholder = t.admin_notif_image;
+            document.querySelector('#createNotifBtn').textContent = t.admin_notif_publish;
+            
+            // Авторизация
+            document.querySelector('#authModal h2').textContent = t.auth_title;
+            document.querySelector('#authModal .subtitle').textContent = t.auth_sub;
+            document.querySelector('#telegramLoginBtn').innerHTML = '<i class="fab fa-telegram-plane"></i> ' + t.auth_tg;
+            document.querySelector('.auth-divider').textContent = t.auth_nick;
+            document.querySelector('#nicknameInput').placeholder = t.auth_nick_placeholder;
+            document.querySelector('#setNicknameBtn').textContent = t.auth_check;
+            document.querySelector('#closeAuthModal').textContent = t.auth_close;
+            
+            // Успешная регистрация
+            document.querySelector('#successModal h2').textContent = t.success_title;
+            document.querySelector('#successModal p').textContent = t.success_welcome;
+            document.querySelector('#finishRegistrationBtn').innerHTML = '<i class="fas fa-check"></i> ' + t.success_finish;
+            
+            // Выход
+            document.querySelector('#logoutModal h2').textContent = t.logout_title;
+            document.querySelector('#logoutModal p').textContent = t.logout_confirm;
+            document.querySelector('#cancelLogoutBtn').textContent = t.logout_cancel;
+            document.querySelector('#confirmLogoutBtn').innerHTML = '<i class="fas fa-sign-out-alt"></i> ' + t.logout_yes;
         }
 
         // ===== ХРАНИЛИЩЕ =====
@@ -2932,11 +2982,8 @@
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 alert('Настройки сохранены!');
                 applyTranslations(language);
+                document.getElementById('languageSelect').value = language;
             }
-        });
-
-        document.getElementById('notificationsToggle').addEventListener('change', function() {
-            // Просто переключаем
         });
 
         document.getElementById('copyKeyBtn').addEventListener('click', function(e) {
@@ -3050,7 +3097,7 @@
             if (currentUser.settings) {
                 document.getElementById('languageSelect').value = currentUser.settings.language || 'ru';
                 document.getElementById('notificationsToggle').checked = currentUser.settings.notifications || false;
-                if (currentUser.settings.language) {
+                if (currentUser.settings.language && currentUser.settings.language !== currentLang) {
                     applyTranslations(currentUser.settings.language);
                 }
             }
@@ -3418,11 +3465,13 @@
             }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
             revealElements.forEach(el => revealObserver.observe(el));
 
-            // Применяем язык если сохранён
+            // Применяем русский язык по умолчанию
+            applyTranslations('ru');
+            
+            // Если у пользователя сохранён язык, применяем его
             if (currentUser && currentUser.settings && currentUser.settings.language) {
                 applyTranslations(currentUser.settings.language);
-            } else {
-                applyTranslations('ru');
+                document.getElementById('languageSelect').value = currentUser.settings.language;
             }
 
             window.addEventListener('beforeunload', function() {
