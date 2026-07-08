@@ -322,11 +322,14 @@
         }
         .hero-full img {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
+            top: 50%;
+            right: -5%;
+            transform: translateY(-50%) rotate(-15deg) scale(0.6);
+            width: auto;
+            height: 120%;
+            object-fit: contain;
             filter: brightness(0.7) saturate(1.1) contrast(0.95);
-            transform: rotate(-15deg) scale(1.4) translateX(15%);
+            opacity: 0.8;
         }
         .hero-full::after {
             content: '';
@@ -336,7 +339,7 @@
             backdrop-filter: blur(3px);
             -webkit-backdrop-filter: blur(3px);
             pointer-events: none;
-            animation: fastShimmer 3s infinite alternate ease-in-out;
+            animation: fastShimmer 2s infinite alternate ease-in-out;
             z-index: 2;
         }
         @keyframes fastShimmer {
@@ -1384,17 +1387,6 @@
         .toggle-switch-modern input:checked + .toggle-track .toggle-glow {
             opacity: 1;
         }
-        .toggle-switch-modern .toggle-label {
-            color: #888;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            min-width: 40px;
-        }
-        .toggle-switch-modern:hover .toggle-label { color: #ddd; }
-        .toggle-switch-modern:hover .toggle-track {
-            border-color: rgba(255,255,255,0.1);
-        }
 
         .access-key-box {
             background: rgba(255,255,255,0.02);
@@ -1412,14 +1404,16 @@
             border-radius: 12px;
             font-family: 'Courier New', monospace;
             font-size: 1.1rem;
-            color: #6b9fff;
             letter-spacing: 1px;
             word-break: break-all;
-            filter: blur(2px);
-            cursor: pointer;
-            transition: filter 0.3s ease;
         }
-        .access-key-box .key-display:hover {
+        .access-key-box .key-display .key-text {
+            color: #6b9fff;
+            filter: blur(3px);
+            transition: filter 0.3s ease;
+            flex: 1;
+        }
+        .access-key-box .key-display .key-text:hover {
             filter: blur(0);
         }
         .access-key-box .key-display .copy-btn {
@@ -1432,6 +1426,7 @@
             padding: 4px 8px;
             border-radius: 8px;
             flex-shrink: 0;
+            filter: none !important;
         }
         .access-key-box .key-display .copy-btn:hover {
             color: #fff;
@@ -2141,7 +2136,6 @@
                             <label>Уведомления</label>
                             <div style="margin-top:8px;">
                                 <label class="toggle-switch-modern">
-                                    <span class="toggle-label" id="notifLabel">Вкл</span>
                                     <input type="checkbox" id="notificationsToggle" />
                                     <span class="toggle-track">
                                         <span class="toggle-thumb">
@@ -2158,8 +2152,8 @@
                     <div class="profile-tab" id="profile-access">
                         <h3><i class="fas fa-key"></i> Вход в ProxyGem</h3>
                         <div class="access-key-box">
-                            <div class="key-display" id="keyDisplay" style="filter: blur(3px);">
-                                <span id="accessKeyDisplay">—</span>
+                            <div class="key-display">
+                                <span class="key-text" id="accessKeyDisplay">—</span>
                                 <button class="copy-btn" id="copyKeyBtn" title="Скопировать ключ"><i class="fas fa-copy"></i></button>
                             </div>
                             <div style="margin-top:8px; color:#555; font-size:0.85rem;">
@@ -2184,9 +2178,323 @@
         // ===== НАСТРОЙКИ =====
         const CLIENT_ID = '8155864182';
         const ADMIN_TELEGRAM_ID = '123456789';
-        const SESSION_KEY = 'proxygem_session';
         const VISITS_KEY = 'proxygem_visits';
-        const TIME_KEY = 'proxygem_time';
+
+        // ===== ПЕРЕВОДЫ =====
+        const translations = {
+            ru: {
+                nav_home: 'Главная',
+                nav_features: 'Возможности',
+                nav_download: 'Скачать',
+                nav_top: 'Топ',
+                nav_reviews: 'Отзывы',
+                nav_admin: 'Админ',
+                nav_profile: 'Профиль',
+                hero_badge: 'ProxyGem v1.7',
+                hero_title: 'Обходи <span class="highlight">ограничения</span><br>с ProxyGem',
+                hero_desc: 'Современный инструмент для безопасного и анонимного обхода. Молниеносная скорость, интеллектуальная маршрутизация и полная конфиденциальность.',
+                hero_start: 'Начать',
+                hero_how: 'Как работает',
+                features_title: 'Возможности ProxyGem',
+                features_sub: 'Ключевые преимущества, которые делают нас выбором №1',
+                download_title: 'Скачай ProxyGem',
+                download_sub: 'Windows 10 / 11 · 32 / 64 bit',
+                download_btn: 'Скачать бесплатно',
+                download_verified: 'Проверено · без вирусов',
+                download_fast: 'Быстрая установка',
+                download_count: '18 742 загрузок',
+                top_title: 'Топ Пользователей',
+                top_sub: 'Топ 100 пользователей по времени на сайте',
+                footer: 'ProxyGem · 2026 · безопасность и свобода в сети',
+                stats_visitors: 'уникальных посетителей',
+                stats_countries: 'стран покрытия',
+                stats_uptime: 'время работы',
+                review_title: 'Отзывы пользователей',
+                review_sub: 'Оцените ProxyGem и поделитесь своим мнением',
+                review_leave: 'Оставить отзыв',
+                review_placeholder: 'Расскажите о вашем опыте использования ProxyGem...',
+                review_name: 'Ваше имя (необязательно)',
+                review_submit: 'Отправить',
+                review_empty: 'Пока нет отзывов. Будьте первым!',
+                profile_personal: 'Личные Данные',
+                profile_settings: 'Настройки сайта',
+                profile_access: 'Вход в ProxyGem',
+                profile_name: 'Личные Данные',
+                profile_nickname: 'Никнейм',
+                profile_save: 'Сохранить',
+                profile_telegram: 'User Telegram',
+                profile_id: 'ID',
+                profile_banned: 'Забанен',
+                profile_group: 'Группа',
+                profile_logout: 'Выйти',
+                profile_language: 'Язык',
+                profile_notifications: 'Уведомления',
+                profile_save_settings: 'Сохранить настройки',
+                profile_access_title: 'Вход в ProxyGem',
+                profile_access_login: 'Логин:',
+                profile_guide_title: 'Гайд по входу в программу:',
+                profile_guide_1: '1. Заходишь во вкладку Профиль в программе',
+                profile_guide_2: '2. И нажимаешь Войти',
+                profile_guide_3: '3. Пишешь логин — и пишет ниже логин пользователя',
+                profile_guide_4: '4. Пишешь Пароль и ниже скрытые пароль который можно раскрыть или скопировать',
+                profile_guide_5: '5. Вошёл',
+                admin_title: 'Админ-панель',
+                admin_sub: 'Управление сайтом и пользователями',
+                admin_users: 'Пользователи',
+                admin_reviews: 'Управление отзывами',
+                admin_notifications: 'Уведомления',
+                admin_create_notif: 'Создать уведомление',
+                admin_notif_title: 'Заголовок',
+                admin_notif_text: 'Текст уведомления',
+                admin_notif_image: 'URL картинки (опционально)',
+                admin_notif_publish: 'Опубликовать',
+                auth_title: 'Вход в аккаунт',
+                auth_sub: 'Войдите через Telegram',
+                auth_tg: 'Sign In with Telegram',
+                auth_nick: 'Придумайте ник',
+                auth_nick_placeholder: 'Ваш никнейм',
+                auth_check: 'Проверить и зарегистрировать',
+                auth_close: 'Закрыть',
+                success_title: 'Успешная регистрация',
+                success_welcome: 'Добро пожаловать в ProxyGem!',
+                success_finish: 'Завершить',
+                logout_title: 'Выйти из аккаунта',
+                logout_confirm: 'Вы уверены, что хотите выйти?',
+                logout_cancel: 'Отмена',
+                logout_yes: 'Выйти'
+            },
+            en: {
+                nav_home: 'Home',
+                nav_features: 'Features',
+                nav_download: 'Download',
+                nav_top: 'Top',
+                nav_reviews: 'Reviews',
+                nav_admin: 'Admin',
+                nav_profile: 'Profile',
+                hero_badge: 'ProxyGem v1.7',
+                hero_title: 'Bypass <span class="highlight">restrictions</span><br>with ProxyGem',
+                hero_desc: 'Modern tool for secure and anonymous bypass. Lightning speed, intelligent routing and complete privacy.',
+                hero_start: 'Get Started',
+                hero_how: 'How it works',
+                features_title: 'ProxyGem Features',
+                features_sub: 'Key advantages that make us the #1 choice',
+                download_title: 'Download ProxyGem',
+                download_sub: 'Windows 10 / 11 · 32 / 64 bit',
+                download_btn: 'Download for free',
+                download_verified: 'Verified · virus-free',
+                download_fast: 'Fast installation',
+                download_count: '18,742 downloads',
+                top_title: 'Top Users',
+                top_sub: 'Top 100 users by time on site',
+                footer: 'ProxyGem · 2026 · security and freedom on the web',
+                stats_visitors: 'unique visitors',
+                stats_countries: 'countries covered',
+                stats_uptime: 'uptime',
+                review_title: 'User Reviews',
+                review_sub: 'Rate ProxyGem and share your opinion',
+                review_leave: 'Leave a review',
+                review_placeholder: 'Tell us about your experience with ProxyGem...',
+                review_name: 'Your name (optional)',
+                review_submit: 'Submit',
+                review_empty: 'No reviews yet. Be the first!',
+                profile_personal: 'Personal Info',
+                profile_settings: 'Site Settings',
+                profile_access: 'ProxyGem Login',
+                profile_name: 'Personal Info',
+                profile_nickname: 'Nickname',
+                profile_save: 'Save',
+                profile_telegram: 'Telegram User',
+                profile_id: 'ID',
+                profile_banned: 'Banned',
+                profile_group: 'Group',
+                profile_logout: 'Logout',
+                profile_language: 'Language',
+                profile_notifications: 'Notifications',
+                profile_save_settings: 'Save Settings',
+                profile_access_title: 'ProxyGem Login',
+                profile_access_login: 'Login:',
+                profile_guide_title: 'Login guide:',
+                profile_guide_1: '1. Go to the Profile tab in the program',
+                profile_guide_2: '2. Click Login',
+                profile_guide_3: '3. Enter login — user login appears below',
+                profile_guide_4: '4. Enter password — hidden password below that can be revealed or copied',
+                profile_guide_5: '5. Logged in',
+                admin_title: 'Admin Panel',
+                admin_sub: 'Manage site and users',
+                admin_users: 'Users',
+                admin_reviews: 'Manage Reviews',
+                admin_notifications: 'Notifications',
+                admin_create_notif: 'Create Notification',
+                admin_notif_title: 'Title',
+                admin_notif_text: 'Notification text',
+                admin_notif_image: 'Image URL (optional)',
+                admin_notif_publish: 'Publish',
+                auth_title: 'Login',
+                auth_sub: 'Login via Telegram',
+                auth_tg: 'Sign In with Telegram',
+                auth_nick: 'Choose a nickname',
+                auth_nick_placeholder: 'Your nickname',
+                auth_check: 'Check and register',
+                auth_close: 'Close',
+                success_title: 'Registration Successful',
+                success_welcome: 'Welcome to ProxyGem!',
+                success_finish: 'Finish',
+                logout_title: 'Logout',
+                logout_confirm: 'Are you sure you want to logout?',
+                logout_cancel: 'Cancel',
+                logout_yes: 'Logout'
+            },
+            tr: {
+                nav_home: 'Ana Sayfa',
+                nav_features: 'Özellikler',
+                nav_download: 'İndir',
+                nav_top: 'En İyiler',
+                nav_reviews: 'Yorumlar',
+                nav_admin: 'Admin',
+                nav_profile: 'Profil',
+                hero_badge: 'ProxyGem v1.7',
+                hero_title: '<span class="highlight">Kısıtlamaları</span><br>ProxyGem ile aşın',
+                hero_desc: 'Güvenli ve anonim erişim için modern araç. Yıldırım hızı, akıllı yönlendirme ve tam gizlilik.',
+                hero_start: 'Başla',
+                hero_how: 'Nasıl çalışır',
+                features_title: 'ProxyGem Özellikleri',
+                features_sub: 'Bizi 1 numara yapan temel avantajlar',
+                download_title: 'ProxyGem\'i İndir',
+                download_sub: 'Windows 10 / 11 · 32 / 64 bit',
+                download_btn: 'Ücretsiz indir',
+                download_verified: 'Doğrulandı · virüssüz',
+                download_fast: 'Hızlı kurulum',
+                download_count: '18.742 indirme',
+                top_title: 'En İyi Kullanıcılar',
+                top_sub: 'Sitede geçirilen süreye göre ilk 100 kullanıcı',
+                footer: 'ProxyGem · 2026 · güvenlik ve özgürlük',
+                stats_visitors: 'benzersiz ziyaretçi',
+                stats_countries: 'ülke kapsamı',
+                stats_uptime: 'çalışma süresi',
+                review_title: 'Kullanıcı Yorumları',
+                review_sub: 'ProxyGem\'i değerlendirin ve fikrinizi paylaşın',
+                review_leave: 'Yorum bırakın',
+                review_placeholder: 'ProxyGem deneyiminizi anlatın...',
+                review_name: 'Adınız (isteğe bağlı)',
+                review_submit: 'Gönder',
+                review_empty: 'Henüz yorum yok. İlk siz olun!',
+                profile_personal: 'Kişisel Bilgiler',
+                profile_settings: 'Site Ayarları',
+                profile_access: 'ProxyGem Girişi',
+                profile_name: 'Kişisel Bilgiler',
+                profile_nickname: 'Kullanıcı adı',
+                profile_save: 'Kaydet',
+                profile_telegram: 'Telegram Kullanıcısı',
+                profile_id: 'ID',
+                profile_banned: 'Yasaklandı',
+                profile_group: 'Grup',
+                profile_logout: 'Çıkış yap',
+                profile_language: 'Dil',
+                profile_notifications: 'Bildirimler',
+                profile_save_settings: 'Ayarları Kaydet',
+                profile_access_title: 'ProxyGem Girişi',
+                profile_access_login: 'Kullanıcı adı:',
+                profile_guide_title: 'Giriş rehberi:',
+                profile_guide_1: '1. Programda Profil sekmesine gidin',
+                profile_guide_2: '2. Giriş yap\'a tıklayın',
+                profile_guide_3: '3. Kullanıcı adını girin — aşağıda görünür',
+                profile_guide_4: '4. Şifreyi girin — aşağıda gizli şifre görünür, açılabilir veya kopyalanabilir',
+                profile_guide_5: '5. Giriş yapıldı',
+                admin_title: 'Yönetim Paneli',
+                admin_sub: 'Site ve kullanıcı yönetimi',
+                admin_users: 'Kullanıcılar',
+                admin_reviews: 'Yorum Yönetimi',
+                admin_notifications: 'Bildirimler',
+                admin_create_notif: 'Bildirim Oluştur',
+                admin_notif_title: 'Başlık',
+                admin_notif_text: 'Bildirim metni',
+                admin_notif_image: 'Resim URL\'si (isteğe bağlı)',
+                admin_notif_publish: 'Yayınla',
+                auth_title: 'Giriş Yap',
+                auth_sub: 'Telegram ile giriş yapın',
+                auth_tg: 'Telegram ile Giriş Yap',
+                auth_nick: 'Bir kullanıcı adı seçin',
+                auth_nick_placeholder: 'Kullanıcı adınız',
+                auth_check: 'Kontrol et ve kaydol',
+                auth_close: 'Kapat',
+                success_title: 'Kayıt Başarılı',
+                success_welcome: 'ProxyGem\'e hoş geldiniz!',
+                success_finish: 'Tamamla',
+                logout_title: 'Çıkış Yap',
+                logout_confirm: 'Çıkış yapmak istediğinize emin misiniz?',
+                logout_cancel: 'İptal',
+                logout_yes: 'Çıkış Yap'
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function applyTranslations(lang) {
+            const t = translations[lang];
+            if (!t) return;
+            currentLang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (t[key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = t[key];
+                    } else {
+                        el.innerHTML = t[key];
+                    }
+                }
+            });
+            // Обновляем тексты, которые не через data-i18n
+            document.getElementById('statUsersLabel').textContent = t.stats_visitors;
+            document.querySelectorAll('.stats-item .label').forEach((el, idx) => {
+                if (idx === 1) el.textContent = t.stats_countries;
+                else if (idx === 2) el.textContent = t.stats_uptime;
+            });
+            document.querySelector('.why-us .section-header h2').innerHTML = t.features_title;
+            document.querySelector('.why-us .section-header p').textContent = t.features_sub;
+            document.querySelector('.download-mega h2').textContent = t.download_title;
+            document.querySelector('.download-mega .sub').innerHTML = t.download_sub;
+            document.querySelector('.btn-download').innerHTML = '<i class="fas fa-download"></i> ' + t.download_btn;
+            const downloadInfo = document.querySelectorAll('.download-info span');
+            if (downloadInfo.length >= 3) {
+                downloadInfo[0].innerHTML = '<i class="fas fa-shield-alt"></i> <span class="hl">' + t.download_verified.split('·')[0].trim() + '</span> · ' + t.download_verified.split('·')[1].trim();
+                downloadInfo[1].innerHTML = '<i class="fas fa-rocket"></i> <span class="hl">' + t.download_fast.split('·')[0].trim() + '</span> · ' + t.download_fast.split('·')[1].trim();
+                downloadInfo[2].innerHTML = '<i class="fas fa-download"></i> <span class="hl">18 742</span> ' + t.download_count.split(' ').slice(2).join(' ');
+            }
+            document.querySelector('.top-users-section .section-header h2').innerHTML = '<i class="fas fa-trophy"></i> ' + t.top_title;
+            document.querySelector('.top-users-section .section-header p').textContent = t.top_sub;
+            document.querySelector('footer').innerHTML = '<i class="fas fa-gem"></i> ' + t.footer;
+            // Профиль
+            document.querySelector('#profile-personal h3').innerHTML = '<i class="fas fa-user"></i> ' + t.profile_name;
+            document.querySelector('#profile-settings h3').innerHTML = '<i class="fas fa-sliders-h"></i> ' + t.profile_settings;
+            document.querySelector('#profile-access h3').innerHTML = '<i class="fas fa-key"></i> ' + t.profile_access_title;
+            document.querySelector('.profile-menu .menu-item[data-tab="personal"]').innerHTML = '<i class="fas fa-user"></i> ' + t.profile_personal;
+            document.querySelector('.profile-menu .menu-item[data-tab="settings"]').innerHTML = '<i class="fas fa-sliders-h"></i> ' + t.profile_settings;
+            document.querySelector('.profile-menu .menu-item[data-tab="access"]').innerHTML = '<i class="fas fa-key"></i> ' + t.profile_access;
+            document.querySelector('#profile-personal .form-group label').textContent = t.profile_nickname;
+            document.querySelector('#saveNicknameBtn').textContent = t.profile_save;
+            document.querySelectorAll('.info-row .label')[0].textContent = t.profile_telegram;
+            document.querySelectorAll('.info-row .label')[1].textContent = t.profile_id;
+            document.querySelectorAll('.info-row .label')[2].textContent = t.profile_banned;
+            document.querySelectorAll('.info-row .label')[3].textContent = t.profile_group;
+            document.querySelector('#logoutBtn').innerHTML = '<i class="fas fa-sign-out-alt"></i> ' + t.profile_logout;
+            document.querySelector('#profile-settings .form-group label').textContent = t.profile_language;
+            document.querySelector('#profile-settings .form-group:nth-child(2) label').textContent = t.profile_notifications;
+            document.querySelector('#saveSettingsBtn').textContent = t.profile_save_settings;
+            document.querySelector('.guide-steps h4').textContent = t.profile_guide_title;
+            const guideSteps = document.querySelectorAll('.guide-steps div');
+            if (guideSteps.length >= 5) {
+                guideSteps[0].textContent = t.profile_guide_1;
+                guideSteps[1].textContent = t.profile_guide_2;
+                guideSteps[2].innerHTML = t.profile_guide_3.replace('логин пользователя', '<span style="color:#6b9fff;">логин пользователя</span>');
+                guideSteps[3].innerHTML = t.profile_guide_4.replace('скрытые пароль', '<span style="color:#6b9fff;">скрытые пароль</span>');
+                guideSteps[4].innerHTML = t.profile_guide_5.replace('Вошёл', '<span style="color:#6bff6b;">Вошёл</span>');
+            }
+            document.querySelector('#profile-access .access-key-box .key-display + div i + span').innerHTML = ' ' + t.profile_access_login;
+            document.querySelector('.review-form h3').innerHTML = '<i class="fas fa-pen"></i> ' + t.review_leave;
+            document.querySelector('#reviewText').placeholder = t.review_placeholder;
+            document.querySelector('#reviewAuthor').placeholder = t.review_name;
+            document.querySelector('#submitReviewBtn').innerHTML = '<i class="fas fa-paper-plane"></i> ' + t.review_submit;
+        }
 
         // ===== ХРАНИЛИЩЕ =====
         function getData(key) {
@@ -2623,30 +2931,13 @@
                 currentUser = users[idx];
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 alert('Настройки сохранены!');
-                applyLanguage(language);
+                applyTranslations(language);
             }
         });
 
-        function applyLanguage(lang) {
-            const langMap = {
-                'ru': 'Русский',
-                'en': 'English',
-                'tr': 'Türkçe'
-            };
-            const select = document.getElementById('languageSelect');
-            select.value = lang;
-            console.log('Язык изменён на:', langMap[lang] || lang);
-        }
-
         document.getElementById('notificationsToggle').addEventListener('change', function() {
-            updateNotifLabel();
+            // Просто переключаем
         });
-
-        function updateNotifLabel() {
-            const toggle = document.getElementById('notificationsToggle');
-            const label = document.getElementById('notifLabel');
-            label.textContent = toggle.checked ? 'Вкл' : 'Выкл';
-        }
 
         document.getElementById('copyKeyBtn').addEventListener('click', function(e) {
             e.stopPropagation();
@@ -2668,17 +2959,6 @@
             document.execCommand('copy');
             document.body.removeChild(textarea);
         }
-
-        document.getElementById('keyDisplay').addEventListener('click', function() {
-            const key = document.getElementById('accessKeyDisplay').textContent;
-            if (key && key !== '—') {
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(key);
-                } else {
-                    fallbackCopy(key);
-                }
-            }
-        });
 
         // ===== ПРОФИЛЬ UI =====
         function updateProfileUI() {
@@ -2770,7 +3050,9 @@
             if (currentUser.settings) {
                 document.getElementById('languageSelect').value = currentUser.settings.language || 'ru';
                 document.getElementById('notificationsToggle').checked = currentUser.settings.notifications || false;
-                updateNotifLabel();
+                if (currentUser.settings.language) {
+                    applyTranslations(currentUser.settings.language);
+                }
             }
         }
 
@@ -2795,8 +3077,9 @@
         function renderReviews() {
             const container = document.getElementById('reviewsList');
             const reviews = getReviews();
+            const t = translations[currentLang];
             if (reviews.length === 0) {
-                container.innerHTML = '<div class="no-reviews"><i class="fas fa-comment-slash"></i> Пока нет отзывов. Будьте первым!</div>';
+                container.innerHTML = '<div class="no-reviews"><i class="fas fa-comment-slash"></i> ' + t.review_empty + '</div>';
                 return;
             }
             const sorted = [...reviews].sort((a, b) => b.timestamp - a.timestamp);
@@ -3134,6 +3417,13 @@
                 });
             }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
             revealElements.forEach(el => revealObserver.observe(el));
+
+            // Применяем язык если сохранён
+            if (currentUser && currentUser.settings && currentUser.settings.language) {
+                applyTranslations(currentUser.settings.language);
+            } else {
+                applyTranslations('ru');
+            }
 
             window.addEventListener('beforeunload', function() {
                 if (currentUser && timeInterval) {
