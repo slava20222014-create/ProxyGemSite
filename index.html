@@ -326,6 +326,7 @@
             width: 100%; height: 100%;
             object-fit: cover;
             filter: brightness(0.7) saturate(1.1) contrast(0.95);
+            transform: rotate(-15deg) scale(1.4) translateX(15%);
         }
         .hero-full::after {
             content: '';
@@ -1414,6 +1415,12 @@
             color: #6b9fff;
             letter-spacing: 1px;
             word-break: break-all;
+            filter: blur(2px);
+            cursor: pointer;
+            transition: filter 0.3s ease;
+        }
+        .access-key-box .key-display:hover {
+            filter: blur(0);
         }
         .access-key-box .key-display .copy-btn {
             background: none;
@@ -1467,6 +1474,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-top: 12px;
         }
         .btn-save:hover {
             transform: translateY(-2px);
@@ -1833,7 +1841,7 @@
             <button class="modal-close" id="closeAuthModalBtn">&times;</button>
             <h2>Вход в аккаунт</h2>
             <p>Войдите через Telegram</p>
-            <button class="tg-auth-button" id="telegramLoginBtn">
+            <button class="tg-auth-button" id="telegramLoginBtn" style="width:100%; justify-content:center; padding:14px 24px;">
                 <i class="fab fa-telegram-plane"></i> Sign In with Telegram
             </button>
             <div class="auth-divider">Придумайте ник</div>
@@ -1858,7 +1866,7 @@
     </div>
 
     <!-- ===== МОДАЛ ВЫХОДА ===== -->
-    <div class="modal-overlay" id="logoutModal">
+    <div class="modal-overlay" id="logoutModal" style="z-index:3000;">
         <div class="modal-content auth-modal-inner">
             <h2>Выйти из аккаунта</h2>
             <p style="color: #888; margin: 20px 0;">Вы уверены, что хотите выйти?</p>
@@ -2129,10 +2137,11 @@
                                 <span class="select-glow"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="margin-top:20px;">
                             <label>Уведомления</label>
                             <div style="margin-top:8px;">
                                 <label class="toggle-switch-modern">
+                                    <span class="toggle-label" id="notifLabel">Вкл</span>
                                     <input type="checkbox" id="notificationsToggle" />
                                     <span class="toggle-track">
                                         <span class="toggle-thumb">
@@ -2140,7 +2149,6 @@
                                         </span>
                                         <span class="toggle-glow"></span>
                                     </span>
-                                    <span class="toggle-label" id="notifLabel"></span>
                                 </label>
                             </div>
                         </div>
@@ -2150,7 +2158,7 @@
                     <div class="profile-tab" id="profile-access">
                         <h3><i class="fas fa-key"></i> Вход в ProxyGem</h3>
                         <div class="access-key-box">
-                            <div class="key-display">
+                            <div class="key-display" id="keyDisplay" style="filter: blur(3px);">
                                 <span id="accessKeyDisplay">—</span>
                                 <button class="copy-btn" id="copyKeyBtn" title="Скопировать ключ"><i class="fas fa-copy"></i></button>
                             </div>
@@ -2221,7 +2229,7 @@
 
         function updateUserTime(seconds) {
             if (!currentUser) return;
-            const users = getData('proxygem_users');
+            const users = getUsers();
             const idx = users.findIndex(u => u.id === currentUser.id);
             if (idx !== -1) {
                 users[idx].timeOnSite = (users[idx].timeOnSite || 0) + seconds;
@@ -2625,6 +2633,8 @@
                 'en': 'English',
                 'tr': 'Türkçe'
             };
+            const select = document.getElementById('languageSelect');
+            select.value = lang;
             console.log('Язык изменён на:', langMap[lang] || lang);
         }
 
@@ -2635,17 +2645,18 @@
         function updateNotifLabel() {
             const toggle = document.getElementById('notificationsToggle');
             const label = document.getElementById('notifLabel');
-            label.textContent = toggle.checked ? '' : '';
+            label.textContent = toggle.checked ? 'Вкл' : 'Выкл';
         }
 
-        document.getElementById('copyKeyBtn').addEventListener('click', function() {
+        document.getElementById('copyKeyBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
             const key = document.getElementById('accessKeyDisplay').textContent;
             if (key && key !== '—') {
                 if (navigator.clipboard) {
-                    navigator.clipboard.writeText(key).then(() => {
-                        alert('Ключ скопирован в буфер обмена!');
-                    }).catch(() => { fallbackCopy(key); });
-                } else { fallbackCopy(key); }
+                    navigator.clipboard.writeText(key);
+                } else {
+                    fallbackCopy(key);
+                }
             }
         });
 
@@ -2656,8 +2667,18 @@
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
-            alert('Ключ скопирован в буфер обмена!');
         }
+
+        document.getElementById('keyDisplay').addEventListener('click', function() {
+            const key = document.getElementById('accessKeyDisplay').textContent;
+            if (key && key !== '—') {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(key);
+                } else {
+                    fallbackCopy(key);
+                }
+            }
+        });
 
         // ===== ПРОФИЛЬ UI =====
         function updateProfileUI() {
@@ -3033,7 +3054,6 @@
                 if (btn.dataset.tab === tabId) btn.classList.add('active');
             });
 
-            // Прокрутка к секции
             const sectionId = 'section-' + (tabId === 'home' ? 'home-content' : tabId);
             const section = document.getElementById(sectionId);
             if (section) {
