@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ProxyGem - Профиль</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    
+    <script async src="https://oauth.telegram.org/js/telegram-login.js?5" 
+            data-client-id="8155864182" 
+            data-onauth="onTelegramAuth(data)" 
+            data-request-access="write">
+    </script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0a;
+            font-family: 'Inter', sans-serif;
+            color: #eaeaea;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        .bg-gradient-overlay {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 30%, rgba(255,255,255,0.03) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(200,200,200,0.02) 0%, transparent 50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+            background-size: 70px 70px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ===== НАВИГАЦИЯ — СКРЫТА ===== */
+        .nav-circle {
+            display: none !important;
+        }
+
+        /* ===== ПРОФИЛЬ ПАНЕЛЬ ===== */
+        .profile-panel-wrapper {
+            position: relative;
+            z-index: 10;
+            padding-top: 40px;
+            min-height: 100vh;
+        }
+        .profile-panel-wrapper .panel-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .profile-panel-wrapper .panel-title span { color: #6bff6b; }
+
+        .profile-panel {
+            display: flex;
+            background: rgba(255,255,255,0.02);
+            border-radius: 32px;
+            border: 1px solid rgba(255,255,255,0.04);
+            overflow: hidden;
+            min-height: 600px;
+        }
+
+        .profile-sidebar {
+            width: 220px;
+            background: rgba(255,255,255,0.02);
+            padding: 24px 0;
+            border-right: 1px solid rgba(255,255,255,0.04);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .profile-sidebar .profile-avatar-block {
+            text-align: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .profile-sidebar .profile-avatar-block img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.06);
+        }
+        .profile-sidebar .profile-avatar-block .greeting {
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #fff;
+        }
+        .profile-sidebar .profile-avatar-block .greeting .username {
+            color: #6bff6b;
+        }
+
+        .profile-sidebar .profile-menu {
+            padding: 12px 0;
+            flex: 1;
+        }
+        .profile-sidebar .profile-menu .menu-item {
+            padding: 14px 24px;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-left: 2px solid transparent;
+            font-size: 0.95rem;
+        }
+        .profile-sidebar .profile-menu .menu-item:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.03);
+        }
+        .profile-sidebar .profile-menu .menu-item.active {
+            color: #fff;
+            background: rgba(255,255,255,0.04);
+            border-left-color: #fff;
+        }
+        .profile-sidebar .profile-menu .menu-item i { width: 22px; text-align: center; }
+        .profile-sidebar .profile-menu .menu-item.logout {
+            color: #ff4444;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            margin-top: auto;
+            padding-top: 16px;
+        }
+        .profile-sidebar .profile-menu .menu-item.logout:hover {
+            background: rgba(255,50,50,0.08);
+            color: #ff6666;
+        }
+
+        .profile-content {
+            flex: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+            max-height: 650px;
+        }
+        .profile-content .profile-tab { display: none; }
+        .profile-content .profile-tab.active { display: block; }
+
+        .profile-content .profile-tab h3 {
+            color: #ddd;
+            margin-bottom: 24px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .info-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 30px;
+        }
+        .info-row {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .info-row .label {
+            width: 160px;
+            color: #666;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+        .info-row .value { color: #ddd; font-weight: 500; }
+        .info-row .value.banned { color: #ff4444; }
+        .info-row .value.admin { color: #6bff6b; }
+        .info-row .value.user { color: #aaa; }
+
+        .avatar-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.03);
+            flex-wrap: wrap;
+        }
+        .avatar-section .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.06);
+        }
+        .avatar-section .avatar-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 28px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            color: #aaa;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-section .avatar-upload-btn:hover {
+            border-color: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+            color: #fff;
+        }
+        .avatar-section .avatar-upload-btn input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .nickname-section {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .nickname-section input {
+            padding: 12px 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            color: #eaeaea;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            width: 280px;
+            max-width: 100%;
+        }
+        .nickname-section input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.12);
+        }
+        .btn-save {
+            padding: 12px 28px;
+            border-radius: 40px;
+            border: none;
+            background: #fff;
+            color: #0a0a0a;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,255,255,0.08); }
+        .nickname-status { color: #888; font-size: 0.85rem; margin-top: 4px; width: 100%; }
+
+        .video-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        .video-card {
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.04);
+            overflow: hidden;
+        }
+        .video-card .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        .video-card .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .video-card .video-info { padding: 16px 20px; }
+        .video-card .video-info h4 { color: #ddd; font-size: 1.05rem; margin-bottom: 4px; }
+        .video-card .video-info .channel {
+            color: #888;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .video-card .video-info .channel img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .key-login-section {
+            background: rgba(255,255,255,0.02);
+            border-radius: 24px;
+            padding: 32px;
+            border: 1px solid rgba(255,255,255,0.04);
+            max-width: 500px;
+        }
+        .key-login-section .sub { color: #888; margin-bottom: 20px; font-size: 0.95rem; }
+        .key-login-section .input-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .key-login-section .input-group input {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            color: #eaeaea;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+        }
+        .key-login-section .input-group input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.12);
+        }
+        .key-login-section .input-group input::placeholder { color: #555; }
+        .btn-login-key {
+            padding: 14px 36px;
+            border-radius: 40px;
+            border: none;
+            background: #fff;
+            color: #0a0a0a;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .key-status { margin-top: 12px; color: #888; font-size: 0.9rem; min-height: 24px; }
+
+        .auth-container { max-width: 420px; margin: 0 auto; padding: 40px 0; }
+        .auth-container h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #f0f0f0, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .auth-container p { color: #666; margin-bottom: 24px; }
+        .tg-auth-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 14px 24px;
+            border-radius: 40px;
+            border: none;
+            background: #0088cc;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .tg-auth-button:hover { background: #0077b3; }
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 16px 0;
+            color: #444;
+            font-size: 0.85rem;
+        }
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+        }
+        #nicknameInput {
+            padding: 12px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            color: #eaeaea;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .success-box { text-align: center; padding: 40px 20px; }
+        .success-box h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f0f0f0, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .success-box p { color: #6bff6b; font-size: 1.2rem; margin: 20px 0; }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 32px;
+            padding: 48px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+        }
+        .modal-content .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+        .modal-content .modal-close:hover { color: #fff; }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            background: #fff;
+            color: #0a0a0a;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
+        }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.06);
+            color: #ddd;
+            border: 1px solid rgba(255,255,255,0.08);
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 850px) {
+            .profile-panel { flex-direction: column; }
+            .profile-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.04); }
+            .profile-sidebar .profile-menu { display: flex; flex-wrap: wrap; padding: 8px 0; }
+            .profile-sidebar .profile-menu .menu-item { border-left: none; border-bottom: 2px solid transparent; padding: 10px 16px; flex: 1 0 auto; justify-content: center; }
+            .profile-sidebar .profile-menu .menu-item.active { border-bottom-color: #fff; border-left-color: transparent; }
+            .profile-sidebar .profile-menu .menu-item.logout { border-top: none; border-bottom: 2px solid transparent; }
+            .profile-sidebar .profile-menu .menu-item.logout.active { border-bottom-color: #ff4444; }
+            .profile-content { padding: 24px; max-height: none; }
+            .info-row { flex-direction: column; gap: 4px; }
+            .info-row .label { width: 100%; }
+            .avatar-section { flex-direction: column; text-align: center; }
+            .nickname-section { flex-direction: column; }
+            .nickname-section input { width: 100%; }
+            .key-login-section .input-group { flex-direction: column; }
+            .profile-panel-wrapper { padding-top: 40px; }
+        }
+        @media (max-width: 550px) {
+            .modal-content { padding: 32px 20px; }
+            .profile-content { padding: 16px; }
+            .profile-sidebar .profile-avatar-block img { width: 60px; height: 60px; }
+            .video-card .video-info h4 { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-gradient-overlay"></div>
+    <div class="bg-grid"></div>
+
+    <!-- ===== НАВИГАЦИЯ СКРЫТА ===== -->
+    <nav class="nav-circle" style="display:none;"></nav>
+
+    <!-- ===== МОДАЛЫ ===== -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeAuthModalBtn">&times;</button>
+            <h2 style="font-size:1.8rem; font-weight:800; margin-bottom:8px; background:linear-gradient(135deg,#f0f0f0,#888); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Вход в аккаунт</h2>
+            <p style="color:#666; margin-bottom:24px;">Войдите через Telegram</p>
+            <button class="tg-auth-button" id="telegramLoginBtn">
+                <i class="fab fa-telegram-plane"></i> Sign In with Telegram
+            </button>
+            <div class="auth-divider">Придумайте ник</div>
+            <div style="display:flex; gap:12px; flex-direction:column;">
+                <input type="text" id="nicknameInput" placeholder="Ваш никнейм" />
+                <button class="btn-primary" id="setNicknameBtn" style="padding:12px;">Проверить и зарегистрировать</button>
+            </div>
+            <div id="nicknameStatus" style="margin-top:8px; font-size:0.85rem; color:#888; min-height:20px;"></div>
+            <button class="btn-secondary" id="closeAuthModal" style="margin-top:12px;">Закрыть</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-content">
+            <div class="success-box">
+                <h2>Успешная регистрация</h2>
+                <p><i class="fas fa-check-circle"></i> Добро пожаловать в ProxyGem!</p>
+                <button class="btn-primary" id="finishRegistrationBtn"><i class="fas fa-check"></i> Завершить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-content">
+            <h2 style="font-size:1.8rem; font-weight:800; margin-bottom:8px; background:linear-gradient(135deg,#f0f0f0,#888); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Выйти из аккаунта</h2>
+            <p style="color:#888; margin:20px 0;">Вы уверены, что хотите выйти?</p>
+            <div style="display:flex; gap:12px; flex-direction:column;">
+                <button class="btn-secondary" id="cancelLogoutBtn" style="margin-top:0;">Отмена</button>
+                <button class="btn-primary" id="confirmLogoutBtn" style="background:#ff4444; color:#fff;">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
+    <div class="profile-panel-wrapper">
+        <div class="container">
+            <div class="panel-title">
+                <i class="fas fa-user-circle"></i> Профиль <span>ProxyGem</span>
+            </div>
+            <div id="profileContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // ===== ХРАНИЛИЩЕ =====
+        const ADMIN_TELEGRAM_ID = '123456789';
+
+        function getData(key) {
+            try {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : [];
+            } catch { return []; }
+        }
+        function setData(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        function getUsers() { return getData('proxygem_users'); }
+        function saveUsers(users) { setData('proxygem_users', users); }
+        function getBans() { return getData('proxygem_bans'); }
+        function saveBans(bans) { setData('proxygem_bans', bans); }
+
+        function isUserBanned(userId) {
+            const bans = getBans();
+            const now = Date.now();
+            const ban = bans.find(b => b.userId === userId && b.until > now);
+            return ban || null;
+        }
+
+        function findUserByTelegramId(telegramId) {
+            return getUsers().find(u => u.telegramId === String(telegramId));
+        }
+
+        function findUserByNickname(nickname) {
+            return getUsers().find(u => u.nickname && u.nickname.toLowerCase() === nickname.toLowerCase());
+        }
+
+        function generateAccessKey() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+            let result = '';
+            for (let i = 0; i < 25; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        function generateYTId() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < 9; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        function createUser(telegramId, name, nickname, avatar) {
+            const users = getUsers();
+            const newUser = {
+                id: Date.now().toString(36) + Math.random().toString(36).substr(2, 4),
+                telegramId: String(telegramId),
+                name: name,
+                nickname: nickname || name,
+                avatar: avatar || 'images/avatar.png',
+                createdAt: Date.now(),
+                isAdmin: false,
+                ytId: generateYTId(),
+                accessKey: generateAccessKey(),
+                timeOnSite: 0,
+                lastActive: Date.now(),
+                settings: { language: 'ru', notifications: false }
+            };
+
+            if (String(telegramId) === ADMIN_TELEGRAM_ID || 
+                name.toLowerCase().includes('mistergemer') ||
+                (nickname && nickname.toLowerCase().includes('mistergemer'))) {
+                newUser.isAdmin = true;
+            }
+
+            users.push(newUser);
+            saveUsers(users);
+            return newUser;
+        }
+
+        let currentUser = null;
+
+        // ===== МОДАЛЫ =====
+        function openModal(id) {
+            document.getElementById(id).classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function showAuthModal() { openModal('authModal'); }
+        function hideAuthModal() { closeModal('authModal'); }
+        function showSuccessModal() { openModal('successModal'); }
+        function hideSuccessModal() { closeModal('successModal'); }
+        function showLogoutModal() { openModal('logoutModal'); }
+        function hideLogoutModal() { closeModal('logoutModal'); }
+
+        document.getElementById('closeAuthModalBtn').addEventListener('click', hideAuthModal);
+        document.getElementById('closeAuthModal').addEventListener('click', hideAuthModal);
+        document.getElementById('finishRegistrationBtn').addEventListener('click', hideSuccessModal);
+        document.getElementById('cancelLogoutBtn').addEventListener('click', hideLogoutModal);
+
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // ===== АУТЕНТИФИКАЦИЯ =====
+        window.onTelegramAuth = function(data) {
+            try {
+                const payload = JSON.parse(atob(data.id_token.split('.')[1]));
+                const telegramId = payload.sub || payload.id;
+                const name = payload.name || payload.given_name || 'User';
+                const username = payload.preferred_username || name;
+                const avatar = payload.picture || null;
+
+                let user = findUserByTelegramId(telegramId);
+                
+                if (!user) {
+                    window._pendingUser = { telegramId, name, username, avatar };
+                    document.getElementById('nicknameStatus').textContent = 'Придумайте уникальный никнейм';
+                    document.getElementById('nicknameStatus').style.color = '#888';
+                    showAuthModal();
+                    return;
+                }
+
+                const ban = isUserBanned(user.id);
+                if (ban) {
+                    alert('Ваш аккаунт забанен до ' + new Date(ban.until).toLocaleString());
+                    return;
+                }
+
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                hideAuthModal();
+                renderProfile();
+                alert('Добро пожаловать, ' + user.name + '!');
+            } catch (e) {
+                console.error('Ошибка при обработке Telegram login:', e);
+                alert('Ошибка входа через Telegram. Попробуйте снова.');
+            }
+        };
+
+        document.getElementById('telegramLoginBtn').addEventListener('click', function() {
+            if (typeof Telegram !== 'undefined' && Telegram.Login) {
+                Telegram.Login.auth({
+                    client_id: '8155864182',
+                    scope: ['profile', 'phone'],
+                    lang: 'ru',
+                    nonce: Math.random().toString(36).substr(2, 10)
+                }, function(data) {
+                    if (data.error) {
+                        console.error('Telegram login error:', data.error);
+                        alert('Ошибка входа: ' + data.error);
+                    } else if (data.id_token) {
+                        window.onTelegramAuth(data);
+                    }
+                });
+            } else {
+                alert('Библиотека Telegram не загружена. Попробуйте обновить страницу.');
+            }
+        });
+
+        document.getElementById('setNicknameBtn').addEventListener('click', function() {
+            const nickname = document.getElementById('nicknameInput').value.trim();
+            const status = document.getElementById('nicknameStatus');
+
+            if (!window._pendingUser) {
+                status.textContent = 'Сначала войдите через Telegram';
+                status.style.color = '#ff6b6b';
+                return;
+            }
+
+            if (!nickname) {
+                status.textContent = 'Введите никнейм';
+                status.style.color = '#ff6b6b';
+                return;
+            }
+
+            if (nickname.length < 3) {
+                status.textContent = 'Ник должен быть минимум 3 символа';
+                status.style.color = '#ff6b6b';
+                return;
+            }
+
+            const existing = findUserByNickname(nickname);
+            if (existing) {
+                status.textContent = 'Этот ник уже занят, выберите другой';
+                status.style.color = '#ff6b6b';
+                return;
+            }
+
+            const { telegramId, name, avatar } = window._pendingUser;
+            const user = createUser(telegramId, name, nickname, avatar);
+
+            currentUser = user;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            hideAuthModal();
+            showSuccessModal();
+            renderProfile();
+            window._pendingUser = null;
+        });
+
+        document.getElementById('confirmLogoutBtn').addEventListener('click', function() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            hideLogoutModal();
+            renderProfile();
+            alert('Вы вышли из аккаунта');
+        });
+
+        // ===== ВХОД ПО КЛЮЧУ =====
+        function loginByKey(key) {
+            const users = getUsers();
+            const user = users.find(u => u.accessKey === key);
+            if (!user) {
+                return { success: false, message: 'Неверный ключ доступа' };
+            }
+            const ban = isUserBanned(user.id);
+            if (ban) {
+                return { success: false, message: 'Пользователь забанен до ' + new Date(ban.until).toLocaleString() };
+            }
+            currentUser = user;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            renderProfile();
+            return { success: true, message: 'Успешный вход!' };
+        }
+
+        // ===== ВОССТАНОВЛЕНИЕ СЕССИИ =====
+        function restoreSession() {
+            try {
+                const saved = localStorage.getItem('currentUser');
+                if (saved) {
+                    const user = JSON.parse(saved);
+                    const ban = isUserBanned(user.id);
+                    if (ban) {
+                        localStorage.removeItem('currentUser');
+                        currentUser = null;
+                    } else {
+                        currentUser = user;
+                    }
+                }
+            } catch { currentUser = null; }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function renderProfile() {
+            const container = document.getElementById('profileContainer');
+
+            if (!currentUser) {
+                container.innerHTML = `
+                    <div class="auth-container">
+                        <h2>Вход в аккаунт</h2>
+                        <p>Войдите через Telegram или используйте ключ доступа</p>
+                        <button class="tg-auth-button" id="telegramLoginBtn2">
+                            <i class="fab fa-telegram-plane"></i> Sign In with Telegram
+                        </button>
+                        <div class="auth-divider">или</div>
+                        <div class="key-login-section" style="max-width:100%;">
+                            <div class="sub">Введите ключ доступа с сайта</div>
+                            <div class="input-group">
+                                <input type="password" id="accessKeyInput" placeholder="Введите ключ..." />
+                                <button class="btn-login-key" id="loginKeyBtn">Войти</button>
+                            </div>
+                            <div id="keyLoginStatus" class="key-status"></div>
+                        </div>
+                        <div style="margin-top:20px; text-align:center; color:#555; font-size:0.85rem;">
+                            <i class="fas fa-info-circle"></i> Ключ можно получить в профиле на главном сайте
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('telegramLoginBtn2').addEventListener('click', function() {
+                    if (typeof Telegram !== 'undefined' && Telegram.Login) {
+                        Telegram.Login.auth({
+                            client_id: '8155864182',
+                            scope: ['profile', 'phone'],
+                            lang: 'ru',
+                            nonce: Math.random().toString(36).substr(2, 10)
+                        }, function(data) {
+                            if (data.error) {
+                                console.error('Telegram login error:', data.error);
+                                alert('Ошибка входа: ' + data.error);
+                            } else if (data.id_token) {
+                                window.onTelegramAuth(data);
+                            }
+                        });
+                    } else {
+                        alert('Библиотека Telegram не загружена. Попробуйте обновить страницу.');
+                    }
+                });
+
+                document.getElementById('loginKeyBtn').addEventListener('click', function() {
+                    const key = document.getElementById('accessKeyInput').value.trim();
+                    const status = document.getElementById('keyLoginStatus');
+                    if (!key) {
+                        status.textContent = 'Введите ключ доступа';
+                        status.style.color = '#ff6b6b';
+                        return;
+                    }
+                    const result = loginByKey(key);
+                    status.textContent = result.message;
+                    status.style.color = result.success ? '#6bff6b' : '#ff6b6b';
+                    if (result.success) {
+                        document.getElementById('accessKeyInput').value = '';
+                        renderProfile();
+                    }
+                });
+
+                document.getElementById('accessKeyInput').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        document.getElementById('loginKeyBtn').click();
+                    }
+                });
+
+                return;
+            }
+
+            const ban = isUserBanned(currentUser.id);
+            const isBanned = !!ban;
+            const banTime = isBanned ? Math.ceil((ban.until - Date.now()) / 1000 / 60) : 0;
+
+            const groupName = currentUser.isAdmin ? 'Администратор' : 'Пользователь';
+            const groupClass = currentUser.isAdmin ? 'admin' : 'user';
+            const bannedText = isBanned ? 'Да (' + banTime + ' мин)' : 'Нет';
+            const bannedClass = isBanned ? 'banned' : '';
+
+            const regDate = new Date(currentUser.createdAt).toLocaleDateString('ru-RU', {
+                day: '2-digit', month: '2-digit', year: 'numeric'
+            });
+
+            container.innerHTML = `
+                <div class="profile-panel">
+                    <div class="profile-sidebar">
+                        <div class="profile-avatar-block">
+                            <img src="${currentUser.avatar || 'images/avatar.png'}" alt="Avatar" id="sidebarAvatar" />
+                            <div class="greeting">
+                                Привет, <span class="username">${escapeHtml(currentUser.nickname || currentUser.name)}</span>
+                            </div>
+                        </div>
+                        <div class="profile-menu">
+                            <div class="menu-item active" data-tab="account"><i class="fas fa-user"></i> Аккаунт</div>
+                            <div class="menu-item" data-tab="videos"><i class="fas fa-video"></i> Видеообзоры</div>
+                            <div class="menu-item logout" data-tab="logout"><i class="fas fa-sign-out-alt"></i> Выйти</div>
+                        </div>
+                    </div>
+                    <div class="profile-content">
+                        <div class="profile-tab active" id="tab-account">
+                            <h3><i class="fas fa-user-circle"></i> Аккаунт</h3>
+
+                            <div class="avatar-section">
+                                <img src="${currentUser.avatar || 'images/avatar.png'}" alt="Avatar" class="avatar-preview" id="profileAvatar" />
+                                <label class="avatar-upload-btn">
+                                    <i class="fas fa-cloud-upload-alt"></i> Сменить аватар
+                                    <input type="file" id="avatarInput" accept="image/*" />
+                                </label>
+                            </div>
+
+                            <div class="nickname-section">
+                                <input type="text" id="nicknameInputProfile" value="${escapeHtml(currentUser.nickname || '')}" placeholder="Ваш никнейм" />
+                                <button class="btn-save" id="saveNicknameBtn">Сохранить</button>
+                                <div class="nickname-status" id="nicknameStatusProfile"></div>
+                            </div>
+
+                            <div class="info-grid">
+                                <div class="info-row">
+                                    <span class="label">Группа</span>
+                                    <span class="value ${groupClass}">${groupName}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">YT ID</span>
+                                    <span class="value">${currentUser.ytId || '—'}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Дата регистрации</span>
+                                    <span class="value">${regDate}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Забанен?</span>
+                                    <span class="value ${bannedClass}">${bannedText}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Telegram ID</span>
+                                    <span class="value">${currentUser.telegramId || '—'}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Ключ доступа</span>
+                                    <span class="value" style="font-family:monospace; font-size:0.9rem; background:rgba(255,255,255,0.02); padding:4px 12px; border-radius:8px; letter-spacing:1px; cursor:pointer;" id="accessKeyDisplay">${currentUser.accessKey || '—'}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-tab" id="tab-videos">
+                            <h3><i class="fas fa-video"></i> Видеообзоры</h3>
+                            <div class="video-grid">
+                                <div class="video-card">
+                                    <div class="video-wrapper">
+                                        <iframe src="https://www.youtube.com/embed/LcqYgVdzP8o" allowfullscreen></iframe>
+                                    </div>
+                                    <div class="video-info">
+                                        <h4>ЛУЧШИЙ ОБХОД: DISCORD И YOUTUBE СНОВА РАБОТАЕТ! НОВЫЙ ОБХОД | PROXYGEM</h4>
+                                        <div class="channel">
+                                            <img src="https://yt3.googleusercontent.com/ytc/AIdro_l3IhNXhWLl82IXxWXZqRsW-L6goN7N0xQmKboCzA=s88-c-k-c0x00ffffff-no-rj" alt="Channel" />
+                                            <span>ProxyGem</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Копирование ключа
+            const keyDisplay = document.getElementById('accessKeyDisplay');
+            if (keyDisplay) {
+                keyDisplay.addEventListener('click', function() {
+                    const key = this.textContent.trim();
+                    if (key && key !== '—') {
+                        if (navigator.clipboard) {
+                            navigator.clipboard.writeText(key);
+                            this.style.color = '#6bff6b';
+                            setTimeout(() => { this.style.color = ''; }, 1500);
+                        } else {
+                            fallbackCopy(key);
+                        }
+                    }
+                });
+            }
+
+            // Меню
+            document.querySelectorAll('.profile-menu .menu-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const tab = this.dataset.tab;
+                    if (tab === 'logout') {
+                        showLogoutModal();
+                        return;
+                    }
+                    document.querySelectorAll('.profile-menu .menu-item').forEach(el => el.classList.remove('active'));
+                    this.classList.add('active');
+                    document.querySelectorAll('.profile-tab').forEach(el => el.classList.remove('active'));
+                    const tabEl = document.getElementById('tab-' + tab);
+                    if (tabEl) tabEl.classList.add('active');
+                });
+            });
+
+            // Аватар
+            document.getElementById('avatarInput').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        const avatarUrl = ev.target.result;
+                        document.querySelectorAll('#profileAvatar, #sidebarAvatar').forEach(el => {
+                            el.src = avatarUrl;
+                        });
+                        if (currentUser) {
+                            currentUser.avatar = avatarUrl;
+                            const users = getUsers();
+                            const idx = users.findIndex(u => u.id === currentUser.id);
+                            if (idx !== -1) {
+                                users[idx].avatar = avatarUrl;
+                                saveUsers(users);
+                                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                            }
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Смена ника
+            document.getElementById('saveNicknameBtn').addEventListener('click', function() {
+                const nickname = document.getElementById('nicknameInputProfile').value.trim();
+                const status = document.getElementById('nicknameStatusProfile');
+
+                if (!nickname) {
+                    status.textContent = 'Введите никнейм';
+                    status.style.color = '#ff6b6b';
+                    return;
+                }
+
+                if (nickname.length < 3) {
+                    status.textContent = 'Ник должен быть минимум 3 символа';
+                    status.style.color = '#ff6b6b';
+                    return;
+                }
+
+                const existing = findUserByNickname(nickname);
+                if (existing && existing.id !== currentUser.id) {
+                    status.textContent = 'Этот ник уже занят';
+                    status.style.color = '#ff6b6b';
+                    return;
+                }
+
+                const users = getUsers();
+                const idx = users.findIndex(u => u.id === currentUser.id);
+                if (idx !== -1) {
+                    users[idx].nickname = nickname;
+                    saveUsers(users);
+                    currentUser = users[idx];
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    status.textContent = 'Ник успешно изменён!';
+                    status.style.color = '#6bff6b';
+                    renderProfile();
+                }
+            });
+        }
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+
+        restoreSession();
+        renderProfile();
+    </script>
+
+</body>
+</html>
