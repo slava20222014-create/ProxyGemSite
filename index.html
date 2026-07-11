@@ -64,7 +64,6 @@
             display: flex;
             gap: 4px;
             align-items: center;
-            animation: fadeDown 0.6s ease both;
             flex-wrap: nowrap;
             overflow-x: auto;
             max-width: 95vw;
@@ -90,7 +89,6 @@
         }
         .nav-circle .tab-btn i { font-size: 0.9rem; transition: all 0.3s ease; }
         .nav-circle .tab-btn:hover { color: #fff; background: rgba(255,255,255,0.04); }
-        .nav-circle .tab-btn:hover i { transform: translateY(-2px) scale(1.1); }
         .nav-circle .tab-btn.active {
             background: #fff;
             color: #0a0a0a;
@@ -126,12 +124,6 @@
             object-fit: cover;
             border: 2px solid rgba(255,255,255,0.06);
             transition: all 0.3s ease;
-        }
-        .nav-circle .profile-btn:hover img { border-color: rgba(255,255,255,0.15); transform: scale(1.05); }
-
-        @keyframes fadeDown {
-            0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
         /* ===== ПРОФИЛЬ ПАНЕЛЬ ===== */
@@ -245,12 +237,7 @@
             max-height: 650px;
         }
         .profile-content .profile-tab { display: none; }
-        .profile-content .profile-tab.active { display: block; animation: fadeUp 0.4s ease; }
-
-        @keyframes fadeUp {
-            0% { opacity: 0; transform: translateY(15px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
+        .profile-content .profile-tab.active { display: block; }
 
         .profile-content .profile-tab h3 {
             color: #ddd;
@@ -666,7 +653,6 @@
             color: #fff;
         }
 
-        /* ===== АДАПТИВ ===== */
         @media (max-width: 850px) {
             .profile-panel { flex-direction: column; }
             .profile-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.04); }
@@ -762,9 +748,7 @@
                 <i class="fas fa-user-circle"></i> Профиль <span>ProxyGem</span>
             </div>
 
-            <div id="profileContainer">
-                <!-- Контент загружается через JS -->
-            </div>
+            <div id="profileContainer"></div>
         </div>
     </div>
 
@@ -772,8 +756,6 @@
         // ===== КОНСТАНТЫ =====
         const CLIENT_ID = '8155864182';
         const ADMIN_TELEGRAM_ID = '123456789';
-        const ADMIN_USERNAME = 'MisterGemer';
-        const VISITS_KEY = 'proxygem_visits';
 
         // ===== ХРАНИЛИЩЕ =====
         function getData(key) {
@@ -784,11 +766,6 @@
         }
         function setData(key, data) {
             localStorage.setItem(key, JSON.stringify(data));
-        }
-        function getVisits() {
-            try {
-                return parseInt(localStorage.getItem(VISITS_KEY)) || 0;
-            } catch { return 0; }
         }
 
         function getUsers() { return getData('proxygem_users'); }
@@ -839,21 +816,16 @@
                 avatar: avatar || 'images/avatar.png',
                 createdAt: Date.now(),
                 isAdmin: false,
-                isYT: false,
                 ytId: generateYTId(),
                 accessKey: generateAccessKey(),
                 timeOnSite: 0,
                 lastActive: Date.now(),
-                settings: {
-                    language: 'ru',
-                    notifications: false
-                }
+                settings: { language: 'ru', notifications: false }
             };
 
-            // Проверка на администратора
             if (String(telegramId) === ADMIN_TELEGRAM_ID || 
                 name.toLowerCase().includes('mistergemer') ||
-                nickname && nickname.toLowerCase().includes('mistergemer')) {
+                (nickname && nickname.toLowerCase().includes('mistergemer'))) {
                 newUser.isAdmin = true;
             }
 
@@ -862,7 +834,6 @@
             return newUser;
         }
 
-        // ===== ТЕКУЩИЙ ПОЛЬЗОВАТЕЛЬ =====
         let currentUser = null;
         let isAdmin = false;
 
@@ -883,7 +854,6 @@
         function showLogoutModal() { openModal('logoutModal'); }
         function hideLogoutModal() { closeModal('logoutModal'); }
 
-        // ===== ОБРАБОТЧИКИ МОДАЛОВ =====
         document.getElementById('closeAuthModalBtn').addEventListener('click', hideAuthModal);
         document.getElementById('closeAuthModal').addEventListener('click', hideAuthModal);
         document.getElementById('finishRegistrationBtn').addEventListener('click', hideSuccessModal);
@@ -996,7 +966,6 @@
             window._pendingUser = null;
         });
 
-        // ===== ВЫХОД =====
         document.getElementById('confirmLogoutBtn').addEventListener('click', function() {
             currentUser = null;
             isAdmin = false;
@@ -1043,7 +1012,6 @@
             } catch { currentUser = null; }
         }
 
-        // ===== ОБНОВЛЕНИЕ ПРОФИЛЯ =====
         function updateProfileUI() {
             const profileBtn = document.getElementById('profileBtn');
             const nameSpan = document.getElementById('profileName');
@@ -1062,7 +1030,13 @@
             }
         }
 
-        // ===== РЕНДЕР ПРОФИЛЯ =====
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
         function renderProfile() {
             const container = document.getElementById('profileContainer');
             updateProfileUI();
@@ -1165,7 +1139,6 @@
                         </div>
                     </div>
                     <div class="profile-content">
-                        <!-- Аккаунт -->
                         <div class="profile-tab active" id="tab-account">
                             <h3><i class="fas fa-user-circle"></i> Аккаунт</h3>
 
@@ -1211,7 +1184,6 @@
                             </div>
                         </div>
 
-                        <!-- Видеообзоры -->
                         <div class="profile-tab" id="tab-videos">
                             <h3><i class="fas fa-video"></i> Видеообзоры</h3>
                             <div class="video-grid">
@@ -1233,7 +1205,7 @@
                 </div>
             `;
 
-            // ===== КОПИРОВАНИЕ КЛЮЧА =====
+            // Копирование ключа
             const keyDisplay = document.getElementById('accessKeyDisplay');
             if (keyDisplay) {
                 keyDisplay.addEventListener('click', function() {
@@ -1250,7 +1222,7 @@
                 });
             }
 
-            // ===== ОБРАБОТЧИКИ МЕНЮ =====
+            // Меню
             document.querySelectorAll('.profile-menu .menu-item').forEach(item => {
                 item.addEventListener('click', function() {
                     const tab = this.dataset.tab;
@@ -1266,7 +1238,7 @@
                 });
             });
 
-            // ===== АВАТАР =====
+            // Аватар
             document.getElementById('avatarInput').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
@@ -1291,7 +1263,7 @@
                 }
             });
 
-            // ===== СМЕНА НИКА =====
+            // Смена ника
             document.getElementById('saveNicknameBtn').addEventListener('click', function() {
                 const nickname = document.getElementById('nicknameInputProfile').value.trim();
                 const status = document.getElementById('nicknameStatusProfile');
@@ -1339,14 +1311,6 @@
             document.body.removeChild(textarea);
         }
 
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // ===== ПРОФИЛЬ КНОПКА =====
         document.getElementById('profileBtn').addEventListener('click', function() {
             if (currentUser) {
                 const ban = isUserBanned(currentUser.id);
@@ -1361,7 +1325,6 @@
             }
         });
 
-        // ===== ИНИЦИАЛИЗАЦИЯ =====
         restoreSession();
         renderProfile();
         updateProfileUI();
