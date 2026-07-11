@@ -1387,61 +1387,6 @@
             opacity: 1;
         }
 
-        .access-key-box {
-            background: rgba(255,255,255,0.02);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.06);
-            margin: 16px 0;
-        }
-        .access-key-box .key-display {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255,255,255,0.02);
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            word-break: break-all;
-        }
-        .access-key-box .key-display .key-text {
-            color: #6b9fff;
-            filter: blur(3px);
-            transition: filter 0.3s ease;
-            flex: 1;
-        }
-        .access-key-box .key-display .key-text:hover {
-            filter: blur(0);
-        }
-        .access-key-box .key-display .copy-btn {
-            background: none;
-            border: none;
-            color: #888;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            padding: 4px 8px;
-            border-radius: 8px;
-            flex-shrink: 0;
-            filter: none !important;
-        }
-        .access-key-box .key-display .copy-btn:hover {
-            color: #fff;
-            background: rgba(255,255,255,0.04);
-        }
-        .access-key-box .guide-steps {
-            margin-top: 12px;
-            padding: 12px 16px;
-            background: rgba(255,255,255,0.01);
-            border-radius: 12px;
-            color: #888;
-            font-size: 0.9rem;
-            line-height: 1.8;
-        }
-        .access-key-box .guide-steps span { color: #ddd; }
-
         .btn-logout {
             padding: 12px 32px;
             border-radius: 40px;
@@ -2071,7 +2016,6 @@
                     <div class="profile-menu">
                         <div class="menu-item active" data-tab="personal"><i class="fas fa-user"></i> Личные Данные</div>
                         <div class="menu-item" data-tab="settings"><i class="fas fa-sliders-h"></i> Настройки сайта</div>
-                        <div class="menu-item" data-tab="access"><i class="fas fa-key"></i> Вход в ProxyGem</div>
                     </div>
                 </div>
                 <div class="profile-content">
@@ -2147,27 +2091,6 @@
                         </div>
                         <button class="btn-save" id="saveSettingsBtn">Сохранить настройки</button>
                     </div>
-                    <!-- Вход в ProxyGem -->
-                    <div class="profile-tab" id="profile-access">
-                        <h3><i class="fas fa-key"></i> Вход в ProxyGem</h3>
-                        <div class="access-key-box">
-                            <div class="key-display">
-                                <span class="key-text" id="accessKeyDisplay">—</span>
-                                <button class="copy-btn" id="copyKeyBtn" title="Скопировать ключ"><i class="fas fa-copy"></i></button>
-                            </div>
-                            <div style="margin-top:8px; color:#555; font-size:0.85rem;">
-                                <i class="fas fa-info-circle"></i> Логин: <span id="accessLoginDisplay" style="color:#ddd;">—</span>
-                            </div>
-                        </div>
-                        <div class="guide-steps">
-                            <h4 style="color:#ddd; margin-bottom:8px;">Гайд по входу в программу:</h4>
-                            <div>1. Заходишь во вкладку Профиль в программе</div>
-                            <div>2. И нажимаешь Войти</div>
-                            <div>3. Пишешь логин — и пишет ниже <span style="color:#6b9fff;">логин пользователя</span></div>
-                            <div>4. Пишешь Пароль и ниже <span style="color:#6b9fff;">скрытые пароль</span> который можно раскрыть или скопировать</div>
-                            <div>5. <span style="color:#6bff6b;">Вошёл</span></div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -2217,7 +2140,6 @@
                 review_empty: 'Пока нет отзывов. Будьте первым!',
                 profile_personal: 'Личные Данные',
                 profile_settings: 'Настройки сайта',
-                profile_access: 'Вход в ProxyGem',
                 profile_name: 'Личные Данные',
                 profile_nickname: 'Никнейм',
                 profile_save: 'Сохранить',
@@ -2229,14 +2151,6 @@
                 profile_language: 'Язык',
                 profile_notifications: 'Уведомления',
                 profile_save_settings: 'Сохранить настройки',
-                profile_access_title: 'Вход в ProxyGem',
-                profile_access_login: 'Логин:',
-                profile_guide_title: 'Гайд по входу в программу:',
-                profile_guide_1: '1. Заходишь во вкладку Профиль в программе',
-                profile_guide_2: '2. И нажимаешь Войти',
-                profile_guide_3: '3. Пишешь логин — и пишет ниже логин пользователя',
-                profile_guide_4: '4. Пишешь Пароль и ниже скрытые пароль который можно раскрыть или скопировать',
-                profile_guide_5: '5. Вошёл',
                 admin_title: 'Админ-панель',
                 admin_sub: 'Управление сайтом и пользователями',
                 admin_users: 'Пользователи',
@@ -2298,7 +2212,6 @@
                 review_empty: 'No reviews yet. Be the first!',
                 profile_personal: 'Personal Info',
                 profile_settings: 'Site Settings',
-                profile_access: 'ProxyGem Login',
                 profile_name: 'Personal Info',
                 profile_nickname: 'Nickname',
                 profile_save: 'Save',
@@ -2310,14 +2223,6 @@
                 profile_language: 'Language',
                 profile_notifications: 'Notifications',
                 profile_save_settings: 'Save Settings',
-                profile_access_title: 'ProxyGem Login',
-                profile_access_login: 'Login:',
-                profile_guide_title: 'Login guide:',
-                profile_guide_1: '1. Go to the Profile tab in the program',
-                profile_guide_2: '2. Click Login',
-                profile_guide_3: '3. Enter login — user login appears below',
-                profile_guide_4: '4. Enter password — hidden password below that can be revealed or copied',
-                profile_guide_5: '5. Logged in',
                 admin_title: 'Admin Panel',
                 admin_sub: 'Manage site and users',
                 admin_users: 'Users',
@@ -2379,7 +2284,6 @@
                 review_empty: 'Henüz yorum yok. İlk siz olun!',
                 profile_personal: 'Kişisel Bilgiler',
                 profile_settings: 'Site Ayarları',
-                profile_access: 'ProxyGem Girişi',
                 profile_name: 'Kişisel Bilgiler',
                 profile_nickname: 'Kullanıcı adı',
                 profile_save: 'Kaydet',
@@ -2391,14 +2295,6 @@
                 profile_language: 'Dil',
                 profile_notifications: 'Bildirimler',
                 profile_save_settings: 'Ayarları Kaydet',
-                profile_access_title: 'ProxyGem Girişi',
-                profile_access_login: 'Kullanıcı adı:',
-                profile_guide_title: 'Giriş rehberi:',
-                profile_guide_1: '1. Programda Profil sekmesine gidin',
-                profile_guide_2: '2. Giriş yap\'a tıklayın',
-                profile_guide_3: '3. Kullanıcı adını girin — aşağıda görünür',
-                profile_guide_4: '4. Şifreyi girin — aşağıda gizli şifre görünür, açılabilir veya kopyalanabilir',
-                profile_guide_5: '5. Giriş yapıldı',
                 admin_title: 'Yönetim Paneli',
                 admin_sub: 'Site ve kullanıcı yönetimi',
                 admin_users: 'Kullanıcılar',
@@ -2488,10 +2384,8 @@
             // Профиль
             document.querySelector('#profile-personal h3').innerHTML = '<i class="fas fa-user"></i> ' + t.profile_name;
             document.querySelector('#profile-settings h3').innerHTML = '<i class="fas fa-sliders-h"></i> ' + t.profile_settings;
-            document.querySelector('#profile-access h3').innerHTML = '<i class="fas fa-key"></i> ' + t.profile_access_title;
             document.querySelector('.profile-menu .menu-item[data-tab="personal"]').innerHTML = '<i class="fas fa-user"></i> ' + t.profile_personal;
             document.querySelector('.profile-menu .menu-item[data-tab="settings"]').innerHTML = '<i class="fas fa-sliders-h"></i> ' + t.profile_settings;
-            document.querySelector('.profile-menu .menu-item[data-tab="access"]').innerHTML = '<i class="fas fa-key"></i> ' + t.profile_access;
             document.querySelector('#profile-personal .form-group label').textContent = t.profile_nickname;
             document.querySelector('#saveNicknameBtn').textContent = t.profile_save;
             document.querySelectorAll('.info-row .label')[0].textContent = t.profile_telegram;
@@ -2502,16 +2396,6 @@
             document.querySelector('#profile-settings .form-group label').textContent = t.profile_language;
             document.querySelector('#profile-settings .form-group:nth-child(2) label').textContent = t.profile_notifications;
             document.querySelector('#saveSettingsBtn').textContent = t.profile_save_settings;
-            document.querySelector('.guide-steps h4').textContent = t.profile_guide_title;
-            const guideSteps = document.querySelectorAll('.guide-steps div');
-            if (guideSteps.length >= 5) {
-                guideSteps[0].textContent = t.profile_guide_1;
-                guideSteps[1].textContent = t.profile_guide_2;
-                guideSteps[2].innerHTML = t.profile_guide_3.replace('логин пользователя', '<span style="color:#6b9fff;">логин пользователя</span>');
-                guideSteps[3].innerHTML = t.profile_guide_4.replace('скрытые пароль', '<span style="color:#6b9fff;">скрытые пароль</span>');
-                guideSteps[4].innerHTML = t.profile_guide_5.replace('Вошёл', '<span style="color:#6bff6b;">Вошёл</span>');
-            }
-            document.querySelector('#profile-access .access-key-box .key-display + div i + span').innerHTML = ' ' + t.profile_access_login;
             
             // Админ
             document.querySelector('#adminModal h2').innerHTML = '<i class="fas fa-user-shield"></i> ' + t.admin_title;
@@ -2986,27 +2870,6 @@
             }
         });
 
-        document.getElementById('copyKeyBtn').addEventListener('click', function(e) {
-            e.stopPropagation();
-            const key = document.getElementById('accessKeyDisplay').textContent;
-            if (key && key !== '—') {
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(key);
-                } else {
-                    fallbackCopy(key);
-                }
-            }
-        });
-
-        function fallbackCopy(text) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-        }
-
         // ===== ПРОФИЛЬ UI =====
         function updateProfileUI() {
             const profileBtn = document.getElementById('profileBtn');
@@ -3047,8 +2910,6 @@
                 document.getElementById('profileGroup').className = 'value';
                 document.getElementById('profileAvatar').src = 'images/avatar.png';
                 document.getElementById('profileNickname').value = '';
-                document.getElementById('accessKeyDisplay').textContent = '—';
-                document.getElementById('accessLoginDisplay').textContent = '—';
                 return;
             }
 
@@ -3079,20 +2940,6 @@
             
             document.getElementById('profileAvatar').src = currentUser.avatar || 'images/avatar.png';
             document.getElementById('profileNickname').value = currentUser.nickname || '';
-            
-            if (currentUser.accessKey) {
-                document.getElementById('accessKeyDisplay').textContent = currentUser.accessKey;
-            } else {
-                const users = getUsers();
-                const idx = users.findIndex(u => u.id === currentUser.id);
-                if (idx !== -1) {
-                    users[idx].accessKey = generateAccessKey();
-                    saveUsers(users);
-                    currentUser = users[idx];
-                    document.getElementById('accessKeyDisplay').textContent = currentUser.accessKey;
-                }
-            }
-            document.getElementById('accessLoginDisplay').textContent = currentUser.nickname || '—';
             
             if (currentUser.settings) {
                 document.getElementById('languageSelect').value = currentUser.settings.language || 'ru';
