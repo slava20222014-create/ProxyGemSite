@@ -78,22 +78,22 @@
             100% { transform: translate(-50px,-30px) scale(1.15); }
         }
 
-        /* ===== НАВИГАЦИЯ — ПРОЗРАЧНАЯ С БЛЮРОМ, БЕЗ ИКОНОК ===== */
+        /* ===== НАВИГАЦИЯ — БОЛЬШЕ, ПРОЗРАЧНАЯ, С БЛЮРОМ, БЕЛАЯ ПОЛОСА ПРИ HOVER/ACTIVE ===== */
         .nav-circle {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1000;
-            background: rgba(10, 10, 10, 0.45);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+            background: rgba(10, 10, 10, 0.35);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 60px;
-            padding: 12px 20px;
+            padding: 14px 24px;
             border: 1px solid rgba(255,255,255,0.06);
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             display: flex;
-            gap: 6px;
+            gap: 8px;
             align-items: center;
             animation: fadeDown 0.6s ease both;
             flex-wrap: nowrap;
@@ -102,7 +102,7 @@
             justify-content: center;
         }
         .nav-circle .tab-btn {
-            padding: 10px 24px;
+            padding: 10px 22px;
             border-radius: 40px;
             border: none;
             background: transparent;
@@ -115,10 +115,22 @@
             position: relative;
             white-space: nowrap;
             letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        /* Убираем иконки */
+        /* Иконки во вкладках */
         .nav-circle .tab-btn i {
-            display: none;
+            display: inline-block;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        .nav-circle .tab-btn:hover i {
+            opacity: 1;
+        }
+        .nav-circle .tab-btn.active i {
+            opacity: 1;
         }
         /* Белая полоса при hover и active */
         .nav-circle .tab-btn::after {
@@ -128,10 +140,11 @@
             left: 50%;
             transform: translateX(-50%);
             width: 0;
-            height: 2px;
+            height: 2.5px;
             background: #ffffff;
             border-radius: 2px;
-            transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 0 12px rgba(255,255,255,0.2);
         }
         .nav-circle .tab-btn:hover {
             color: #ffffff;
@@ -154,7 +167,7 @@
 
         /* Профиль-кнопка в навигации */
         .nav-circle .profile-btn {
-            padding: 8px 18px 8px 18px;
+            padding: 8px 20px 8px 18px;
             border-radius: 40px;
             border: 1px solid rgba(255,255,255,0.08);
             background: rgba(255,255,255,0.04);
@@ -180,8 +193,11 @@
             font-size: 0.85rem;
             opacity: 0.7;
         }
+        .nav-circle .profile-btn:hover i {
+            opacity: 1;
+        }
         .nav-circle .profile-btn img {
-            width: 26px; height: 26px;
+            width: 28px; height: 28px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid rgba(255,255,255,0.06);
@@ -197,7 +213,7 @@
             100% { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
-        /* ===== ОСТАЛЬНЫЕ СТИЛИ (без изменений) ===== */
+        /* ===== ЛОГОТИП ===== */
         .logo-container { display: flex; align-items: center; gap: 14px; text-decoration: none; position: relative; }
         .logo-icon { width: 44px; height: 44px; position: relative; display: flex; align-items: center; justify-content: center; }
         .logo-icon svg { width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(255,255,255,0.08)); animation: logoPulse 3s ease-in-out infinite; }
@@ -222,7 +238,7 @@
         .logo-badge { position: absolute; top: -6px; right: -20px; font-size: 0.5rem; background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02)); padding: 2px 8px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.06); color: #888; font-weight: 600; letter-spacing: 0.5px; animation: badgePulse 2s ease-in-out infinite; }
         @keyframes badgePulse { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
 
-        /* ГЕРОЙ */
+        /* ===== ГЕРОЙ ===== */
         .hero-full { position: relative; width: 100vw; height: 100vh; overflow: hidden; z-index: 1; display: flex; align-items: center; justify-content: flex-start; margin-left: calc(-50vw + 50%); background: radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.02) 0%, transparent 70%); }
         .hero-full video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; object-fit: cover; opacity: 0.85; filter: brightness(0.6) saturate(1.2) contrast(0.95); }
         .hero-full canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; opacity: 0.3; mix-blend-mode: screen; }
@@ -252,7 +268,7 @@
         .btn-secondary:hover { background: rgba(255,255,255,0.12); color: #fff; transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
         @keyframes fadeUp { 0% { opacity: 0; transform: translateY(40px); } 100% { opacity: 1; transform: translateY(0); } }
 
-        /* КОНТЕНТ */
+        /* ===== КОНТЕНТ ===== */
         .content-below { position: relative; z-index: 10; margin-top: -40px; background: #0a0a0a; padding-top: 20px; }
         .section-block { display: block !important; animation: fadeUp 0.5s ease both; padding: 40px 0 60px; border-bottom: 1px solid rgba(255,255,255,0.03); }
         .section-block:last-of-type { border-bottom: none; }
@@ -321,7 +337,7 @@
         .top-user-item .time { font-weight: 600; color: #6b9fff; font-size: 0.95rem; background: rgba(107,159,255,0.05); padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(107,159,255,0.06); }
         .top-users-empty { text-align: center; color: #555; padding: 60px 20px; font-size: 1.1rem; }
 
-        /* МОДАЛЫ */
+        /* ===== МОДАЛЫ ===== */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); z-index: 2000; justify-content: center; align-items: flex-start; padding: 40px 20px; overflow-y: auto; animation: fadeUp 0.3s ease; }
         .modal-overlay.open { display: flex; }
         .modal-content { background: #1a1a1a; border: 1px solid rgba(255,255,255,0.06); border-radius: 32px; padding: 48px; max-width: 900px; width: 100%; box-shadow: 0 40px 100px rgba(0,0,0,0.8); position: relative; margin: auto; }
@@ -502,9 +518,9 @@
         @keyframes uploadGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         @media (max-width: 850px) {
-            .nav-circle { top: 12px; padding: 10px 16px; border-radius: 40px; gap: 4px; flex-wrap: nowrap; overflow-x: auto; max-width: 95vw; justify-content: center; }
+            .nav-circle { top: 12px; padding: 12px 18px; border-radius: 40px; gap: 4px; flex-wrap: nowrap; overflow-x: auto; max-width: 95vw; justify-content: center; }
             .nav-circle .tab-btn { padding: 8px 16px; font-size: 0.8rem; white-space: nowrap; }
-            .nav-circle .profile-btn { padding: 6px 14px 6px 14px; font-size: 0.75rem; }
+            .nav-circle .profile-btn { padding: 6px 14px 6px 12px; font-size: 0.75rem; }
             .nav-circle .profile-btn img { width: 22px; height: 22px; }
             .hero-content-overlay h1 { font-size: 3.2rem; letter-spacing: -2px; }
             .hero-content-overlay { max-width: 100%; padding: 0 24px; }
@@ -571,13 +587,13 @@
 
     <!-- ===== НАВИГАЦИЯ ===== -->
     <nav class="nav-circle" id="navCircle">
-        <button class="tab-btn active" data-tab="home">Главная</button>
-        <button class="tab-btn" data-tab="features">Возможности</button>
-        <button class="tab-btn" data-tab="download">Скачать</button>
-        <button class="tab-btn" data-tab="topusers">Топ</button>
-        <button class="tab-btn modal-trigger" data-modal="reviews">Отзывы</button>
-        <button class="tab-btn modal-trigger" data-modal="admin" id="adminTabBtn" style="display:none;">Админ</button>
-        <button class="tab-btn modal-trigger" data-modal="profile" id="profileTabBtn">Профиль</button>
+        <button class="tab-btn active" data-tab="home"><i class="fas fa-home"></i> Главная</button>
+        <button class="tab-btn" data-tab="features"><i class="fas fa-cog"></i> Возможности</button>
+        <button class="tab-btn" data-tab="download"><i class="fas fa-download"></i> Скачать</button>
+        <button class="tab-btn" data-tab="topusers"><i class="fas fa-trophy"></i> Топ</button>
+        <button class="tab-btn modal-trigger" data-modal="reviews"><i class="fas fa-star"></i> Отзывы</button>
+        <button class="tab-btn modal-trigger" data-modal="admin" id="adminTabBtn" style="display:none;"><i class="fas fa-user-shield"></i> Админ</button>
+        <button class="tab-btn modal-trigger" data-modal="profile" id="profileTabBtn"><i class="fas fa-user"></i> Профиль</button>
         <div class="profile-btn" id="profileBtn">
             <i class="fas fa-user"></i>
             <span id="profileName">Войти</span>
@@ -640,7 +656,7 @@
         </div>
     </div>
 
-    <!-- ===== ГЕРОЙ С НОВЫМ ЭФФЕКТОМ ===== -->
+    <!-- ===== ГЕРОЙ ===== -->
     <section class="hero-full" id="section-home">
         <video autoplay muted loop playsinline id="heroVideo">
             <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-particles-flying-in-the-air-3197-large.mp4" type="video/mp4" />
@@ -653,7 +669,7 @@
         </div>
         <div class="hero-content-overlay">
             <div class="hero-badge">
-                ProxyGem v1.7
+                <i class="fas fa-shield-alt"></i> ProxyGem v1.7
             </div>
             <h1>
                 Обходи <span class="highlight">блокировки</span><br>с ProxyGem
@@ -669,7 +685,7 @@
         </div>
     </section>
 
-    <!-- ===== КОНТЕНТ (секции, которые листаются) ===== -->
+    <!-- ===== КОНТЕНТ ===== -->
     <div class="content-below">
         <div class="container">
 
@@ -733,7 +749,7 @@
             <div class="section-block" id="section-download">
                 <div class="download-mega reveal">
                     <h2>Скачай ProxyGem</h2>
-                    <p class="sub"> Windows 10 / 11 · 32 / 64 bit</p>
+                    <p class="sub"><i class="fas fa-windows"></i> Windows 10 / 11 · 32 / 64 bit</p>
                     <a href="#" class="btn-download">
                         <i class="fas fa-download"></i> Скачать бесплатно
                     </a>
@@ -2083,12 +2099,13 @@
             if (!t) return;
             currentLang = lang;
             
+            // Навигация с иконками
             document.querySelectorAll('.tab-btn:not(.modal-trigger)').forEach(btn => {
                 const tab = btn.dataset.tab;
-                if (tab === 'home') btn.textContent = t.nav_home;
-                else if (tab === 'features') btn.textContent = t.nav_features;
-                else if (tab === 'download') btn.textContent = t.nav_download;
-                else if (tab === 'topusers') btn.textContent = t.nav_top;
+                if (tab === 'home') btn.innerHTML = '<i class="fas fa-home"></i> ' + t.nav_home;
+                else if (tab === 'features') btn.innerHTML = '<i class="fas fa-cog"></i> ' + t.nav_features;
+                else if (tab === 'download') btn.innerHTML = '<i class="fas fa-download"></i> ' + t.nav_download;
+                else if (tab === 'topusers') btn.innerHTML = '<i class="fas fa-trophy"></i> ' + t.nav_top;
             });
             
             document.querySelector('.hero-badge').innerHTML = '<i class="fas fa-shield-alt"></i> ' + t.hero_badge;
@@ -2173,7 +2190,7 @@
             document.querySelector('#confirmLogoutBtn').innerHTML = '<i class="fas fa-sign-out-alt"></i> ' + t.logout_yes;
         }
 
-        // ===== CANVAS ЭФФЕКТ ДЛЯ ГЕРОЯ =====
+        // ===== CANVAS ЭФФЕКТ =====
         function initHeroCanvas() {
             const canvas = document.getElementById('heroCanvas');
             const ctx = canvas.getContext('2d');
@@ -2225,7 +2242,6 @@
                     p.update();
                     p.draw();
                 });
-                // Соединения
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i + 1; j < particles.length; j++) {
                         const dx = particles[i].x - particles[j].x;
