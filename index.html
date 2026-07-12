@@ -585,77 +585,129 @@
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 30px;
         }
-        .why-item {
-            background: rgba(255,255,255,0.01);
-            border-radius: 32px;
-            border: 1px solid rgba(255,255,255,0.03);
-            padding: 32px 24px 28px;
-            transition: all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
-            text-align: center;
-            backdrop-filter: blur(8px);
-            position: relative;
-            overflow: hidden;
-        }
-        .why-item::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.02), transparent 70%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .why-item:hover::before { opacity: 1; }
-        .why-item:hover {
-            transform: translateY(-10px) scale(1.01);
-            border-color: rgba(255,255,255,0.06);
-            background: rgba(255,255,255,0.02);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-        }
-        .why-item img {
-            width: 100%;
-            max-width: 200px;
-            height: auto;
-            border-radius: 20px;
-            margin-bottom: 18px;
-            border: 1px solid rgba(255,255,255,0.03);
-            transition: all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            background: rgba(255,255,255,0.01);
-            filter: grayscale(0.2);
-        }
-        .why-item:hover img {
-            transform: scale(1.04) rotate(-1deg);
-            border-color: rgba(255,255,255,0.06);
-            filter: grayscale(0);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-        }
-        .why-item .icon-wrap {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 52px; height: 52px;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.02);
-            margin-bottom: 16px;
-            font-size: 1.6rem;
-            color: #ccc;
-            border: 1px solid rgba(255,255,255,0.02);
-            transition: all 0.4s ease;
-        }
-        .why-item:hover .icon-wrap {
-            background: rgba(255,255,255,0.04);
-            border-color: rgba(255,255,255,0.04);
-            transform: scale(1.05);
-        }
-        .why-item h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #e0e0e0;
-            margin-bottom: 8px;
-        }
-        .why-item p { color: #777; font-size: 0.95rem; line-height: 1.6; }
+.why-item {
+    background: rgba(255,255,255,0.01);
+    border-radius: 32px;
+    border: 1px solid rgba(255,255,255,0.03);
+    padding: 32px 24px 28px;
+    transition: all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+    text-align: center;
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* ====== НОВЫЙ ЭФФЕКТ (белый) ====== */
+/* Эффект свечения изнутри (как в .features-card:after) */
+.why-item::after {
+    background: radial-gradient(75.13% 113.14% at 50% 150%, rgba(255,255,255,0.15) 0, rgba(255,255,255,0) 100%);
+    border-radius: 32px;
+    content: "";
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    transition: opacity 0.4s ease;
+    z-index: 0;
+}
+
+/* Градиентная обводка (как в .features-card:before) */
+.why-item::before {
+    background: linear-gradient(0deg, rgba(255,255,255,0.6), transparent 80%);
+    border-radius: 32px;
+    content: "";
+    inset: 0;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    padding: 2px;
+    pointer-events: none;
+    position: absolute;
+    transition: opacity 0.4s ease;
+    z-index: 3;
+}
+
+/* Ховер - включаем оба эффекта */
+.why-item:hover::after {
+    opacity: 1;
+}
+
+.why-item:hover::before {
+    opacity: 1;
+}
+
+/* ====== ОСТАЛЬНЫЕ СТИЛИ ====== */
+.why-item:hover {
+    transform: translateY(-10px) scale(1.01);
+    border-color: rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+
+.why-item img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(255,255,255,0.03);
+    transition: all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(255,255,255,0.01);
+    filter: grayscale(0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.why-item:hover img {
+    transform: scale(1.04) rotate(-1deg);
+    border-color: rgba(255,255,255,0.06);
+    filter: grayscale(0);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+.why-item .icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px; height: 52px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.02);
+    margin-bottom: 16px;
+    font-size: 1.6rem;
+    color: #ccc;
+    border: 1px solid rgba(255,255,255,0.02);
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.why-item:hover .icon-wrap {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.04);
+    transform: scale(1.05);
+}
+
+.why-item h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #e0e0e0;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.why-item p {
+    color: #777;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
 
         .download-mega {
             background: rgba(255,255,255,0.01);
