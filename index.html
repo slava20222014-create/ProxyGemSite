@@ -335,122 +335,136 @@
             100% { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
-        /* ===== ГЕРОЙ ===== */
-        .hero-full {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            margin-left: calc(-50vw + 50%);
-            background: radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.02) 0%, transparent 70%);
-        }
-        .hero-full img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: auto;
-            height: 80%;
-            object-fit: contain;
-            filter: brightness(0.7) saturate(1.1) contrast(0.95);
-            opacity: 0.8;
-        }
-        .hero-full::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.00) 80%, rgba(0,0,0,0.1) 100%);
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
-            pointer-events: none;
-            animation: fastShimmer 2s infinite alternate ease-in-out;
-            z-index: 2;
-        }
-        @keyframes fastShimmer {
-            0% { background: linear-gradient(180deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.10) 20%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.00) 80%, rgba(0,0,0,0.10) 100%); backdrop-filter: blur(4px); }
-            25% { background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.25) 30%, rgba(255,255,255,0.05) 60%, rgba(255,255,255,0.00) 85%, rgba(0,0,0,0.15) 100%); backdrop-filter: blur(2px); }
-            50% { background: linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.12) 25%, rgba(255,255,255,0.04) 55%, rgba(255,255,255,0.01) 80%, rgba(0,0,0,0.08) 100%); backdrop-filter: blur(5px); }
-            75% { background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.20) 35%, rgba(255,255,255,0.06) 65%, rgba(255,255,255,0.00) 90%, rgba(0,0,0,0.12) 100%); backdrop-filter: blur(3px); }
-            100% { background: linear-gradient(180deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.00) 80%, rgba(0,0,0,0.14) 100%); backdrop-filter: blur(4px); }
-        }
-        .hero-full::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.04) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 3;
-            animation: glowPulse 4s infinite alternate ease-in-out;
-        }
-        @keyframes glowPulse {
-            0% { opacity: 0.4; }
-            100% { opacity: 0.8; }
-        }
+      /* ===== ГЕРОЙ С ЭФФЕКТАМИ ДЛЯ ФОНА ===== */
+.hero-full {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: calc(-50vw + 50%);
+    background: radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.02) 0%, transparent 70%);
+}
 
-        .hero-content-overlay {
-            position: relative;
-            z-index: 10;
-            max-width: 650px;
-            padding: 0 40px;
-            color: #fff;
-            text-shadow: 0 4px 30px rgba(0,0,0,0.7);
-            animation: fadeUp 1s ease both 0.3s;
-        }
-        .hero-content-overlay .hero-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 60px;
-            padding: 6px 20px 6px 8px;
-            font-size: 0.75rem;
-            color: #ccc;
-            letter-spacing: 0.5px;
-            margin-bottom: 28px;
-            backdrop-filter: blur(8px);
-            transition: all 0.3s ease;
-        }
-        .hero-content-overlay .hero-badge i {
-            background: rgba(255,255,255,0.06);
-            padding: 6px 10px;
-            border-radius: 40px;
-            margin-right: 10px;
-            font-size: 0.7rem;
-            color: #fff;
-        }
-        .hero-content-overlay h1 {
-            font-size: 4.8rem;
-            font-weight: 900;
-            letter-spacing: -3px;
-            line-height: 1.05;
-            background: linear-gradient(135deg, #ffffff 15%, #d0d0d0 60%, #aaa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-content-overlay h1 .highlight {
-            background: linear-gradient(135deg, #f0f0f0, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-content-overlay p {
-            font-size: 1.25rem;
-            max-width: 500px;
-            color: #bbb;
-            margin: 24px 0 36px;
-            font-weight: 300;
-            line-height: 1.7;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.5);
-        }
-        .hero-actions {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
+/* Контейнер изображения */
+.hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Само изображение с анимацией парения */
+.hero-image img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: 85%;
+    object-fit: contain;
+    filter: brightness(0.75) saturate(1.1) contrast(0.95);
+    opacity: 0.85;
+    
+    /* АНИМАЦИЯ ПАРЕНИЯ И МАСШТАБА */
+    animation: floatScale 8s ease-in-out infinite;
+    will-change: transform;
+}
+
+/* ЭФФЕКТ БЛИКА (shine) */
+.hero-image-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.04) 25%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(255, 255, 255, 0.04) 75%,
+        transparent 100%
+    );
+    transform: skewX(-18deg);
+    z-index: 3;
+    pointer-events: none;
+    
+    /* АНИМАЦИЯ ДВИЖЕНИЯ БЛИКА */
+    animation: shineSweep 10s ease-in-out infinite;
+    will-change: transform, left;
+}
+
+/* ДЕКОРАТИВНАЯ РАМКА */
+.hero-image-border {
+    position: absolute;
+    inset: 10px;
+    border: 1.5px solid rgba(255, 123, 29, 0.15);
+    border-radius: 32px;
+    z-index: 2;
+    pointer-events: none;
+    
+    /* АНИМАЦИЯ СВЕЧЕНИЯ РАМКИ */
+    animation: borderGlow 6s ease-in-out infinite;
+    will-change: box-shadow, border-color;
+}
+
+/* Внутренний слой рамки */
+.hero-image-border::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 26px;
+    opacity: 0.5;
+}
+
+/* ТЕНЬ-ОРЕОЛ ПОД ИЗОБРАЖЕНИЕМ */
+.hero-image::after {
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    left: 15%;
+    width: 70%;
+    height: 100px;
+    background: radial-gradient(ellipse, rgba(255, 123, 29, 0.08) 0%, transparent 70%);
+    filter: blur(40px);
+    z-index: 0;
+    border-radius: 50%;
+    
+    /* АНИМАЦИЯ ПУЛЬСАЦИИ ТЕНИ */
+    animation: shadowPulse 6s ease-in-out infinite;
+    will-change: opacity, transform;
+}
+
+/* ГРАДИЕНТНАЯ МАСКА ПОВЕРХ ИЗОБРАЖЕНИЯ */
+.hero-image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.25) 0%,
+        rgba(255,255,255,0.08) 20%,
+        rgba(255,255,255,0.02) 50%,
+        rgba(255,255,255,0.00) 80%,
+        rgba(0,0,0,0.1) 100%
+    );
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    pointer-events: none;
+    z-index: 2;
+    animation: gradientPulse 5s ease-in-out infinite alternate;
+}
+
+/* ===== КЛЮЧЕВЫЕ КАДРЫ ===== */
         .btn-primary {
             display: inline-flex;
             align-items: center;
@@ -1823,6 +1837,114 @@
             .toggle-switch-modern input:checked + .toggle-track .toggle-thumb { left: 24px; }
             .star-rating { font-size: 1.6rem; }
         }
+        /* 1. Парение + масштаб */
+@keyframes floatScale {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        transform: translate(-50%, -53%) scale(1.01);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* 2. Движение блика */
+@keyframes shineSweep {
+    0% {
+        left: -100%;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    60% {
+        left: 120%;
+        opacity: 1;
+    }
+    70% {
+        opacity: 0;
+    }
+    100% {
+        left: 120%;
+        opacity: 0;
+    }
+}
+
+/* 3. Свечение рамки */
+@keyframes borderGlow {
+    0% {
+        border-color: rgba(255, 123, 29, 0.10);
+        box-shadow: 0 0 20px rgba(255, 123, 29, 0);
+    }
+    50% {
+        border-color: rgba(255, 123, 29, 0.45);
+        box-shadow: 0 0 60px rgba(255, 123, 29, 0.06);
+    }
+    100% {
+        border-color: rgba(255, 123, 29, 0.10);
+        box-shadow: 0 0 20px rgba(255, 123, 29, 0);
+    }
+}
+
+/* 4. Пульсация тени */
+@keyframes shadowPulse {
+    0% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+}
+
+/* 5. Пульсация градиента */
+@keyframes gradientPulse {
+    0% {
+        opacity: 0.6;
+        backdrop-filter: blur(2px);
+    }
+    100% {
+        opacity: 0.9;
+        backdrop-filter: blur(4px);
+    }
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 850px) {
+    .hero-image img {
+        height: 70%;
+    }
+    .hero-image-border {
+        inset: 6px;
+        border-radius: 20px;
+    }
+    .hero-image-border::before {
+        border-radius: 16px;
+    }
+}
+@media (max-width: 550px) {
+    .hero-image img {
+        height: 55%;
+    }
+    .hero-image-border {
+        inset: 4px;
+        border-radius: 14px;
+    }
+    .hero-image-border::before {
+        border-radius: 10px;
+    }
+    .hero-image::after {
+        bottom: 5%;
+        height: 60px;
+    }
+}
     </style>
 </head>
 <body>
@@ -1891,26 +2013,31 @@
         </div>
     </div>
 
-    <!-- ===== ГЕРОЙ ===== -->
-    <section class="hero-full" id="section-home">
+<!-- ===== ГЕРОЙ С ЭФФЕКТАМИ ===== -->
+<section class="hero-full" id="section-home">
+    <!-- Контейнер с анимированным фоном -->
+    <div class="hero-image">
         <img src="images/newbackroundmenu.png" alt="Background" />
-        <div class="hero-content-overlay">
-            <div class="hero-badge">
-                <i class="fas fa-shield-alt"></i> ProxyGem v1.7
-            </div>
-            <h1>
-                Обходи <span class="highlight">блокировки</span><br>с ProxyGem
-            </h1>
-            <p>
-                Современный инструмент для безопасного и анонимного обхода.
-                Молниеносная скорость, интеллектуальная маршрутизация и полная конфиденциальность.
-            </p>
-            <div class="hero-actions">
-                <button class="btn-primary" id="heroDownloadBtn"><i class="fas fa-rocket"></i> Начать</button>
-                <button class="btn-secondary" id="heroFeaturesBtn"><i class="fas fa-play-circle"></i> Как работает</button>
-            </div>
+        <div class="hero-image-shine"></div>
+        <div class="hero-image-border"></div>
+    </div>
+    <div class="hero-content-overlay">
+        <div class="hero-badge">
+            <i class="fas fa-shield-alt"></i> ProxyGem v1.7
         </div>
-    </section>
+        <h1>
+            Обходи <span class="highlight">ограничения</span><br>с ProxyGem
+        </h1>
+        <p>
+            Современный инструмент для безопасного и анонимного обхода.
+            Молниеносная скорость, интеллектуальная маршрутизация и полная конфиденциальность.
+        </p>
+        <div class="hero-actions">
+            <button class="btn-primary" id="heroDownloadBtn"><i class="fas fa-rocket"></i> Начать</button>
+            <button class="btn-secondary" id="heroFeaturesBtn"><i class="fas fa-play-circle"></i> Как работает</button>
+        </div>
+    </div>
+</section>
 
     <!-- ===== КОНТЕНТ ===== -->
     <div class="content-below">
