@@ -6,7 +6,7 @@
     <title>ProxyGem</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&family=Onest:wght@100..900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     
     <!-- Telegram Login OIDC -->
@@ -398,29 +398,10 @@
             text-shadow: 0 4px 30px rgba(0,0,0,0.7);
             animation: fadeUp 1s ease both 0.3s;
         }
-        .hero-content-overlay .hero-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 60px;
-            padding: 6px 20px 6px 8px;
-            font-size: 0.75rem;
-            color: #ccc;
-            letter-spacing: 0.5px;
-            margin-bottom: 28px;
-            backdrop-filter: blur(8px);
-            transition: all 0.3s ease;
-        }
-        .hero-content-overlay .hero-badge i {
-            background: rgba(255,255,255,0.06);
-            padding: 6px 10px;
-            border-radius: 40px;
-            margin-right: 10px;
-            font-size: 0.7rem;
-            color: #fff;
-        }
-        .hero-content-overlay h1 {
-            font-size: 4.8rem;
+
+        /* НОВЫЙ ЗАГОЛОВОК - только ProxyGem v1.7 с анимацией */
+        .hero-title-main {
+            font-size: 5rem;
             font-weight: 900;
             letter-spacing: -3px;
             line-height: 1.05;
@@ -428,13 +409,21 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite;
+            margin-bottom: 24px;
         }
-        .hero-content-overlay h1 .highlight {
-            background: linear-gradient(135deg, #f0f0f0, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+
+        @keyframes titleGlow {
+            0%, 100% { 
+                text-shadow: 0 0 40px rgba(255,255,255,0.05);
+                transform: scale(1);
+            }
+            50% { 
+                text-shadow: 0 0 80px rgba(255,255,255,0.15);
+                transform: scale(1.02);
+            }
         }
+
         .hero-content-overlay p {
             font-size: 1.25rem;
             max-width: 500px;
@@ -449,9 +438,12 @@
             gap: 16px;
             flex-wrap: wrap;
         }
+
+        /* ===== НОВЫЕ СТИЛИ ДЛЯ КНОПОК - ЦЕНТРИРОВАНИЕ ===== */
         .btn-primary {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 12px;
             padding: 16px 40px;
             border-radius: 80px;
@@ -465,25 +457,33 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            min-width: 160px;
+            text-align: center;
         }
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(0,0,0,0.05), rgba(0,0,0,0.01));
+        .btn-primary .btn-text {
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .btn-primary .btn-icon {
+            display: inline-block;
+            transition: transform 0.3s ease, opacity 0.3s ease;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transform: translateX(-10px);
         }
-        .btn-primary:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 16px 48px rgba(255,255,255,0.15);
+        .btn-primary:hover .btn-text {
+            transform: translateX(-8px);
         }
-        .btn-primary:hover::before { opacity: 1; }
-        .btn-secondary {
+        .btn-primary:hover .btn-icon {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .btn-download-hero {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 12px;
-            padding: 16px 36px;
+            padding: 16px 40px;
             border-radius: 80px;
             font-weight: 600;
             font-size: 1rem;
@@ -494,13 +494,33 @@
             border: 1px solid rgba(255,255,255,0.08);
             backdrop-filter: blur(8px);
             cursor: pointer;
+            min-width: 160px;
+            text-align: center;
         }
-        .btn-secondary:hover {
+        .btn-download-hero .btn-text {
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .btn-download-hero .btn-icon {
+            display: inline-block;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+        .btn-download-hero:hover .btn-text {
+            transform: translateX(-8px);
+        }
+        .btn-download-hero:hover .btn-icon {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .btn-download-hero:hover {
             background: rgba(255,255,255,0.12);
             color: #fff;
             transform: translateY(-4px);
             border-color: rgba(255,255,255,0.15);
         }
+
         @keyframes fadeUp {
             0% { opacity: 0; transform: translateY(40px); }
             100% { opacity: 1; transform: translateY(0); }
@@ -585,164 +605,113 @@
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 30px;
         }
-.why-item {
-    background: rgba(255,255,255,0.01);
-    border-radius: 32px;
-    border: 1px solid rgba(255,255,255,0.03);
-    padding: 32px 24px 28px;
-    transition: all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
-    text-align: center;
-    backdrop-filter: blur(8px);
-    position: relative;
-    overflow: hidden;
-}
-
-.hero-title-phrase {
-    display: block;
-    flex-shrink: 0;
-    font-family: Onest, sans-serif;
-    font-size: 48px;
-    font-weight: 600;
-    height: var(--phrase-h);
-    line-height: var(--phrase-h);
-    overflow: hidden;
-    white-space: nowrap;
-}
-.hero-title-phrases {
-    animation: hero-rotate 19s cubic-bezier(.34, 1.3, .64, 1) infinite;
-    display: flex;
-    flex-direction: column;
-}
-.hero-title-static {
-    color: #fff;
-    font-family: Onest, sans-serif;
-    font-size: 48px;
-    font-weight: 600;
-    line-height: var(--phrase-h);
-}
-.hero-title-rotator {
-    height: calc(var(--phrase-h));
-    overflow: hidden;
-}
-.hero-description {
-    color: #d8d8d8;
-    font-family: Onest, sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 26px;
-}
-
-/* ====== НОВЫЙ ЭФФЕКТ (белый) ====== */
-/* Эффект свечения изнутри (как в .features-card:after) */
-.why-item::after {
-    background: radial-gradient(75.13% 113.14% at 50% 150%, rgba(255,255,255,0.15) 0, rgba(255,255,255,0) 100%);
-    border-radius: 32px;
-    content: "";
-    inset: 0;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    transition: opacity 0.4s ease;
-    z-index: 0;
-}
-
-/* Градиентная обводка (как в .features-card:before) */
-.why-item::before {
-    background: linear-gradient(0deg, rgba(255,255,255,0.6), transparent 80%);
-    border-radius: 32px;
-    content: "";
-    inset: 0;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    padding: 2px;
-    pointer-events: none;
-    position: absolute;
-    transition: opacity 0.4s ease;
-    z-index: 3;
-}
-
-/* Ховер - включаем оба эффекта */
-.why-item:hover::after {
-    opacity: 1;
-}
-
-.why-item:hover::before {
-    opacity: 1;
-}
-
-/* ====== ОСТАЛЬНЫЕ СТИЛИ ====== */
-.why-item:hover {
-    transform: translateY(-10px) scale(1.01);
-    border-color: rgba(255,255,255,0.06);
-    background: rgba(255,255,255,0.02);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-}
-
-.why-item img {
-    width: 100%;
-    max-width: 200px;
-    height: auto;
-    border-radius: 20px;
-    margin-bottom: 18px;
-    border: 1px solid rgba(255,255,255,0.03);
-    transition: all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    background: rgba(255,255,255,0.01);
-    filter: grayscale(0.2);
-    position: relative;
-    z-index: 1;
-}
-
-.why-item:hover img {
-    transform: scale(1.04) rotate(-1deg);
-    border-color: rgba(255,255,255,0.06);
-    filter: grayscale(0);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-}
-
-.why-item .icon-wrap {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px; height: 52px;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.02);
-    margin-bottom: 16px;
-    font-size: 1.6rem;
-    color: #ccc;
-    border: 1px solid rgba(255,255,255,0.02);
-    transition: all 0.4s ease;
-    position: relative;
-    z-index: 1;
-}
-
-.why-item:hover .icon-wrap {
-    background: rgba(255,255,255,0.04);
-    border-color: rgba(255,255,255,0.04);
-    transform: scale(1.05);
-}
-
-.why-item h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #e0e0e0;
-    margin-bottom: 8px;
-    position: relative;
-    z-index: 1;
-}
-
-.why-item p {
-    color: #777;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    position: relative;
-    z-index: 1;
-}
+        .why-item {
+            background: rgba(255,255,255,0.01);
+            border-radius: 32px;
+            border: 1px solid rgba(255,255,255,0.03);
+            padding: 32px 24px 28px;
+            transition: all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+            text-align: center;
+            backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+        }
+        .why-item::after {
+            background: radial-gradient(75.13% 113.14% at 50% 150%, rgba(255,255,255,0.15) 0, rgba(255,255,255,0) 100%);
+            border-radius: 32px;
+            content: "";
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+        .why-item::before {
+            background: linear-gradient(0deg, rgba(255,255,255,0.6), transparent 80%);
+            border-radius: 32px;
+            content: "";
+            inset: 0;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            padding: 2px;
+            pointer-events: none;
+            position: absolute;
+            transition: opacity 0.4s ease;
+            z-index: 3;
+        }
+        .why-item:hover::after {
+            opacity: 1;
+        }
+        .why-item:hover::before {
+            opacity: 1;
+        }
+        .why-item:hover {
+            transform: translateY(-10px) scale(1.01);
+            border-color: rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+        }
+        .why-item img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            border-radius: 20px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(255,255,255,0.01);
+            filter: grayscale(0.2);
+            position: relative;
+            z-index: 1;
+        }
+        .why-item:hover img {
+            transform: scale(1.04) rotate(-1deg);
+            border-color: rgba(255,255,255,0.06);
+            filter: grayscale(0);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+        .why-item .icon-wrap {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px; height: 52px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.02);
+            margin-bottom: 16px;
+            font-size: 1.6rem;
+            color: #ccc;
+            border: 1px solid rgba(255,255,255,0.02);
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .why-item:hover .icon-wrap {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.04);
+            transform: scale(1.05);
+        }
+        .why-item h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #e0e0e0;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .why-item p {
+            color: #777;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
 
         .download-mega {
             background: rgba(255,255,255,0.01);
@@ -828,108 +797,6 @@
         .download-info .hl { color: #bbb; font-weight: 600; }
         .download-info i { color: #888; width: 18px; transition: all 0.3s ease; }
         .download-info span:hover i { color: #fff; }
-
-        .top-users-section { padding: 30px 0 60px; }
-        .top-users-section .section-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .top-users-section .section-header h2 {
-            font-size: 2.6rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #f0f0f0, #888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .top-users-section .section-header p {
-            color: #666;
-            font-size: 1.05rem;
-            margin-top: 8px;
-        }
-        .top-users-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .top-user-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 20px;
-            background: rgba(255,255,255,0.01);
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.03);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .top-user-item::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-        .top-user-item:hover::before {
-            transform: translateX(100%);
-        }
-        .top-user-item:hover {
-            background: rgba(255,255,255,0.02);
-            border-color: rgba(255,255,255,0.06);
-            transform: translateX(4px);
-        }
-        .top-user-item .rank {
-            font-weight: 800;
-            font-size: 1.2rem;
-            min-width: 40px;
-            color: #555;
-            text-align: center;
-        }
-        .top-user-item .rank.gold { color: #ffd700; }
-        .top-user-item .rank.silver { color: #c0c0c0; }
-        .top-user-item .rank.bronze { color: #cd7f32; }
-        .top-user-item .rank .rank-icon { font-size: 1.4rem; }
-        .top-user-item .avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid rgba(255,255,255,0.06);
-            transition: all 0.3s ease;
-        }
-        .top-user-item:hover .avatar {
-            border-color: rgba(255,255,255,0.12);
-            transform: scale(1.05);
-        }
-        .top-user-item .info {
-            flex: 1;
-        }
-        .top-user-item .info .name {
-            font-weight: 600;
-            color: #ddd;
-        }
-        .top-user-item .info .detail {
-            font-size: 0.8rem;
-            color: #666;
-        }
-        .top-user-item .time {
-            font-weight: 600;
-            color: #6b9fff;
-            font-size: 0.95rem;
-            background: rgba(107,159,255,0.05);
-            padding: 4px 14px;
-            border-radius: 20px;
-            border: 1px solid rgba(107,159,255,0.06);
-        }
-        .top-users-empty {
-            text-align: center;
-            color: #555;
-            padding: 60px 20px;
-            font-size: 1.1rem;
-        }
 
         /* ===== МОДАЛЫ ===== */
         .modal-overlay {
@@ -1804,25 +1671,6 @@
             from { opacity: 0; transform: translateX(-20px); }
             to { opacity: 1; transform: translateX(0); }
         }
-        .top-user-item {
-            animation: slideIn 0.4s ease forwards;
-            opacity: 0;
-        }
-        .top-user-item:nth-child(1) { animation-delay: 0.05s; }
-        .top-user-item:nth-child(2) { animation-delay: 0.1s; }
-        .top-user-item:nth-child(3) { animation-delay: 0.15s; }
-        .top-user-item:nth-child(4) { animation-delay: 0.2s; }
-        .top-user-item:nth-child(5) { animation-delay: 0.25s; }
-        .top-user-item:nth-child(6) { animation-delay: 0.3s; }
-        .top-user-item:nth-child(7) { animation-delay: 0.35s; }
-        .top-user-item:nth-child(8) { animation-delay: 0.4s; }
-        .top-user-item:nth-child(9) { animation-delay: 0.45s; }
-        .top-user-item:nth-child(10) { animation-delay: 0.5s; }
-        .top-user-item:nth-child(11) { animation-delay: 0.55s; }
-        .top-user-item:nth-child(12) { animation-delay: 0.6s; }
-        .top-user-item:nth-child(13) { animation-delay: 0.65s; }
-        .top-user-item:nth-child(14) { animation-delay: 0.7s; }
-        .top-user-item:nth-child(15) { animation-delay: 0.75s; }
 
         @keyframes uploadGlow {
             0% { transform: rotate(0deg); }
@@ -1850,7 +1698,9 @@
                 font-size: 0.75rem;
             }
             .nav-circle .profile-btn img { width: 22px; height: 22px; }
-            .hero-content-overlay h1 { font-size: 3.2rem; letter-spacing: -2px; }
+            .hero-title-main {
+                font-size: 3.5rem;
+            }
             .hero-content-overlay { max-width: 100%; padding: 0 24px; }
             .hero-image img {
                 height: 70%;
@@ -1867,10 +1717,6 @@
             .profile-content { padding: 20px; max-height: none; }
             .logo-text { font-size: 1.2rem; }
             .logo-icon { width: 36px; height: 36px; }
-            .top-user-item { padding: 12px 16px; }
-            .top-user-item .rank { font-size: 1rem; min-width: 30px; }
-            .top-user-item .avatar { width: 36px; height: 36px; }
-            .top-user-item .time { font-size: 0.8rem; padding: 2px 10px; }
             .admin-stats-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
             .admin-user-item { flex-direction: column; align-items: stretch; }
             .admin-user-item .ban-controls { justify-content: flex-start; }
@@ -1884,10 +1730,17 @@
                 font-size: 0.7rem;
                 gap: 4px;
             }
-            .hero-content-overlay h1 { font-size: 2.4rem; letter-spacing: -1px; }
+            .hero-title-main {
+                font-size: 2.8rem;
+                letter-spacing: -1px;
+            }
             .hero-content-overlay p { font-size: 1rem; }
             .btn-download { width: 100%; justify-content: center; padding: 16px 28px; }
-            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+            .btn-primary, .btn-download-hero { 
+                width: 100%; 
+                justify-content: center; 
+                min-width: unset;
+            }
             .download-mega h2 { font-size: 2rem; }
             .hero-actions { flex-direction: column; align-items: center; }
             .why-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
@@ -1898,12 +1751,6 @@
             .logo-text { font-size: 1rem; }
             .logo-icon { width: 30px; height: 30px; }
             .logo-badge { display: none; }
-            .top-user-item { padding: 10px 12px; gap: 10px; }
-            .top-user-item .rank { font-size: 0.85rem; min-width: 24px; }
-            .top-user-item .avatar { width: 30px; height: 30px; }
-            .top-user-item .time { font-size: 0.7rem; padding: 2px 8px; }
-            .top-user-item .info .name { font-size: 0.9rem; }
-            .top-user-item .info .detail { font-size: 0.7rem; }
             .avatar-full-section .avatar-preview { width: 60px; height: 60px; }
             .avatar-full-section .avatar-upload-btn { font-size: 0.8rem; padding: 10px 20px; }
             .toggle-switch-modern .toggle-track { width: 50px; height: 28px; }
@@ -1925,7 +1772,6 @@
         <button class="tab-btn active" data-tab="home"><i class="fas fa-home"></i> Главная</button>
         <button class="tab-btn" data-tab="features"><i class="fas fa-cog"></i> Возможности</button>
         <button class="tab-btn" data-tab="download"><i class="fas fa-download"></i> Скачать</button>
-        <button class="tab-btn" data-tab="topusers"><i class="fas fa-trophy"></i> Топ</button>
         <button class="tab-btn modal-trigger" data-modal="reviews"><i class="fas fa-star"></i> Отзывы</button>
         <button class="tab-btn modal-trigger" data-modal="admin" id="adminTabBtn" style="display:none;"><i class="fas fa-user-shield"></i> Админ</button>
         <button class="tab-btn modal-trigger" data-modal="profile" id="profileTabBtn"><i class="fas fa-user"></i> Профиль</button>
@@ -1985,16 +1831,20 @@
             <img src="images/newbackroundmenu.png" alt="Background" />
         </div>
         <div class="hero-content-overlay">
-            <div class="hero-badge">
-                <i class="fas fa-shield-alt"></i> ProxyGem v1.7
-            </div>
-            <h1>
-                <h1 class="hero-title"><span class="hero-title-static">Визуал —</span><span class="hero-title-rotator"><span class="hero-title-phrases"><span class="hero-title-phrase"><span style="color: rgb(255, 255, 255);">который </span><span style="color: rgb(255, 123, 29);">меняет</span><span style="color: rgb(255, 255, 255);"> игру</span></span><span class="hero-title-phrase"><span style="color: rgb(255, 123, 29);">нового</span><span style="color: rgb(255, 255, 255);"> уровня</span></span><span class="hero-title-phrase"><span style="color: rgb(255, 123, 29);">без компромиссов</span></span><span class="hero-title-phrase"><span style="color: rgb(255, 255, 255);">который </span><span style="color: rgb(255, 123, 29);">ощущается</span></span><span class="hero-title-phrase"><span style="color: rgb(255, 255, 255);">как </span><span style="color: rgb(255, 123, 29);">надо</span></span><span class="hero-title-phrase"><span style="color: rgb(255, 255, 255);">который </span><span style="color: rgb(255, 123, 29);">меняет</span><span style="color: rgb(255, 255, 255);"> игру</span></span></span></span></h1>
-            </h1>
-            <p class="hero-description">ReallyVisuals — современный Minecraft клиент с продвинутыми визуальными модулями, настраиваемым HUD и полезными игровыми утилитами.</p>
+            <!-- Только ProxyGem v1.7 с анимацией -->
+            <div class="hero-title-main">ProxyGem v1.7</div>
+            <p>Современный инструмент для безопасного и анонимного обхода. Молниеносная скорость, интеллектуальная маршрутизация и полная конфиденциальность.</p>
             <div class="hero-actions">
-                <button class="btn-primary" id="heroDownloadBtn"><i class="fas fa-rocket"></i> Начать</button>
-                <button class="btn-secondary" id="heroFeaturesBtn"><i class="fas fa-play-circle"></i> Как работает</button
+                <!-- Кнопка Подробнее с иконкой ∧ -->
+                <button class="btn-primary" id="heroFeaturesBtn">
+                    <span class="btn-text">Подробнее</span>
+                    <span class="btn-icon"><i class="fas fa-arrow-down"></i></span>
+                </button>
+                <!-- Кнопка Скачать -->
+                <button class="btn-download-hero" id="heroDownloadBtn">
+                    <span class="btn-text">Скачать</span>
+                    <span class="btn-icon"><i class="fas fa-download"></i></span>
+                </button>
             </div>
         </div>
     </section>
@@ -2072,17 +1922,6 @@
                         <span><i class="fas fa-rocket"></i> <span class="hl">Быстрая</span> установка</span>
                         <span><i class="fas fa-download"></i> <span class="hl">18 742</span> загрузок</span>
                     </div>
-                </div>
-            </div>
-
-            <!-- ТОП ПОЛЬЗОВАТЕЛЕЙ -->
-            <div class="section-block" id="section-topusers">
-                <div class="top-users-section">
-                    <div class="section-header">
-                        <h2><i class="fas fa-trophy"></i> Топ Пользователей</h2>
-                        <p>Топ 100 пользователей по времени на сайте</p>
-                    </div>
-                    <div class="top-users-grid" id="topUsersList"></div>
                 </div>
             </div>
 
@@ -2259,7 +2098,8 @@
     <script>
         // ===== НАСТРОЙКИ =====
         const CLIENT_ID = '8155864182';
-        const ADMIN_TELEGRAM_ID = '123456789';
+        const ADMIN_TELEGRAM_ID = '5580919240'; // Только этот Telegram ID имеет доступ
+        const ADMIN_CODE = '2105';
         const VISITS_KEY = 'proxygem_visits';
 
         // ===== ПЕРЕВОДЫ =====
@@ -2268,15 +2108,12 @@
                 nav_home: 'Главная',
                 nav_features: 'Возможности',
                 nav_download: 'Скачать',
-                nav_top: 'Топ',
                 nav_reviews: 'Отзывы',
                 nav_admin: 'Админ',
                 nav_profile: 'Профиль',
-                hero_badge: 'ProxyGem v1.7',
-                hero_title: 'Обходи <span class="highlight">ограничения</span><br>с ProxyGem',
                 hero_desc: 'Современный инструмент для безопасного и анонимного обхода. Молниеносная скорость, интеллектуальная маршрутизация и полная конфиденциальность.',
-                hero_start: 'Начать',
-                hero_how: 'Как работает',
+                hero_more: 'Подробнее',
+                hero_download: 'Скачать',
                 features_title: 'Возможности ProxyGem',
                 features_sub: 'Ключевые преимущества, которые делают нас выбором №1',
                 download_title: 'Скачай ProxyGem',
@@ -2285,8 +2122,6 @@
                 download_verified: 'Проверено · без вирусов',
                 download_fast: 'Быстрая установка',
                 download_count: '18 742 загрузок',
-                top_title: 'Топ Пользователей',
-                top_sub: 'Топ 100 пользователей по времени на сайте',
                 footer: 'ProxyGem · 2026 · безопасность и свобода в сети',
                 stats_visitors: 'уникальных посетителей',
                 stats_countries: 'стран покрытия',
@@ -2340,15 +2175,12 @@
                 nav_home: 'Home',
                 nav_features: 'Features',
                 nav_download: 'Download',
-                nav_top: 'Top',
                 nav_reviews: 'Reviews',
                 nav_admin: 'Admin',
                 nav_profile: 'Profile',
-                hero_badge: 'ProxyGem v1.7',
-                hero_title: 'Bypass <span class="highlight">restrictions</span><br>with ProxyGem',
                 hero_desc: 'Modern tool for secure and anonymous bypass. Lightning speed, intelligent routing and complete privacy.',
-                hero_start: 'Get Started',
-                hero_how: 'How it works',
+                hero_more: 'Learn More',
+                hero_download: 'Download',
                 features_title: 'ProxyGem Features',
                 features_sub: 'Key advantages that make us the #1 choice',
                 download_title: 'Download ProxyGem',
@@ -2357,8 +2189,6 @@
                 download_verified: 'Verified · virus-free',
                 download_fast: 'Fast installation',
                 download_count: '18,742 downloads',
-                top_title: 'Top Users',
-                top_sub: 'Top 100 users by time on site',
                 footer: 'ProxyGem · 2026 · security and freedom on the web',
                 stats_visitors: 'unique visitors',
                 stats_countries: 'countries covered',
@@ -2412,15 +2242,12 @@
                 nav_home: 'Ana Sayfa',
                 nav_features: 'Özellikler',
                 nav_download: 'İndir',
-                nav_top: 'En İyiler',
                 nav_reviews: 'Yorumlar',
                 nav_admin: 'Admin',
                 nav_profile: 'Profil',
-                hero_badge: 'ProxyGem v1.7',
-                hero_title: '<span class="highlight">Kısıtlamaları</span><br>ProxyGem ile aşın',
                 hero_desc: 'Güvenli ve anonim erişim için modern araç. Yıldırım hızı, akıllı yönlendirme ve tam gizlilik.',
-                hero_start: 'Başla',
-                hero_how: 'Nasıl çalışır',
+                hero_more: 'Daha Fazla',
+                hero_download: 'İndir',
                 features_title: 'ProxyGem Özellikleri',
                 features_sub: 'Bizi 1 numara yapan temel avantajlar',
                 download_title: 'ProxyGem\'i İndir',
@@ -2429,8 +2256,6 @@
                 download_verified: 'Doğrulandı · virüssüz',
                 download_fast: 'Hızlı kurulum',
                 download_count: '18.742 indirme',
-                top_title: 'En İyi Kullanıcılar',
-                top_sub: 'Sitede geçirilen süreye göre ilk 100 kullanıcı',
                 footer: 'ProxyGem · 2026 · güvenlik ve özgürlük',
                 stats_visitors: 'benzersiz ziyaretçi',
                 stats_countries: 'ülke kapsamı',
@@ -2662,47 +2487,37 @@
         document.querySelectorAll('.modal-trigger').forEach(btn => {
             btn.addEventListener('click', async function() {
                 const modalId = this.dataset.modal;
-                if (modalId === 'admin' && !isAdmin) {
+                if (modalId === 'admin') {
+                    // Проверяем, что пользователь авторизован и имеет правильный Telegram ID
+                    if (!currentUser) {
+                        await showAlert('Доступ запрещен', 'Сначала авторизуйтесь через Telegram', 'warning');
+                        return;
+                    }
+                    
+                    // Проверяем Telegram ID
+                    if (currentUser.telegramId !== ADMIN_TELEGRAM_ID) {
+                        await showAlert('Доступ запрещен', 'У вас нет доступа к админ-панели', 'error');
+                        return;
+                    }
+                    
+                    // Запрашиваем код
                     const userCode = prompt('Введите код доступа:');
                     if (userCode === null) return;
-                    if (userCode === '2105') {
-                        if (!currentUser) {
-                            const tempUser = {
-                                id: 'admin_' + Date.now(),
-                                telegramId: 'admin',
-                                name: 'Admin',
-                                nickname: 'Admin',
-                                avatar: 'images/avatar.png',
-                                createdAt: Date.now(),
-                                isAdmin: true,
-                                accessKey: generateAccessKey(),
-                                timeOnSite: 0,
-                                lastActive: Date.now(),
-                                settings: { language: 'ru', notifications: false }
-                            };
-                            currentUser = tempUser;
+                    if (userCode === ADMIN_CODE) {
+                        // Даем доступ
+                        const users = getUsers();
+                        const idx = users.findIndex(u => u.id === currentUser.id);
+                        if (idx !== -1) {
+                            users[idx].isAdmin = true;
+                            saveUsers(users);
+                            currentUser = users[idx];
                             isAdmin = true;
                             localStorage.setItem('currentUser', JSON.stringify(currentUser));
                             updateProfileUI();
                             await showAlert('Доступ получен', 'Вы получили доступ к админ-панели!', 'success');
-                            startTimeTracking();
-                        } else {
-                            const users = getUsers();
-                            const idx = users.findIndex(u => u.id === currentUser.id);
-                            if (idx !== -1) {
-                                users[idx].isAdmin = true;
-                                saveUsers(users);
-                                currentUser = users[idx];
-                                isAdmin = true;
-                                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                                updateProfileUI();
-                                await showAlert('Доступ получен', 'Вы получили права администратора!', 'success');
-                            }
                         }
-                    } else if (userCode !== null) {
-                        await showAlert('Ошибка', 'Неверный код доступа', 'error');
-                        return;
                     } else {
+                        await showAlert('Ошибка', 'Неверный код доступа', 'error');
                         return;
                     }
                 }
@@ -2830,7 +2645,8 @@
             const { telegramId, name, avatar } = window._pendingUser;
             const user = createUser(telegramId, name, nickname, avatar);
             
-            if (telegramId === ADMIN_TELEGRAM_ID || name.toLowerCase().includes('mistergemer')) {
+            // Проверяем, является ли пользователь администратором
+            if (telegramId === ADMIN_TELEGRAM_ID) {
                 user.isAdmin = true;
                 const users = getUsers();
                 const idx = users.findIndex(u => u.id === user.id);
@@ -2941,7 +2757,6 @@
                 updateProfileUI();
                 status.textContent = 'Ник успешно изменён!';
                 status.style.color = '#6bff6b';
-                renderTopUsers();
                 await showAlert('Успех', 'Никнейм успешно изменён!', 'success');
             }
         });
@@ -2982,7 +2797,8 @@
                 }
                 nameSpan.textContent = currentUser.nickname || currentUser.name;
                 profileBtn.style.borderColor = 'rgba(255,255,255,0.06)';
-                if (currentUser.isAdmin) {
+                // Показываем кнопку админа только если у пользователя есть права
+                if (currentUser.isAdmin && currentUser.telegramId === ADMIN_TELEGRAM_ID) {
                     document.getElementById('adminTabBtn').style.display = 'flex';
                 } else {
                     document.getElementById('adminTabBtn').style.display = 'none';
@@ -3026,7 +2842,7 @@
             }
             
             const groupEl = document.getElementById('profileGroup');
-            if (currentUser.isAdmin) {
+            if (currentUser.isAdmin && currentUser.telegramId === ADMIN_TELEGRAM_ID) {
                 groupEl.textContent = 'ADMIN';
                 groupEl.className = 'value admin';
             } else {
@@ -3145,44 +2961,6 @@
             await showAlert('Успех', 'Ваш отзыв опубликован!', 'success');
         });
 
-        // ===== ТОП ПОЛЬЗОВАТЕЛЕЙ =====
-        function renderTopUsers() {
-            const container = document.getElementById('topUsersList');
-            const users = getUsers();
-            
-            const sorted = [...users].sort((a, b) => (b.timeOnSite || 0) - (a.timeOnSite || 0));
-            const top = sorted.slice(0, 100);
-            
-            if (top.length === 0) {
-                container.innerHTML = '<div class="top-users-empty"><i class="fas fa-users"></i> Пока нет пользователей</div>';
-                return;
-            }
-
-            const rankIcons = ['<i class="fas fa-crown" style="color:#ffd700;"></i>', '<i class="fas fa-medal" style="color:#c0c0c0;"></i>', '<i class="fas fa-medal" style="color:#cd7f32;"></i>'];
-            const rankClasses = ['gold', 'silver', 'bronze'];
-
-            container.innerHTML = top.map((user, index) => {
-                const rank = index + 1;
-                const rankDisplay = rank <= 3 ? rankIcons[index] : '#' + rank;
-                const rankClass = rank <= 3 ? rankClasses[index] : '';
-                const timeSeconds = user.timeOnSite || 0;
-                const hours = Math.floor(timeSeconds / 3600);
-                const minutes = Math.floor((timeSeconds % 3600) / 60);
-                const timeStr = hours > 0 ? hours + 'ч ' + minutes + 'м' : minutes + 'м';
-                const isCurrentUser = currentUser && currentUser.id === user.id;
-                
-                return '<div class="top-user-item" style="' + (isCurrentUser ? 'border-color: rgba(107,159,255,0.2); background: rgba(107,159,255,0.02);' : '') + '">' +
-                    '<div class="rank ' + rankClass + '"><span class="rank-icon">' + rankDisplay + '</span></div>' +
-                    '<img class="avatar" src="' + (user.avatar || 'images/avatar.png') + '" alt="avatar" />' +
-                    '<div class="info">' +
-                        '<div class="name">' + escapeHtml(user.nickname || user.name) + (isCurrentUser ? ' <span style="color:#6b9fff;font-size:0.8rem;">(Вы)</span>' : '') + '</div>' +
-                        '<div class="detail">' + (user.isAdmin ? '<i class="fas fa-crown" style="color:#ffd700;"></i> Администратор' : 'Пользователь') + '</div>' +
-                    '</div>' +
-                    '<div class="time"><i class="fas fa-clock"></i> ' + timeStr + '</div>' +
-                '</div>';
-            }).join('');
-        }
-
         // ===== АДМИН =====
         function renderAdminPanel() {
             if (!isAdmin) return;
@@ -3208,21 +2986,25 @@
                 const author = r.author || 'Аноним';
                 return '<div class="review-item"><div class="review-header"><span class="review-author">' + escapeHtml(author) + '</span><div style="display:flex; gap:12px; align-items:center;"><span class="review-stars">' + stars + '</span><button class="admin-delete-btn" data-index="' + index + '"><i class="fas fa-trash"></i> Удалить</button></div></div><div class="review-text">' + escapeHtml(r.text) + '</div><div class="review-date">' + date + '</div></div>';
             }).join('');
+            
+            // Обработчики для удаления отзывов
             container.querySelectorAll('.admin-delete-btn').forEach(btn => {
                 btn.addEventListener('click', async function() {
                     const index = parseInt(this.dataset.index);
-                    const confirm = await showAlert('Удаление', 'Удалить этот отзыв?', 'warning', [
+                    const confirmResult = await showAlert('Удаление', 'Удалить этот отзыв?', 'warning', [
                         { text: 'Отмена', className: 'btn-secondary' },
                         { text: 'Удалить', className: 'btn-primary' }
                     ]);
-                    if (confirm === 1) {
+                    if (confirmResult === 1) {
                         const reviews = getReviews();
-                        reviews.splice(index, 1);
-                        saveReviews(reviews);
-                        renderReviews();
-                        renderAdminReviews();
-                        renderAdminPanel();
-                        await showAlert('Успех', 'Отзыв удалён', 'success');
+                        if (index >= 0 && index < reviews.length) {
+                            reviews.splice(index, 1);
+                            saveReviews(reviews);
+                            renderReviews();
+                            renderAdminReviews();
+                            renderAdminPanel();
+                            await showAlert('Успех', 'Отзыв удалён', 'success');
+                        }
                     }
                 });
             });
@@ -3328,7 +3110,7 @@
         // ===== НАВИГАЦИЯ =====
         const routes = {
             '': 'home', 'home': 'home', 'features': 'features',
-            'download': 'download', 'topusers': 'topusers'
+            'download': 'download'
         };
 
         function navigateTo(route) {
@@ -3359,8 +3141,10 @@
             });
         });
 
-        document.getElementById('heroDownloadBtn').addEventListener('click', () => navigateTo('download'));
+        // Кнопка "Подробнее" → на вкладку "Возможности"
         document.getElementById('heroFeaturesBtn').addEventListener('click', () => navigateTo('features'));
+        // Кнопка "Скачать" → на вкладку "Скачать"
+        document.getElementById('heroDownloadBtn').addEventListener('click', () => navigateTo('download'));
 
         window.addEventListener('popstate', () => {
             const path = window.location.pathname.slice(1);
@@ -3378,14 +3162,16 @@
                 if (tab === 'home') btn.innerHTML = '<i class="fas fa-home"></i> ' + t.nav_home;
                 else if (tab === 'features') btn.innerHTML = '<i class="fas fa-cog"></i> ' + t.nav_features;
                 else if (tab === 'download') btn.innerHTML = '<i class="fas fa-download"></i> ' + t.nav_download;
-                else if (tab === 'topusers') btn.innerHTML = '<i class="fas fa-trophy"></i> ' + t.nav_top;
             });
             
-            document.querySelector('.hero-badge').innerHTML = '<i class="fas fa-shield-alt"></i> ' + t.hero_badge;
-            document.querySelector('.hero-content-overlay h1').innerHTML = t.hero_title;
             document.querySelector('.hero-content-overlay p').textContent = t.hero_desc;
-            document.getElementById('heroDownloadBtn').innerHTML = '<i class="fas fa-rocket"></i> ' + t.hero_start;
-            document.getElementById('heroFeaturesBtn').innerHTML = '<i class="fas fa-play-circle"></i> ' + t.hero_how;
+            
+            // Обновляем текст кнопок
+            const moreBtn = document.getElementById('heroFeaturesBtn');
+            moreBtn.innerHTML = '<span class="btn-text">' + t.hero_more + '</span><span class="btn-icon"><i class="fas fa-arrow-down"></i></span>';
+            
+            const downloadBtn = document.getElementById('heroDownloadBtn');
+            downloadBtn.innerHTML = '<span class="btn-text">' + t.hero_download + '</span><span class="btn-icon"><i class="fas fa-download"></i></span>';
             
             document.querySelector('.why-us .section-header h2').textContent = t.features_title;
             document.querySelector('.why-us .section-header p').textContent = t.features_sub;
@@ -3399,9 +3185,6 @@
                 downloadInfo[1].innerHTML = '<i class="fas fa-rocket"></i> <span class="hl">' + t.download_fast.split('·')[0].trim() + '</span> · ' + t.download_fast.split('·')[1].trim();
                 downloadInfo[2].innerHTML = '<i class="fas fa-download"></i> <span class="hl">18 742</span> ' + t.download_count.split(' ').slice(2).join(' ');
             }
-            
-            document.querySelector('.top-users-section .section-header h2').innerHTML = '<i class="fas fa-trophy"></i> ' + t.top_title;
-            document.querySelector('.top-users-section .section-header p').textContent = t.top_sub;
             
             document.querySelector('footer').innerHTML = '<i class="fas fa-gem"></i> ' + t.footer;
             
@@ -3486,11 +3269,12 @@
 
         function renderAll() {
             renderReviews();
-            renderTopUsers();
             renderNotifications();
-            renderAdminPanel();
-            renderAdminReviews();
-            renderUsersList();
+            if (isAdmin) {
+                renderAdminPanel();
+                renderAdminReviews();
+                renderUsersList();
+            }
             document.getElementById('statUsers').textContent = getVisits();
         }
 
@@ -3499,8 +3283,14 @@
             incrementVisits();
             restoreSession();
 
-            const path = window.location.pathname.slice(1);
-            navigateTo(path || 'home');
+            // Убеждаемся, что активна вкладка "Главная"
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tab === 'home') btn.classList.add('active');
+            });
+
+            // Прокручиваем наверх (главная)
+            window.scrollTo({ top: 0, behavior: 'instant' });
 
             renderAll();
 
