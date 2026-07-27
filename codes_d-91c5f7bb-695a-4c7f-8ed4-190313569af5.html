@@ -1,0 +1,217 @@
+﻿<html lang="ru"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Получение кода — mincrfat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: #1a1a28;
+            --accent: #6c5ce7;
+            --accent-light: #a29bfe;
+            --success: #00e676;
+            --success-glow: rgba(0, 230, 118, 0.3);
+            --error: #ff5252;
+            --error-glow: rgba(255, 82, 82, 0.2);
+            --text-primary: #f0f0f5;
+            --text-secondary: #8888a0;
+            --text-muted: #55556a;
+            --border: rgba(255, 255, 255, 0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Manrope', sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .bg-grid { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(108,92,231,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(108,92,231,0.03) 1px, transparent 1px); background-size: 60px 60px; z-index: 0; }
+        .bg-orb { position: fixed; border-radius: 50%; filter: blur(100px); z-index: 0; animation: float 20s ease-in-out infinite; }
+        .bg-orb-1 { width: 500px; height: 500px; background: rgba(108,92,231,0.08); top: -200px; right: -100px; }
+        .bg-orb-2 { width: 400px; height: 400px; background: rgba(0,230,118,0.04); bottom: -150px; left: -100px; animation-delay: -10s; }
+        @keyframes float { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(30px,-30px) scale(1.05)} 50%{transform:translate(-20px,20px) scale(0.95)} 75%{transform:translate(10px,40px) scale(1.02)} }
+        .container { position: relative; z-index: 1; width: 100%; max-width: 480px; padding: 20px; }
+        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 48px 36px; text-align: center; position: relative; overflow: hidden; animation: cardEntry 0.8s cubic-bezier(0.16,1,0.3,1); transition: border-color 0.5s ease; }
+        @keyframes cardEntry { from { opacity: 0; transform: translateY(30px) scale(0.96); } }
+        .card::before { content:''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.6; }
+        .product-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(108,92,231,0.1); border: 1px solid rgba(108,92,231,0.2); border-radius: 100px; padding: 8px 20px; font-size: 13px; font-weight: 600; color: var(--accent-light); margin-bottom: 32px; }
+        .spinner-container { position: relative; width: 100px; height: 100px; margin: 0 auto 32px; }
+        .spinner-ring { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 3px solid transparent; border-radius: 50%; }
+        .spinner-ring-1 { border-top-color: var(--accent); animation: spin 1.2s linear infinite; }
+        .spinner-ring-2 { border-right-color: var(--accent-light); animation: spin 1.8s linear infinite reverse; top: 10px; left: 10px; width: calc(100% - 20px); height: calc(100% - 20px); }
+        .spinner-ring-3 { border-bottom-color: rgba(108,92,231,0.3); animation: spin 2.4s linear infinite; top: 20px; left: 20px; width: calc(100% - 40px); height: calc(100% - 40px); }
+        .spinner-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 28px; animation: pulse 2s ease-in-out infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%,100%{ opacity:1; transform:translate(-50%,-50%) scale(1); } 50%{ opacity:0.6; transform:translate(-50%,-50%) scale(0.9); } }
+        .status-title { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+        .status-subtitle { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+        .progress-dots { display: flex; justify-content: center; gap: 6px; margin-top: 28px; }
+        .progress-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: dotPulse 1.5s ease-in-out infinite; }
+        .progress-dot:nth-child(2) { animation-delay: 0.3s; }
+        .progress-dot:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes dotPulse { 0%,100%{ opacity:0.4; transform:scale(1); } 50%{ opacity:1; transform:scale(1.4); } }
+        .timer { margin-top: 20px; font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+        .success-container { display: none; animation: successEntry 0.6s cubic-bezier(0.16,1,0.3,1); }
+        @keyframes successEntry { from { opacity: 0; transform: scale(0.9); } }
+        .success-icon { width: 80px; height: 80px; margin: 0 auto 24px; background: rgba(0,230,118,0.1); border: 2px solid rgba(0,230,118,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; animation: successPop 0.5s cubic-bezier(0.68,-0.55,0.265,1.55); }
+        @keyframes successPop { from{transform:scale(0)} 50%{transform:scale(1.2)} to{transform:scale(1)} }
+        .success-title { font-size: 20px; font-weight: 700; color: var(--success); margin-bottom: 8px; }
+        .success-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 28px; }
+        .code-box { background: var(--bg-primary); border: 2px solid rgba(0,230,118,0.2); border-radius: 16px; padding: 24px; margin-bottom: 20px; position: relative; overflow: hidden; }
+        .code-box::before { content:''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--success), transparent); }
+        .code-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 12px; }
+        .code-value { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; color: var(--text-primary); word-break: break-all; line-height: 1.4; user-select: all; }
+        .copy-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--success); color: #0a0a0f; border: none; border-radius: 12px; padding: 14px 32px; font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; margin-top: 8px; }
+        .copy-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--success-glow); }
+        .copy-btn.copied { background: var(--accent); color: white; }
+        .copy-btn svg { width: 16px; height: 16px; }
+        .bookmark-hint { margin-top: 20px; font-size: 12px; color: var(--text-muted); line-height: 1.5; padding: 12px 16px; background: rgba(108, 92, 231, 0.06); border: 1px solid rgba(108, 92, 231, 0.1); border-radius: 10px; }
+        .error-container { display: none; animation: successEntry 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .error-icon { width: 80px; height: 80px; margin: 0 auto 24px; background: var(--error-glow); border: 2px solid rgba(255,82,82,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; }
+        .error-title { font-size: 20px; font-weight: 700; color: var(--error); margin-bottom: 8px; }
+        .error-subtitle { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+        .footer { text-align: center; margin-top: 24px; font-size: 11px; color: var(--text-muted); }
+        .confetti { position: fixed; top: -10px; z-index: 100; pointer-events: none; }
+        @keyframes confettiFall { to { transform: translateY(105vh) rotate(720deg); opacity: 0; } }
+        @media (max-width: 480px) { .card { padding: 36px 24px; } .code-value { font-size: 18px; } .status-title { font-size: 20px; } }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+
+    <div class="container">
+        <div class="card" id="mainCard">
+            <div class="product-badge">
+                <span>🔑</span>
+                <span>mincrfat</span>
+            </div>
+
+            <div id="waitingState">
+                <div class="spinner-container">
+                    <div class="spinner-ring spinner-ring-1"></div>
+                    <div class="spinner-ring spinner-ring-2"></div>
+                    <div class="spinner-ring spinner-ring-3"></div>
+                    <div class="spinner-icon">🔐</div>
+                </div>
+                <div class="status-title" id="statusTitle">Подготовка вашего кода...</div>
+                <div class="status-subtitle" id="statusSubtitle">Пожалуйста, не закрывайте эту страницу.<br>Ваш код будет доставлен в течение нескольких минут.</div>
+                <div class="progress-dots"><div class="progress-dot"></div><div class="progress-dot"></div><div class="progress-dot"></div></div>
+                <div class="timer" id="timer">⏱ 00:00</div>
+            </div>
+
+            <div id="successState" class="success-container">
+                <div class="success-icon">✓</div>
+                <div class="success-title">Код готов!</div>
+                <div class="success-subtitle">Скопируйте и активируйте ваш код</div>
+                <div class="code-box">
+                    <div class="code-label">Ваш код</div>
+                    <div class="code-value" id="codeDisplay">—</div>
+                </div>
+                <button class="copy-btn" onclick="copyCode()" id="copyBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span id="copyText">Скопировать код</span>
+                </button>
+                <div class="bookmark-hint">💡 Сохраните эту страницу — вы можете вернуться и посмотреть код в любое время</div>
+            </div>
+
+            <div id="errorState" class="error-container">
+                <div class="error-icon">✕</div>
+                <div class="error-title" id="errorTitle">Сессия истекла</div>
+                <div class="error-subtitle" id="errorSubtitle">Свяжитесь с продавцом.</div>
+            </div>
+        </div>
+        <div class="footer">Защищённая доставка цифровых товаров</div>
+    </div>
+
+    <script>
+        const PAGE_TOKEN = "91c5f7bb-695a-4c7f-8ed4-190313569af5";
+        const PRODUCT_ID = "mincrfat";
+        const BASE = "/Automatic_delivery";
+        let sessionToken = null, pollInterval = null, timerInterval = null;
+
+        async function initSession() {
+            try {
+                const r = await fetch(`${BASE}/api/create-session`, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({ page_token: PAGE_TOKEN, product_id: PRODUCT_ID })
+                });
+                if (r.status === 403) { showError("Доступ запрещён", "Неверная или истёкшая ссылка."); return; }
+                if (!r.ok) throw new Error("Failed");
+                const d = await r.json();
+                sessionToken = d.session_token;
+
+                if (d.status === "delivered" || d.status === "retrieved") {
+                    const c = await fetch(`${BASE}/api/check/${sessionToken}`);
+                    const res = await c.json();
+                    if (res.code) { showSuccess(res.code); return; }
+                }
+                if (d.status === "rejected") { showError("Заказ отклонён", "Свяжитесь с продавцом."); return; }
+
+                startTimer();
+                pollInterval = setInterval(checkStatus, 3000);
+            } catch(e) { console.error(e); showError("Ошибка", "Обновите страницу."); }
+        }
+
+        async function checkStatus() {
+            if (!sessionToken) return;
+            try {
+                const r = await fetch(`${BASE}/api/check/${sessionToken}`);
+                const d = await r.json();
+                if (d.status === "delivered" || d.status === "retrieved") { clearInterval(pollInterval); clearInterval(timerInterval); showSuccess(d.code); }
+                else if (d.status === "expired") { clearInterval(pollInterval); clearInterval(timerInterval); showError("Сессия истекла", "Свяжитесь с продавцом."); }
+                else if (d.status === "rejected") { clearInterval(pollInterval); clearInterval(timerInterval); showError("Заказ отклонён", "Свяжитесь с продавцом."); }
+                else if (d.status === "pending_approval") { document.getElementById("statusTitle").textContent = "Проверка заказа..."; document.getElementById("statusSubtitle").innerHTML = "Ваш заказ проверяется.<br>Это займёт несколько минут."; }
+                else if (d.status === "waiting") { document.getElementById("statusTitle").textContent = "Подготовка кода..."; document.getElementById("statusSubtitle").innerHTML = "Заказ подтверждён! Код готовится."; }
+            } catch(e) { console.error(e); }
+        }
+
+        function showSuccess(code) {
+            document.getElementById("waitingState").style.display = "none";
+            document.getElementById("errorState").style.display = "none";
+            document.getElementById("successState").style.display = "block";
+            document.getElementById("codeDisplay").textContent = code;
+            document.getElementById("mainCard").style.borderColor = "rgba(0,230,118,0.2)";
+            createConfetti();
+        }
+
+        function showError(t, s) {
+            document.getElementById("waitingState").style.display = "none";
+            document.getElementById("successState").style.display = "none";
+            document.getElementById("errorState").style.display = "block";
+            document.getElementById("errorTitle").textContent = t;
+            document.getElementById("errorSubtitle").innerHTML = s;
+            document.getElementById("mainCard").style.borderColor = "rgba(255,82,82,0.2)";
+        }
+
+        async function copyCode() {
+            const code = document.getElementById("codeDisplay").textContent;
+            try {
+                await navigator.clipboard.writeText(code);
+                document.getElementById("copyBtn").classList.add("copied");
+                document.getElementById("copyText").textContent = "Скопировано! ✓";
+                setTimeout(() => { document.getElementById("copyBtn").classList.remove("copied"); document.getElementById("copyText").textContent = "Скопировать код"; }, 2000);
+            } catch { const el = document.createElement("textarea"); el.value = code; document.body.appendChild(el); el.select(); Automatic_delivery/d/document.execCommand("copy"); document.body.removeChild(el); document.getElementById("copyText").textContent = "Скопировано! ✓"; }
+            
+            // تسجيل نسخ الكود
+            if (sessionToken) {
+                fetch(`${BASE}/api/code-copied`, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({ session_token: sessionToken })
+                }).catch(() => {});
+            }
+        }
+
+        function startTimer() {
+            const s = Date.now();
+            timerInterval = setInterval(() => { const e = Math.floor((Date.now()-s)/1000); document.getElementById("timer").textContent = `⏱ ${String(Math.floor(e/60)).padStart(2,"0")}:${String(e%60).padStart(2,"0")}`; }, 1000);
+        }
+
+        function createConfetti() {
+            const c = ["#6c5ce7","#a29bfe","#00e676","#ffd93d","#ff6b6b"];
+            for (let i=0;i<30;i++) setTimeout(()=>{ const d=document.createElement("div"); d.className="confetti"; d.style.left=Math.random()*100+"vw"; d.style.width=Math.random()*8+4+"px"; d.style.height=d.style.width; d.style.background=c[Math.floor(Math.random()*c.length)]; d.style.borderRadius=Math.random()>0.5?"50%":"2px"; d.style.animation=`confettiFall ${Math.random()*2+2}s linear forwards`; document.body.appendChild(d); setTimeout(()=>d.remove(),4000); }, i*50);
+        }
+
+        window.addEventListener("DOMContentLoaded", initSession);
+    </script>
+
+<div style="display:none!important;color:#FFFFFF!important;background-color:#FFFFFF!important;opacity:0!important;font-family:Arial,Tahoma,Geneva,Helvetica,sans-serif!important;font-size:1px!important;"><p style="display:none!important;color:#FFFFFF!important;background-color:#FFFFFF!important;opacity:0!important;font-family:Arial,Tahoma,Geneva,Helvetica,sans-serif!important;font-size:1px!important;">SiteCopy - <a style="display:none!important;color:#FFFFFF!important;background-color:#FFFFFF!important;opacity:0!important;font-family:Arial,Tahoma,Geneva,Helvetica,sans-serif!important;font-size:1px!important;" href="https://sitecopy.ru/" title="Онлайн-сервис, где можно скопировать любой сайт и лендинг по ссылке и бесплатно">онлайн-сервис, где можно скопировать любой сайт и лендинг по ссылке и бесплатно</a>. Копирование и создание точной копии Landing page делается целиком и полностью. Можно копировать чужой сайт или интернет-магазин конкурента и переделать под себя. Создать клон и дубликат можно на Тильде, Фигма, ВордПресс или Битрикс.</p><div style="display:none!important;color:#FFFFFF!important;background-color:#FFFFFF!important;opacity:0!important;font-family:Arial,Tahoma,Geneva,Helvetica,sans-serif!important;font-size:1px!important;"></div></div></body></html>
