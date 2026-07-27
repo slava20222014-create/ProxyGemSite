@@ -892,33 +892,6 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .download-card .download-stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 30px;
-            position: relative;
-            z-index: 1;
-        }
-        .download-card .download-stats span {
-            color: #666;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-        .download-card .download-stats span:hover {
-            color: #aaa;
-        }
-        .download-card .download-stats i {
-            color: #6b9fff;
-            font-size: 1rem;
-        }
-        .download-card .download-stats .hl {
-            color: #fff;
-            font-weight: 600;
-        }
         .download-card .sparkle {
             position: absolute;
             width: 4px;
@@ -938,6 +911,41 @@
             25% { transform: translate(20px, -30px) scale(1.5); opacity: 0.8; }
             50% { transform: translate(40px, 10px) scale(1); opacity: 0.4; }
             75% { transform: translate(-10px, -20px) scale(1.8); opacity: 0.9; }
+        }
+
+        /* ===== СОВРЕМЕННАЯ КНОПКА ЗАКРЫТИЯ ===== */
+        .modal-close-modern {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
+            color: #888;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .modal-close-modern:hover {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            transform: rotate(90deg) scale(1.05);
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: 0 0 30px rgba(255,255,255,0.05);
+        }
+        .modal-close-modern i {
+            transition: transform 0.4s ease;
+        }
+        .modal-close-modern:hover i {
+            transform: scale(1.1);
         }
 
         /* ===== МОДАЛЫ ===== */
@@ -966,19 +974,6 @@
             position: relative;
             margin: auto;
         }
-        .modal-content .modal-close {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: #666;
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-        .modal-content .modal-close:hover { color: #fff; transform: rotate(90deg); }
         .modal-content h2 {
             font-size: 2rem;
             font-weight: 800;
@@ -1852,7 +1847,6 @@
             .download-card { padding: 40px 24px; }
             .download-card h2 { font-size: 2.5rem; }
             .download-btn-modern { padding: 16px 40px; font-size: 1rem; }
-            .download-card .download-stats { gap: 20px; flex-wrap: wrap; }
             .modal-content { padding: 32px 20px; }
             .profile-page { flex-direction: column; }
             .profile-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.03); }
@@ -1894,7 +1888,6 @@
                 font-size: 0.95rem;
             }
             .download-btn-modern .btn-content { gap: 12px; }
-            .download-card .download-stats { flex-direction: column; gap: 10px; align-items: center; }
             .hero-actions { flex-direction: column; align-items: center; }
             .why-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
             .stats { gap: 20px; }
@@ -1937,7 +1930,7 @@
     <!-- ===== МОДАЛ ВХОДА ===== -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-content auth-modal-inner">
-            <button class="modal-close" id="closeAuthModalBtn">&times;</button>
+            <button class="modal-close-modern" id="closeAuthModalBtn"><i class="fas fa-times"></i></button>
             <h2>Вход в аккаунт</h2>
             <p>Войдите через Telegram</p>
             <button class="tg-auth-button" id="telegramLoginBtn" style="width:100%; justify-content:center; padding:14px 24px;">
@@ -1956,6 +1949,7 @@
     <!-- ===== МОДАЛ УСПЕШНОЙ РЕГИСТРАЦИИ ===== -->
     <div class="modal-overlay" id="successModal">
         <div class="modal-content auth-modal-inner">
+            <button class="modal-close-modern" id="closeSuccessModalBtn"><i class="fas fa-times"></i></button>
             <h2>Успешная регистрация</h2>
             <p style="color: #6bff6b; font-size: 1.2rem; margin: 20px 0;">Добро пожаловать в ProxyGem!</p>
             <button class="btn-primary" id="finishRegistrationBtn" style="width:100%; justify-content:center; padding:14px;">
@@ -1967,6 +1961,7 @@
     <!-- ===== МОДАЛ ВЫХОДА ===== -->
     <div class="modal-overlay" id="logoutModal" style="z-index:3000;">
         <div class="modal-content auth-modal-inner">
+            <button class="modal-close-modern" id="closeLogoutModalBtn"><i class="fas fa-times"></i></button>
             <h2>Выйти из аккаунта</h2>
             <p style="color: #888; margin: 20px 0;">Вы уверены, что хотите выйти?</p>
             <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
@@ -2062,7 +2057,7 @@
                 </div>
             </div>
 
-            <!-- СКАЧАТЬ - НОВЫЙ ДИЗАЙН -->
+            <!-- СКАЧАТЬ - НОВЫЙ ДИЗАЙН (убраны лишние элементы) -->
             <div class="section-block download-section" id="section-download">
                 <div class="download-card reveal">
                     <span class="sparkle"></span>
@@ -2075,20 +2070,14 @@
                         <i class="fas fa-gem"></i>
                     </div>
                     <h2>Скачай ProxyGem</h2>
-                    <p class="sub"><i class="fas fa-windows"></i> Windows 10 / 11 · 32 / 64 bit</p>
                     <button class="download-btn-modern" id="downloadMainBtn">
                         <span class="btn-glow"></span>
                         <span class="btn-content">
                             <i class="fas fa-download"></i>
-                            <span class="btn-text">Скачать бесплатно</span>
+                            <span class="btn-text">Скачать</span>
                             <span class="btn-arrow"><i class="fas fa-arrow-right"></i></span>
                         </span>
                     </button>
-                    <div class="download-stats">
-                        <span><i class="fas fa-shield-alt"></i> <span class="hl">Проверено</span> · без вирусов</span>
-                        <span><i class="fas fa-rocket"></i> <span class="hl">Быстрая</span> установка</span>
-                        <span><i class="fas fa-download"></i> <span class="hl">18 742</span> загрузок</span>
-                    </div>
                 </div>
             </div>
 
@@ -2102,7 +2091,7 @@
     <!-- ===== МОДАЛ ОТЗЫВЫ ===== -->
     <div class="modal-overlay" id="reviewsModal">
         <div class="modal-content">
-            <button class="modal-close" id="closeReviewsModal">&times;</button>
+            <button class="modal-close-modern" id="closeReviewsModal"><i class="fas fa-times"></i></button>
             <h2>Отзывы пользователей</h2>
             <p class="subtitle">Оцените ProxyGem и поделитесь своим мнением</p>
             
@@ -2129,7 +2118,7 @@
     <!-- ===== МОДАЛ АДМИН-ПАНЕЛЬ ===== -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-content">
-            <button class="modal-close" id="closeAdminModal">&times;</button>
+            <button class="modal-close-modern" id="closeAdminModal"><i class="fas fa-times"></i></button>
             <h2><i class="fas fa-user-shield"></i> Админ-панель</h2>
             <p class="subtitle">Управление сайтом и пользователями</p>
             
@@ -2172,7 +2161,7 @@
     <!-- ===== МОДАЛ ПРОФИЛЬ ===== -->
     <div class="modal-overlay" id="profileModal">
         <div class="modal-content">
-            <button class="modal-close" id="closeProfileModal">&times;</button>
+            <button class="modal-close-modern" id="closeProfileModal"><i class="fas fa-times"></i></button>
             <div class="profile-page" id="profilePage">
                 <div class="profile-sidebar">
                     <div class="profile-avatar">
@@ -2268,6 +2257,7 @@
         const ADMIN_TELEGRAM_ID = '5580919240';
         const ADMIN_CODE = '2105';
         const VISITS_KEY = 'proxygem_visits';
+        const BASE_PATH = '/ProxyGemSite';
 
         // ===== ПЕРЕВОДЫ =====
         const translations = {
@@ -2284,11 +2274,7 @@
                 features_title: 'Возможности ProxyGem',
                 features_sub: 'Ключевые преимущества, которые делают нас выбором №1',
                 download_title: 'Скачай ProxyGem',
-                download_sub: 'Windows 10 / 11 · 32 / 64 bit',
-                download_btn: 'Скачать бесплатно',
-                download_verified: 'Проверено · без вирусов',
-                download_fast: 'Быстрая установка',
-                download_count: '18 742 загрузок',
+                download_btn: 'Скачать',
                 footer: 'ProxyGem · 2026 · безопасность и свобода в сети',
                 stats_visitors: 'уникальных посетителей',
                 stats_countries: 'стран покрытия',
@@ -2351,11 +2337,7 @@
                 features_title: 'ProxyGem Features',
                 features_sub: 'Key advantages that make us the #1 choice',
                 download_title: 'Download ProxyGem',
-                download_sub: 'Windows 10 / 11 · 32 / 64 bit',
-                download_btn: 'Download for free',
-                download_verified: 'Verified · virus-free',
-                download_fast: 'Fast installation',
-                download_count: '18,742 downloads',
+                download_btn: 'Download',
                 footer: 'ProxyGem · 2026 · security and freedom on the web',
                 stats_visitors: 'unique visitors',
                 stats_countries: 'countries covered',
@@ -2418,11 +2400,7 @@
                 features_title: 'ProxyGem Özellikleri',
                 features_sub: 'Bizi 1 numara yapan temel avantajlar',
                 download_title: 'ProxyGem\'i İndir',
-                download_sub: 'Windows 10 / 11 · 32 / 64 bit',
-                download_btn: 'Ücretsiz indir',
-                download_verified: 'Doğrulandı · virüssüz',
-                download_fast: 'Hızlı kurulum',
-                download_count: '18.742 indirme',
+                download_btn: 'İndir',
                 footer: 'ProxyGem · 2026 · güvenlik ve özgürlük',
                 stats_visitors: 'benzersiz ziyaretçi',
                 stats_countries: 'ülke kapsamı',
@@ -2485,7 +2463,6 @@
             return new Promise((resolve) => {
                 const overlay = document.getElementById('customAlert');
                 if (!overlay) {
-                    // Fallback если нет кастомного alert
                     alert(title + '\n' + message);
                     resolve(0);
                     return;
@@ -2723,11 +2700,13 @@
             });
         });
 
-        // Закрытие модалов
+        // Закрытие модалов через современные кнопки
         document.getElementById('closeReviewsModal').addEventListener('click', () => closeModal('reviewsModal'));
         document.getElementById('closeAdminModal').addEventListener('click', () => closeModal('adminModal'));
         document.getElementById('closeProfileModal').addEventListener('click', () => closeModal('profileModal'));
         document.getElementById('closeAuthModalBtn').addEventListener('click', hideAuthModal);
+        document.getElementById('closeSuccessModalBtn').addEventListener('click', hideSuccessModal);
+        document.getElementById('closeLogoutModalBtn').addEventListener('click', hideLogoutModal);
         document.getElementById('closeAuthModal').addEventListener('click', hideAuthModal);
 
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
@@ -3311,7 +3290,8 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
-            const newPath = route ? '/' + route : '/';
+            // Обновляем URL с базовым путем
+            const newPath = route ? BASE_PATH + '/' + route : BASE_PATH + '/';
             if (window.location.pathname !== newPath) {
                 window.history.pushState({}, '', newPath);
             }
@@ -3329,12 +3309,11 @@
         document.getElementById('heroDownloadBtn').addEventListener('click', () => navigateTo('download'));
         // Кнопка скачать в секции
         document.getElementById('downloadMainBtn').addEventListener('click', () => {
-            // Здесь можно добавить логику скачивания
             showAlert('Скачивание', 'Скачивание ProxyGem начнется...', 'info');
         });
 
         window.addEventListener('popstate', () => {
-            const path = window.location.pathname.slice(1);
+            const path = window.location.pathname.replace(BASE_PATH + '/', '');
             navigateTo(path || 'home');
         });
 
@@ -3353,7 +3332,6 @@
             
             document.querySelector('.hero-content-overlay p').textContent = t.hero_desc;
             
-            // Обновляем текст кнопок
             const moreBtn = document.getElementById('heroFeaturesBtn');
             moreBtn.innerHTML = '<span class="btn-text">' + t.hero_more + '</span><span class="btn-icon"><i class="fas fa-arrow-down"></i></span>';
             
@@ -3364,18 +3342,10 @@
             const downloadCard = document.querySelector('.download-card');
             if (downloadCard) {
                 const h2 = downloadCard.querySelector('h2');
-                const sub = downloadCard.querySelector('.sub');
                 const btnText = downloadCard.querySelector('.btn-text');
-                const stats = downloadCard.querySelectorAll('.download-stats span');
                 
                 if (h2) h2.textContent = t.download_title;
-                if (sub) sub.innerHTML = '<i class="fas fa-windows"></i> ' + t.download_sub;
                 if (btnText) btnText.textContent = t.download_btn;
-                if (stats.length >= 3) {
-                    stats[0].innerHTML = '<i class="fas fa-shield-alt"></i> <span class="hl">' + t.download_verified.split('·')[0].trim() + '</span> · ' + t.download_verified.split('·')[1].trim();
-                    stats[1].innerHTML = '<i class="fas fa-rocket"></i> <span class="hl">' + t.download_fast.split('·')[0].trim() + '</span> · ' + t.download_fast.split('·')[1].trim();
-                    stats[2].innerHTML = '<i class="fas fa-download"></i> <span class="hl">18 742</span> ' + t.download_count.split(' ').slice(2).join(' ');
-                }
             }
             
             document.querySelector('footer').innerHTML = '<i class="fas fa-gem"></i> ' + t.footer;
@@ -3475,13 +3445,11 @@
             incrementVisits();
             restoreSession();
 
-            // Убеждаемся, что активна вкладка "Главная"
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.dataset.tab === 'home') btn.classList.add('active');
             });
 
-            // Прокручиваем наверх (главная)
             window.scrollTo({ top: 0, behavior: 'instant' });
 
             renderAll();
