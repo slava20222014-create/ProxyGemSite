@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>ProxyGem</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="apple-touch-icon" href="logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&family=Onest:wght@100..900&display=swap" rel="stylesheet" />
@@ -92,10 +95,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
-        .logo-icon svg {
+        .logo-icon img {
             width: 100%;
             height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
             filter: drop-shadow(0 0 20px rgba(255,255,255,0.08));
             animation: logoPulse 3s ease-in-out infinite;
         }
@@ -346,7 +352,6 @@
             background: radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.02) 0%, transparent 70%);
         }
 
-        /* Контейнер изображения */
         .hero-image {
             position: absolute;
             inset: 0;
@@ -358,7 +363,6 @@
             overflow: hidden;
         }
 
-        /* Само изображение — ТОЛЬКО ПОДПРЫГИВАНИЕ */
         .hero-image img {
             position: absolute;
             top: 50%;
@@ -369,26 +373,16 @@
             object-fit: contain;
             filter: brightness(0.75) saturate(1.1) contrast(0.95);
             opacity: 0.85;
-            
-            /* ТОЛЬКО ПОДПРЫГИВАНИЕ ВВЕРХ-ВНИЗ */
             animation: floatBounce 4s ease-in-out infinite;
             will-change: transform;
         }
 
-        /* ===== ТОЛЬКО ПОДПРЫГИВАНИЕ ===== */
         @keyframes floatBounce {
-            0% {
-                transform: translate(-50%, -50%) translateY(0px);
-            }
-            50% {
-                transform: translate(-50%, -50%) translateY(-25px);
-            }
-            100% {
-                transform: translate(-50%, -50%) translateY(0px);
-            }
+            0% { transform: translate(-50%, -50%) translateY(0px); }
+            50% { transform: translate(-50%, -50%) translateY(-25px); }
+            100% { transform: translate(-50%, -50%) translateY(0px); }
         }
 
-        /* Контент поверх фона */
         .hero-content-overlay {
             position: relative;
             z-index: 10;
@@ -399,29 +393,63 @@
             animation: fadeUp 1s ease both 0.3s;
         }
 
-        /* НОВЫЙ ЗАГОЛОВОК - только ProxyGem v1.7 с анимацией */
+        /* ===== НОВАЯ СОВРЕМЕННАЯ АНИМАЦИЯ ДЛЯ ЗАГОЛОВКА ===== */
+        .hero-title-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
         .hero-title-main {
             font-size: 5rem;
             font-weight: 900;
             letter-spacing: -3px;
             line-height: 1.05;
-            background: linear-gradient(135deg, #ffffff 15%, #d0d0d0 60%, #aaa 100%);
+            background: linear-gradient(135deg, #ffffff 15%, #d0d0d0 50%, #6b9fff 80%, #a78bfa 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: titleGlow 3s ease-in-out infinite;
-            margin-bottom: 24px;
+            background-size: 300% 300%;
+            animation: gradientMove 4s ease-in-out infinite, titlePulse 2s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
         }
-
+        .hero-title-main::after {
+            content: 'ProxyGem v1.7';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(107,159,255,0.05));
+            filter: blur(20px);
+            -webkit-text-fill-color: transparent;
+            z-index: -1;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
         @keyframes titleGlow {
-            0%, 100% { 
-                text-shadow: 0 0 40px rgba(255,255,255,0.05);
-                transform: scale(1);
-            }
-            50% { 
-                text-shadow: 0 0 80px rgba(255,255,255,0.15);
-                transform: scale(1.02);
-            }
+            0%, 100% { opacity: 0.3; filter: blur(20px); transform: scale(1); }
+            50% { opacity: 0.8; filter: blur(30px); transform: scale(1.05); }
+        }
+        .hero-title-main .title-shimmer {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            animation: shimmerSlide 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+        @keyframes shimmerSlide {
+            0% { transform: translateX(-100%) rotate(15deg); }
+            100% { transform: translateX(100%) rotate(15deg); }
         }
 
         .hero-content-overlay p {
@@ -439,7 +467,6 @@
             flex-wrap: wrap;
         }
 
-        /* ===== НОВЫЕ СТИЛИ ДЛЯ КНОПОК ===== */
         .btn-primary {
             display: inline-flex;
             align-items: center;
@@ -526,7 +553,6 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== КОНТЕНТ ===== */
         .content-below {
             position: relative;
             z-index: 10;
@@ -643,12 +669,8 @@
             transition: opacity 0.4s ease;
             z-index: 3;
         }
-        .why-item:hover::after {
-            opacity: 1;
-        }
-        .why-item:hover::before {
-            opacity: 1;
-        }
+        .why-item:hover::after { opacity: 1; }
+        .why-item:hover::before { opacity: 1; }
         .why-item:hover {
             transform: translateY(-10px) scale(1.01);
             border-color: rgba(255,255,255,0.06);
@@ -713,7 +735,6 @@
             z-index: 1;
         }
 
-        /* ===== НОВЫЙ ДИЗАЙН СЕКЦИИ СКАЧАТЬ ===== */
         .download-section {
             padding: 60px 0;
             position: relative;
@@ -737,14 +758,7 @@
             inset: -2px;
             border-radius: 48px;
             padding: 2px;
-            background: conic-gradient(from 0deg, 
-                transparent, 
-                rgba(255,255,255,0.03), 
-                transparent, 
-                rgba(255,255,255,0.05), 
-                transparent, 
-                rgba(255,255,255,0.02), 
-                transparent);
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.03), transparent, rgba(255,255,255,0.05), transparent, rgba(255,255,255,0.02), transparent);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
@@ -772,12 +786,17 @@
         }
         .download-card .icon-big {
             font-size: 4rem;
-            color: #fff;
             margin-bottom: 20px;
             display: inline-block;
             animation: floatIcon 3s ease-in-out infinite;
             position: relative;
             z-index: 1;
+        }
+        .download-card .icon-big img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 50%;
         }
         @keyframes floatIcon {
             0%, 100% { transform: translateY(0px) scale(1); }
@@ -794,19 +813,6 @@
             position: relative;
             z-index: 1;
             margin-bottom: 8px;
-        }
-        .download-card .sub {
-            color: #888;
-            font-size: 1.1rem;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            position: relative;
-            z-index: 1;
-            margin-bottom: 35px;
-        }
-        .download-card .sub i {
-            color: #6b9fff;
-            margin-right: 8px;
         }
         .download-btn-modern {
             display: inline-flex;
@@ -874,20 +880,13 @@
             position: absolute;
             inset: -2px;
             border-radius: 82px;
-            background: conic-gradient(from 0deg, 
-                transparent, 
-                rgba(255,255,255,0.2), 
-                transparent, 
-                rgba(255,255,255,0.1), 
-                transparent);
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.2), transparent, rgba(255,255,255,0.1), transparent);
             animation: btnGlow 3s linear infinite;
             opacity: 0;
             transition: opacity 0.4s ease;
             pointer-events: none;
         }
-        .download-btn-modern:hover .btn-glow {
-            opacity: 1;
-        }
+        .download-btn-modern:hover .btn-glow { opacity: 1; }
         @keyframes btnGlow {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -913,7 +912,6 @@
             75% { transform: translate(-10px, -20px) scale(1.8); opacity: 0.9; }
         }
 
-        /* ===== СОВРЕМЕННАЯ КНОПКА ЗАКРЫТИЯ ===== */
         .modal-close-modern {
             position: absolute;
             top: 16px;
@@ -948,7 +946,6 @@
             transform: scale(1.1);
         }
 
-        /* ===== МОДАЛЫ ===== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -1979,16 +1976,18 @@
             <img src="images/newbackroundmenu.png" alt="Background" />
         </div>
         <div class="hero-content-overlay">
-            <!-- Только ProxyGem v1.7 с анимацией -->
-            <div class="hero-title-main">ProxyGem v1.7</div>
+            <div class="hero-title-wrapper">
+                <div class="hero-title-main">
+                    ProxyGem v1.7
+                    <span class="title-shimmer"></span>
+                </div>
+            </div>
             <p>Современный инструмент для безопасного и анонимного обхода. Молниеносная скорость, интеллектуальная маршрутизация и полная конфиденциальность.</p>
             <div class="hero-actions">
-                <!-- Кнопка Подробнее с иконкой ∧ -->
                 <button class="btn-primary" id="heroFeaturesBtn">
                     <span class="btn-text">Подробнее</span>
                     <span class="btn-icon"><i class="fas fa-arrow-down"></i></span>
                 </button>
-                <!-- Кнопка Скачать -->
                 <button class="btn-download-hero" id="heroDownloadBtn">
                     <span class="btn-text">Скачать</span>
                     <span class="btn-icon"><i class="fas fa-download"></i></span>
@@ -2057,7 +2056,7 @@
                 </div>
             </div>
 
-            <!-- СКАЧАТЬ - НОВЫЙ ДИЗАЙН (убраны лишние элементы) -->
+            <!-- СКАЧАТЬ -->
             <div class="section-block download-section" id="section-download">
                 <div class="download-card reveal">
                     <span class="sparkle"></span>
@@ -2067,7 +2066,7 @@
                     <span class="sparkle"></span>
                     <span class="sparkle"></span>
                     <div class="icon-big">
-                        <i class="fas fa-gem"></i>
+                        <img src="logo.png" alt="ProxyGem Logo" />
                     </div>
                     <h2>Скачай ProxyGem</h2>
                     <button class="download-btn-modern" id="downloadMainBtn">
@@ -2165,7 +2164,7 @@
             <div class="profile-page" id="profilePage">
                 <div class="profile-sidebar">
                     <div class="profile-avatar">
-                        <img src="images/avatar.png" alt="Avatar" id="profileAvatarDisplay" />
+                        <img src="logo.png" alt="Avatar" id="profileAvatarDisplay" />
                         <div class="name" id="profileNameDisplay">Гость</div>
                     </div>
                     <div class="profile-menu">
@@ -2179,7 +2178,7 @@
                         <h3><i class="fas fa-user"></i> Личные Данные</h3>
                         
                         <div class="avatar-full-section">
-                            <img src="images/avatar.png" alt="Avatar" class="avatar-preview" id="profileAvatar" />
+                            <img src="logo.png" alt="Avatar" class="avatar-preview" id="profileAvatar" />
                             <label class="avatar-upload-btn">
                                 <i class="fas fa-cloud-upload-alt"></i> Выберите файл
                                 <input type="file" id="avatarInput" accept="image/*" />
@@ -2575,7 +2574,7 @@
                 telegramId: String(telegramId),
                 name: name,
                 nickname: nickname || name,
-                avatar: avatar || 'images/avatar.png',
+                avatar: avatar || 'logo.png',
                 createdAt: Date.now(),
                 isAdmin: false,
                 accessKey: generateAccessKey(),
@@ -2646,13 +2645,15 @@
                 const modalId = this.dataset.modal;
                 
                 if (modalId === 'admin') {
+                    // Проверяем, что пользователь авторизован
                     if (!currentUser) {
                         await showAlert('Доступ запрещен', 'Сначала авторизуйтесь через Telegram', 'warning');
                         return;
                     }
                     
+                    // Проверяем Telegram ID - только @MisterGemer имеет доступ
                     if (currentUser.telegramId !== ADMIN_TELEGRAM_ID) {
-                        await showAlert('Доступ запрещен', 'У вас нет доступа к админ-панели', 'error');
+                        await showAlert('Доступ запрещен', 'У вас нет доступа к админ-панели. Только @MisterGemer имеет доступ.', 'error');
                         return;
                     }
                     
@@ -2708,6 +2709,9 @@
         document.getElementById('closeSuccessModalBtn').addEventListener('click', hideSuccessModal);
         document.getElementById('closeLogoutModalBtn').addEventListener('click', hideLogoutModal);
         document.getElementById('closeAuthModal').addEventListener('click', hideAuthModal);
+        
+        // Исправляем кнопку отмены выхода
+        document.getElementById('cancelLogoutBtn').addEventListener('click', hideLogoutModal);
 
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', function(e) {
@@ -2847,8 +2851,6 @@
             renderAll();
         });
 
-        document.getElementById('cancelLogoutBtn').addEventListener('click', hideLogoutModal);
-
         // ===== ПРОФИЛЬ =====
         document.querySelectorAll('.profile-menu .menu-item').forEach(item => {
             item.addEventListener('click', function() {
@@ -2960,6 +2962,7 @@
                 }
                 nameSpan.textContent = currentUser.nickname || currentUser.name;
                 profileBtn.style.borderColor = 'rgba(255,255,255,0.06)';
+                // Показываем админку только для @MisterGemer
                 if (currentUser.isAdmin && currentUser.telegramId === ADMIN_TELEGRAM_ID) {
                     document.getElementById('adminTabBtn').style.display = 'flex';
                 } else {
@@ -2975,21 +2978,21 @@
         function updateProfilePage() {
             if (!currentUser) {
                 document.getElementById('profileNameDisplay').textContent = 'Гость';
-                document.getElementById('profileAvatarDisplay').src = 'images/avatar.png';
+                document.getElementById('profileAvatarDisplay').src = 'logo.png';
                 document.getElementById('profileTelegram').textContent = 'Не авторизован';
                 document.getElementById('profileId').textContent = '—';
                 document.getElementById('profileBanned').textContent = 'Нет';
                 document.getElementById('profileBanned').className = 'value';
                 document.getElementById('profileGroup').textContent = 'Гость';
                 document.getElementById('profileGroup').className = 'value';
-                document.getElementById('profileAvatar').src = 'images/avatar.png';
+                document.getElementById('profileAvatar').src = 'logo.png';
                 document.getElementById('profileNickname').value = '';
                 return;
             }
 
             const ban = isUserBanned(currentUser.id);
             document.getElementById('profileNameDisplay').textContent = currentUser.nickname || currentUser.name;
-            document.getElementById('profileAvatarDisplay').src = currentUser.avatar || 'images/avatar.png';
+            document.getElementById('profileAvatarDisplay').src = currentUser.avatar || 'logo.png';
             document.getElementById('profileTelegram').textContent = currentUser.name || 'Неизвестно';
             document.getElementById('profileId').textContent = currentUser.telegramId || '—';
             
@@ -3012,7 +3015,7 @@
                 groupEl.className = 'value';
             }
             
-            document.getElementById('profileAvatar').src = currentUser.avatar || 'images/avatar.png';
+            document.getElementById('profileAvatar').src = currentUser.avatar || 'logo.png';
             document.getElementById('profileNickname').value = currentUser.nickname || '';
             
             if (currentUser.settings) {
@@ -3184,7 +3187,7 @@
                 const activeBan = bans.find(b => b.userId === u.id && b.until > now);
                 const isBanned = !!activeBan;
                 const banTime = activeBan ? Math.ceil((activeBan.until - now) / 1000 / 60) : 0;
-                return '<div class="admin-user-item"><div class="user-info"><img src="' + (u.avatar || 'images/avatar.png') + '" alt="avatar" /><div><div class="name">' + escapeHtml(u.nickname || u.name) + '</div><div class="email">' + escapeHtml(u.telegramId || '') + '</div></div></div><div class="user-status ' + (isBanned ? 'banned' : '') + '">' + (isBanned ? 'Забанен (' + banTime + ' мин)' : 'Активен') + '</div><div class="ban-controls"><input type="number" id="banTime_' + u.id + '" placeholder="минут" min="1" value="60" style="width:80px;" /><button class="btn-ban ' + (isBanned ? 'unban' : '') + '" data-userid="' + u.id + '">' + (isBanned ? 'Разбанить' : 'Забанить') + '</button></div></div>';
+                return '<div class="admin-user-item"><div class="user-info"><img src="' + (u.avatar || 'logo.png') + '" alt="avatar" /><div><div class="name">' + escapeHtml(u.nickname || u.name) + '</div><div class="email">' + escapeHtml(u.telegramId || '') + '</div></div></div><div class="user-status ' + (isBanned ? 'banned' : '') + '">' + (isBanned ? 'Забанен (' + banTime + ' мин)' : 'Активен') + '</div><div class="ban-controls"><input type="number" id="banTime_' + u.id + '" placeholder="минут" min="1" value="60" style="width:80px;" /><button class="btn-ban ' + (isBanned ? 'unban' : '') + '" data-userid="' + u.id + '">' + (isBanned ? 'Разбанить' : 'Забанить') + '</button></div></div>';
             }).join('');
             container.querySelectorAll('.btn-ban').forEach(btn => {
                 btn.addEventListener('click', async function() {
@@ -3290,7 +3293,6 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
-            // Обновляем URL с базовым путем
             const newPath = route ? BASE_PATH + '/' + route : BASE_PATH + '/';
             if (window.location.pathname !== newPath) {
                 window.history.pushState({}, '', newPath);
@@ -3303,11 +3305,8 @@
             });
         });
 
-        // Кнопка "Подробнее" → на вкладку "Возможности"
         document.getElementById('heroFeaturesBtn').addEventListener('click', () => navigateTo('features'));
-        // Кнопка "Скачать" → на вкладку "Скачать"
         document.getElementById('heroDownloadBtn').addEventListener('click', () => navigateTo('download'));
-        // Кнопка скачать в секции
         document.getElementById('downloadMainBtn').addEventListener('click', () => {
             showAlert('Скачивание', 'Скачивание ProxyGem начнется...', 'info');
         });
@@ -3338,12 +3337,10 @@
             const downloadBtn = document.getElementById('heroDownloadBtn');
             downloadBtn.innerHTML = '<span class="btn-text">' + t.hero_download + '</span><span class="btn-icon"><i class="fas fa-download"></i></span>';
             
-            // Обновляем секцию скачать
             const downloadCard = document.querySelector('.download-card');
             if (downloadCard) {
                 const h2 = downloadCard.querySelector('h2');
                 const btnText = downloadCard.querySelector('.btn-text');
-                
                 if (h2) h2.textContent = t.download_title;
                 if (btnText) btnText.textContent = t.download_btn;
             }
