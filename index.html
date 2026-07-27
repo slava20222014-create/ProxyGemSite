@@ -439,7 +439,7 @@
             flex-wrap: wrap;
         }
 
-        /* ===== НОВЫЕ СТИЛИ ДЛЯ КНОПОК - ЦЕНТРИРОВАНИЕ ===== */
+        /* ===== НОВЫЕ СТИЛИ ДЛЯ КНОПОК ===== */
         .btn-primary {
             display: inline-flex;
             align-items: center;
@@ -713,90 +713,232 @@
             z-index: 1;
         }
 
-        .download-mega {
-            background: rgba(255,255,255,0.01);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255,255,255,0.03);
-            border-radius: 56px;
-            padding: 56px 48px;
+        /* ===== НОВЫЙ ДИЗАЙН СЕКЦИИ СКАЧАТЬ ===== */
+        .download-section {
+            padding: 60px 0;
+            position: relative;
+        }
+        .download-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 48px;
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 70px 50px;
             text-align: center;
-            margin: 20px 0 60px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        .download-mega:hover {
-            border-color: rgba(255,255,255,0.05);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+        .download-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 48px;
+            padding: 2px;
+            background: conic-gradient(from 0deg, 
+                transparent, 
+                rgba(255,255,255,0.03), 
+                transparent, 
+                rgba(255,255,255,0.05), 
+                transparent, 
+                rgba(255,255,255,0.02), 
+                transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            animation: borderRotate 8s linear infinite;
         }
-        .download-mega h2 {
-            font-size: 2.8rem;
+        @keyframes borderRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .download-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.02), transparent 60%);
+            animation: pulseGlow 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        .download-card .icon-big {
+            font-size: 4rem;
+            color: #fff;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: floatIcon 3s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+        }
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+        .download-card h2 {
+            font-size: 3.5rem;
             font-weight: 800;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #fff, #999);
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #ffffff 20%, #d0d0d0 50%, #aaa 80%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 8px;
         }
-        .download-mega .sub {
-            color: #777;
-            font-size: 1.05rem;
-            margin: 8px 0 32px;
+        .download-card .sub {
+            color: #888;
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 35px;
         }
-        .download-mega .sub i { color: #aaa; margin-right: 6px; }
-        .btn-download {
+        .download-card .sub i {
+            color: #6b9fff;
+            margin-right: 8px;
+        }
+        .download-btn-modern {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 16px;
-            padding: 18px 52px;
+            padding: 20px 60px;
             border-radius: 80px;
             font-weight: 700;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             text-decoration: none;
-            background: #fff;
+            background: linear-gradient(135deg, #ffffff, #e8e8e8);
             color: #0a0a0a;
-            transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
             border: none;
             cursor: pointer;
             position: relative;
+            z-index: 1;
             overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 8px 32px rgba(255,255,255,0.05);
         }
-        .btn-download::before {
+        .download-btn-modern::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
+            background: linear-gradient(135deg, #f0f0f0, #ffffff);
             opacity: 0;
             transition: opacity 0.4s ease;
         }
-        .btn-download:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 16px 48px rgba(255,255,255,0.06);
+        .download-btn-modern .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+            z-index: 2;
         }
-        .btn-download:hover::before { opacity: 1; }
-        .btn-download i {
+        .download-btn-modern i {
             font-size: 1.6rem;
             transition: transform 0.4s ease;
         }
-        .btn-download:hover i { transform: translateY(-2px); }
-        .download-info {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 28px;
-            color: #555;
-            font-size: 0.85rem;
+        .download-btn-modern .btn-text {
+            transition: transform 0.3s ease;
         }
-        .download-info span {
+        .download-btn-modern .btn-arrow {
+            display: inline-block;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+        .download-btn-modern:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(255,255,255,0.15);
+        }
+        .download-btn-modern:hover .btn-text {
+            transform: translateX(-5px);
+        }
+        .download-btn-modern:hover .btn-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .download-btn-modern:hover i {
+            transform: scale(1.1) rotate(-5deg);
+        }
+        .download-btn-modern .btn-glow {
+            position: absolute;
+            inset: -2px;
+            border-radius: 82px;
+            background: conic-gradient(from 0deg, 
+                transparent, 
+                rgba(255,255,255,0.2), 
+                transparent, 
+                rgba(255,255,255,0.1), 
+                transparent);
+            animation: btnGlow 3s linear infinite;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        .download-btn-modern:hover .btn-glow {
+            opacity: 1;
+        }
+        @keyframes btnGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .download-card .download-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .download-card .download-stats span {
+            color: #666;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
         }
-        .download-info span:hover { color: #aaa; }
-        .download-info .hl { color: #bbb; font-weight: 600; }
-        .download-info i { color: #888; width: 18px; transition: all 0.3s ease; }
-        .download-info span:hover i { color: #fff; }
+        .download-card .download-stats span:hover {
+            color: #aaa;
+        }
+        .download-card .download-stats i {
+            color: #6b9fff;
+            font-size: 1rem;
+        }
+        .download-card .download-stats .hl {
+            color: #fff;
+            font-weight: 600;
+        }
+        .download-card .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            animation: sparkleFloat 6s ease-in-out infinite;
+        }
+        .download-card .sparkle:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+        .download-card .sparkle:nth-child(2) { top: 20%; right: 20%; animation-delay: 1.2s; }
+        .download-card .sparkle:nth-child(3) { bottom: 25%; left: 10%; animation-delay: 2.4s; }
+        .download-card .sparkle:nth-child(4) { bottom: 15%; right: 15%; animation-delay: 3.6s; }
+        .download-card .sparkle:nth-child(5) { top: 50%; left: 5%; animation-delay: 0.8s; }
+        .download-card .sparkle:nth-child(6) { top: 40%; right: 5%; animation-delay: 1.8s; }
+        @keyframes sparkleFloat {
+            0%, 100% { transform: translate(0,0) scale(1); opacity: 0.2; }
+            25% { transform: translate(20px, -30px) scale(1.5); opacity: 0.8; }
+            50% { transform: translate(40px, 10px) scale(1); opacity: 0.4; }
+            75% { transform: translate(-10px, -20px) scale(1.8); opacity: 0.9; }
+        }
 
         /* ===== МОДАЛЫ ===== */
         .modal-overlay {
@@ -1707,7 +1849,10 @@
             }
             .stats { gap: 30px; }
             .why-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-            .download-mega { padding: 32px 20px; }
+            .download-card { padding: 40px 24px; }
+            .download-card h2 { font-size: 2.5rem; }
+            .download-btn-modern { padding: 16px 40px; font-size: 1rem; }
+            .download-card .download-stats { gap: 20px; flex-wrap: wrap; }
             .modal-content { padding: 32px 20px; }
             .profile-page { flex-direction: column; }
             .profile-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.03); }
@@ -1735,13 +1880,21 @@
                 letter-spacing: -1px;
             }
             .hero-content-overlay p { font-size: 1rem; }
-            .btn-download { width: 100%; justify-content: center; padding: 16px 28px; }
             .btn-primary, .btn-download-hero { 
                 width: 100%; 
                 justify-content: center; 
                 min-width: unset;
             }
-            .download-mega h2 { font-size: 2rem; }
+            .download-card { padding: 30px 16px; }
+            .download-card h2 { font-size: 2rem; }
+            .download-btn-modern { 
+                width: 100%; 
+                justify-content: center; 
+                padding: 16px 24px; 
+                font-size: 0.95rem;
+            }
+            .download-btn-modern .btn-content { gap: 12px; }
+            .download-card .download-stats { flex-direction: column; gap: 10px; align-items: center; }
             .hero-actions { flex-direction: column; align-items: center; }
             .why-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
             .stats { gap: 20px; }
@@ -1828,7 +1981,7 @@
     <!-- ===== ГЕРОЙ С ПАРЯЩИМ ФОНОМ ===== -->
     <section class="hero-full" id="section-home">
         <div class="hero-image">
-            <img src="images/backround_site.png" alt="Background" />
+            <img src="images/newbackroundmenu.png" alt="Background" />
         </div>
         <div class="hero-content-overlay">
             <!-- Только ProxyGem v1.7 с анимацией -->
@@ -1909,15 +2062,29 @@
                 </div>
             </div>
 
-            <!-- СКАЧАТЬ -->
-            <div class="section-block" id="section-download">
-                <div class="download-mega reveal">
+            <!-- СКАЧАТЬ - НОВЫЙ ДИЗАЙН -->
+            <div class="section-block download-section" id="section-download">
+                <div class="download-card reveal">
+                    <span class="sparkle"></span>
+                    <span class="sparkle"></span>
+                    <span class="sparkle"></span>
+                    <span class="sparkle"></span>
+                    <span class="sparkle"></span>
+                    <span class="sparkle"></span>
+                    <div class="icon-big">
+                        <i class="fas fa-gem"></i>
+                    </div>
                     <h2>Скачай ProxyGem</h2>
                     <p class="sub"><i class="fas fa-windows"></i> Windows 10 / 11 · 32 / 64 bit</p>
-                    <a href="#" class="btn-download">
-                        <i class="fas fa-download"></i> Скачать бесплатно
-                    </a>
-                    <div class="download-info">
+                    <button class="download-btn-modern" id="downloadMainBtn">
+                        <span class="btn-glow"></span>
+                        <span class="btn-content">
+                            <i class="fas fa-download"></i>
+                            <span class="btn-text">Скачать бесплатно</span>
+                            <span class="btn-arrow"><i class="fas fa-arrow-right"></i></span>
+                        </span>
+                    </button>
+                    <div class="download-stats">
                         <span><i class="fas fa-shield-alt"></i> <span class="hl">Проверено</span> · без вирусов</span>
                         <span><i class="fas fa-rocket"></i> <span class="hl">Быстрая</span> установка</span>
                         <span><i class="fas fa-download"></i> <span class="hl">18 742</span> загрузок</span>
@@ -2098,7 +2265,7 @@
     <script>
         // ===== НАСТРОЙКИ =====
         const CLIENT_ID = '8155864182';
-        const ADMIN_TELEGRAM_ID = '5580919240'; // Только этот Telegram ID имеет доступ
+        const ADMIN_TELEGRAM_ID = '5580919240';
         const ADMIN_CODE = '2105';
         const VISITS_KEY = 'proxygem_visits';
 
@@ -2317,6 +2484,12 @@
         function showAlert(title, message, type = 'info', buttons = null) {
             return new Promise((resolve) => {
                 const overlay = document.getElementById('customAlert');
+                if (!overlay) {
+                    // Fallback если нет кастомного alert
+                    alert(title + '\n' + message);
+                    resolve(0);
+                    return;
+                }
                 const icon = document.getElementById('alertIcon');
                 const titleEl = document.getElementById('alertTitle');
                 const msgEl = document.getElementById('alertMessage');
@@ -2467,13 +2640,19 @@
 
         // ===== МОДАЛЫ =====
         function openModal(id) {
-            document.getElementById(id).classList.add('open');
-            document.body.style.overflow = 'hidden';
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
         }
 
         function closeModal(id) {
-            document.getElementById(id).classList.remove('open');
-            document.body.style.overflow = '';
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.remove('open');
+                document.body.style.overflow = '';
+            }
         }
 
         function showAuthModal() { openModal('authModal'); }
@@ -2485,26 +2664,24 @@
 
         // ===== ОБРАБОТЧИКИ =====
         document.querySelectorAll('.modal-trigger').forEach(btn => {
-            btn.addEventListener('click', async function() {
+            btn.addEventListener('click', async function(e) {
+                e.preventDefault();
                 const modalId = this.dataset.modal;
+                
                 if (modalId === 'admin') {
-                    // Проверяем, что пользователь авторизован и имеет правильный Telegram ID
                     if (!currentUser) {
                         await showAlert('Доступ запрещен', 'Сначала авторизуйтесь через Telegram', 'warning');
                         return;
                     }
                     
-                    // Проверяем Telegram ID
                     if (currentUser.telegramId !== ADMIN_TELEGRAM_ID) {
                         await showAlert('Доступ запрещен', 'У вас нет доступа к админ-панели', 'error');
                         return;
                     }
                     
-                    // Запрашиваем код
                     const userCode = prompt('Введите код доступа:');
                     if (userCode === null) return;
                     if (userCode === ADMIN_CODE) {
-                        // Даем доступ
                         const users = getUsers();
                         const idx = users.findIndex(u => u.id === currentUser.id);
                         if (idx !== -1) {
@@ -2515,12 +2692,17 @@
                             localStorage.setItem('currentUser', JSON.stringify(currentUser));
                             updateProfileUI();
                             await showAlert('Доступ получен', 'Вы получили доступ к админ-панели!', 'success');
+                            renderAdminPanel();
+                            renderAdminReviews();
+                            renderUsersList();
+                            renderNotifications();
                         }
                     } else {
                         await showAlert('Ошибка', 'Неверный код доступа', 'error');
                         return;
                     }
                 }
+                
                 if (modalId === 'profile' && !currentUser) {
                     showAuthModal();
                     return;
@@ -2560,7 +2742,9 @@
         // ===== АУТЕНТИФИКАЦИЯ =====
         window.onTelegramAuth = function(data) {
             try {
+                console.log('Telegram auth data:', data);
                 const payload = JSON.parse(atob(data.id_token.split('.')[1]));
+                console.log('Payload:', payload);
                 const telegramId = payload.sub || payload.id;
                 const name = payload.name || payload.given_name || 'User';
                 const username = payload.preferred_username || name;
@@ -2590,6 +2774,7 @@
                 startTimeTracking();
                 renderAll();
             } catch (e) {
+                console.error('Auth error:', e);
                 showAlert('Ошибка', 'Не удалось авторизоваться', 'error');
             }
         };
@@ -2645,7 +2830,6 @@
             const { telegramId, name, avatar } = window._pendingUser;
             const user = createUser(telegramId, name, nickname, avatar);
             
-            // Проверяем, является ли пользователь администратором
             if (telegramId === ADMIN_TELEGRAM_ID) {
                 user.isAdmin = true;
                 const users = getUsers();
@@ -2797,7 +2981,6 @@
                 }
                 nameSpan.textContent = currentUser.nickname || currentUser.name;
                 profileBtn.style.borderColor = 'rgba(255,255,255,0.06)';
-                // Показываем кнопку админа только если у пользователя есть права
                 if (currentUser.isAdmin && currentUser.telegramId === ADMIN_TELEGRAM_ID) {
                     document.getElementById('adminTabBtn').style.display = 'flex';
                 } else {
@@ -2987,7 +3170,6 @@
                 return '<div class="review-item"><div class="review-header"><span class="review-author">' + escapeHtml(author) + '</span><div style="display:flex; gap:12px; align-items:center;"><span class="review-stars">' + stars + '</span><button class="admin-delete-btn" data-index="' + index + '"><i class="fas fa-trash"></i> Удалить</button></div></div><div class="review-text">' + escapeHtml(r.text) + '</div><div class="review-date">' + date + '</div></div>';
             }).join('');
             
-            // Обработчики для удаления отзывов
             container.querySelectorAll('.admin-delete-btn').forEach(btn => {
                 btn.addEventListener('click', async function() {
                     const index = parseInt(this.dataset.index);
@@ -3145,6 +3327,11 @@
         document.getElementById('heroFeaturesBtn').addEventListener('click', () => navigateTo('features'));
         // Кнопка "Скачать" → на вкладку "Скачать"
         document.getElementById('heroDownloadBtn').addEventListener('click', () => navigateTo('download'));
+        // Кнопка скачать в секции
+        document.getElementById('downloadMainBtn').addEventListener('click', () => {
+            // Здесь можно добавить логику скачивания
+            showAlert('Скачивание', 'Скачивание ProxyGem начнется...', 'info');
+        });
 
         window.addEventListener('popstate', () => {
             const path = window.location.pathname.slice(1);
@@ -3173,17 +3360,22 @@
             const downloadBtn = document.getElementById('heroDownloadBtn');
             downloadBtn.innerHTML = '<span class="btn-text">' + t.hero_download + '</span><span class="btn-icon"><i class="fas fa-download"></i></span>';
             
-            document.querySelector('.why-us .section-header h2').textContent = t.features_title;
-            document.querySelector('.why-us .section-header p').textContent = t.features_sub;
-            
-            document.querySelector('.download-mega h2').textContent = t.download_title;
-            document.querySelector('.download-mega .sub').textContent = t.download_sub;
-            document.querySelector('.btn-download').innerHTML = '<i class="fas fa-download"></i> ' + t.download_btn;
-            const downloadInfo = document.querySelectorAll('.download-info span');
-            if (downloadInfo.length >= 3) {
-                downloadInfo[0].innerHTML = '<i class="fas fa-shield-alt"></i> <span class="hl">' + t.download_verified.split('·')[0].trim() + '</span> · ' + t.download_verified.split('·')[1].trim();
-                downloadInfo[1].innerHTML = '<i class="fas fa-rocket"></i> <span class="hl">' + t.download_fast.split('·')[0].trim() + '</span> · ' + t.download_fast.split('·')[1].trim();
-                downloadInfo[2].innerHTML = '<i class="fas fa-download"></i> <span class="hl">18 742</span> ' + t.download_count.split(' ').slice(2).join(' ');
+            // Обновляем секцию скачать
+            const downloadCard = document.querySelector('.download-card');
+            if (downloadCard) {
+                const h2 = downloadCard.querySelector('h2');
+                const sub = downloadCard.querySelector('.sub');
+                const btnText = downloadCard.querySelector('.btn-text');
+                const stats = downloadCard.querySelectorAll('.download-stats span');
+                
+                if (h2) h2.textContent = t.download_title;
+                if (sub) sub.innerHTML = '<i class="fas fa-windows"></i> ' + t.download_sub;
+                if (btnText) btnText.textContent = t.download_btn;
+                if (stats.length >= 3) {
+                    stats[0].innerHTML = '<i class="fas fa-shield-alt"></i> <span class="hl">' + t.download_verified.split('·')[0].trim() + '</span> · ' + t.download_verified.split('·')[1].trim();
+                    stats[1].innerHTML = '<i class="fas fa-rocket"></i> <span class="hl">' + t.download_fast.split('·')[0].trim() + '</span> · ' + t.download_fast.split('·')[1].trim();
+                    stats[2].innerHTML = '<i class="fas fa-download"></i> <span class="hl">18 742</span> ' + t.download_count.split(' ').slice(2).join(' ');
+                }
             }
             
             document.querySelector('footer').innerHTML = '<i class="fas fa-gem"></i> ' + t.footer;
