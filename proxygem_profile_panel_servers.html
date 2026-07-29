@@ -267,14 +267,15 @@
         // =============================================
         // ССЫЛКА НА JSON С КЛЮЧАМИ
         // =============================================
-        // Используем правильную raw-ссылку
-        const CODES_URL = 'https://raw.githubusercontent.com/slava20222014-create/Servers_ProxyGemSite777/main/premium_codes.json';
+        // ВАРИАНТ 1: Ключи в отдельном репозитории Servers_ProxyGemSite777
+        const CODES_URL = 'https://raw.githubusercontent.com/slava20222014-create/Servers_ProxyGemSite/refs/heads/main/premium_codes.json';
         
-        // Если файл лежит в том же репозитории, что и страница, используйте:
+        // ВАРИАНТ 2: Если ключи лежат в той же папке, что и страница (ProxyGemSite/premium/)
         // const CODES_URL = 'https://raw.githubusercontent.com/slava20222014-create/ProxyGemSite/main/premium/premium_codes.json';
         // =============================================
 
         let currentCode = null;
+        let isCodeUsed = false;
 
         document.addEventListener('DOMContentLoaded', function() {
             loadCode();
@@ -346,7 +347,10 @@
 1. Файл premium_codes.json существует по ссылке
 2. В нём есть массив "codes"
 3. Хотя бы один код имеет "used": false
-4. Страница открыта через сервер (не file://)`;
+4. Страница открыта через сервер (не file://)
+
+Если файла нет — создайте его в репозитории:
+https://github.com/slava20222014-create/Servers_ProxyGemSite777`;
             }
         }
 
