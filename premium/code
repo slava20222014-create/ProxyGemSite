@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ... (весь ваш стиль из предыдущего ответа, без изменений) ... */
         :root {
             --bg-primary: #000000;
             --bg-card: #111111;
@@ -193,6 +192,21 @@
         
         .error-text { color: #ff6b6b; font-size: 14px; margin: 20px 0; }
         .empty-text { color: var(--text-secondary); font-size: 14px; margin: 20px 0; }
+        .debug-box {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            text-align: left;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #888;
+            max-height: 200px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -235,6 +249,7 @@
             <!-- Состояние ошибки -->
             <div id="errorState" style="display:none;">
                 <div class="error-text" id="errorMessage">Не удалось загрузить код</div>
+                <div class="debug-box" id="debugBox"></div>
                 <button onclick="loadCode()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 24px; border-radius: 10px; cursor: pointer; font-family: inherit; margin-top: 12px;">Повторить</button>
             </div>
 
@@ -249,9 +264,16 @@
     </div>
 
     <script>
-        // ✅ ПРАВИЛЬНАЯ ССЫЛКА НА RAW-ФАЙЛ (без /blob/)
+        // =============================================
+        // ССЫЛКА НА JSON С КЛЮЧАМИ
+        // =============================================
+        // Используем правильную raw-ссылку
         const CODES_URL = 'https://raw.githubusercontent.com/slava20222014-create/Servers_ProxyGemSite777/main/premium_codes.json';
         
+        // Если файл лежит в том же репозитории, что и страница, используйте:
+        // const CODES_URL = 'https://raw.githubusercontent.com/slava20222014-create/ProxyGemSite/main/premium/premium_codes.json';
+        // =============================================
+
         let currentCode = null;
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -259,31 +281,34 @@
         });
 
         async function loadCode() {
+            // Показываем загрузку
             document.getElementById('loadingState').style.display = 'block';
             document.getElementById('successState').style.display = 'none';
             document.getElementById('errorState').style.display = 'none';
             document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('debugBox').textContent = '';
 
             try {
+                console.log('🔍 Загрузка с URL:', CODES_URL);
+                
                 const response = await fetch(CODES_URL);
+                
+                console.log('📡 Статус ответа:', response.status);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
-                // Проверяем, что пришёл именно JSON
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    throw new Error('Сервер вернул не JSON. Проверьте ссылку.');
-                }
-                
                 const data = await response.json();
+                console.log('📦 Получено данных:', data);
                 
                 if (!data.codes || !Array.isArray(data.codes)) {
-                    throw new Error('Неверный формат данных: отсутствует массив "codes"');
+                    throw new Error('Неверный формат: отсутствует массив "codes"');
                 }
                 
+                // Ищем НЕактивированные ключи
                 const availableCodes = data.codes.filter(c => c.used === false);
+                console.log('🔑 Найдено свободных ключей:', availableCodes.length);
                 
                 if (availableCodes.length === 0) {
                     document.getElementById('loadingState').style.display = 'none';
@@ -291,9 +316,13 @@
                     return;
                 }
 
+                // Берём первый свободный ключ
                 const codeData = availableCodes[0];
                 currentCode = codeData.id;
+                
+                console.log('✅ Выбран ключ:', currentCode);
 
+                // Показываем код
                 document.getElementById('codeDisplay').textContent = currentCode;
                 document.getElementById('loadingState').style.display = 'none';
                 document.getElementById('successState').style.display = 'block';
@@ -301,10 +330,23 @@
                 createConfetti();
 
             } catch (error) {
-                console.error('Ошибка загрузки:', error);
+                console.error('❌ Ошибка:', error);
+                
                 document.getElementById('loadingState').style.display = 'none';
                 document.getElementById('errorState').style.display = 'block';
                 document.getElementById('errorMessage').textContent = `Ошибка: ${error.message}`;
+                
+                // Детали для отладки
+                const debugBox = document.getElementById('debugBox');
+                debugBox.textContent = `URL: ${CODES_URL}
+
+Сообщение: ${error.message}
+
+--- ПРОВЕРЬТЕ ---
+1. Файл premium_codes.json существует по ссылке
+2. В нём есть массив "codes"
+3. Хотя бы один код имеет "used": false
+4. Страница открыта через сервер (не file://)`;
             }
         }
 
