@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProxyGem Premium Code</title>
-    <link rel="icon" type="image/ico" href="images/logo.ico" />
-    <link rel="apple-touch-icon" href="logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -36,10 +34,7 @@
         }
         .bg-grid { 
             position: fixed; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            bottom: 0; 
+            top: 0; left: 0; right: 0; bottom: 0; 
             background-image: 
                 linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), 
                 linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); 
@@ -53,34 +48,15 @@
             z-index: 0; 
             animation: float 20s ease-in-out infinite; 
         }
-        .bg-orb-1 { 
-            width: 500px; 
-            height: 500px; 
-            background: rgba(255,255,255,0.03); 
-            top: -200px; 
-            right: -100px; 
-        }
-        .bg-orb-2 { 
-            width: 400px; 
-            height: 400px; 
-            background: rgba(255,255,255,0.02); 
-            bottom: -150px; 
-            left: -100px; 
-            animation-delay: -10s; 
-        }
+        .bg-orb-1 { width: 500px; height: 500px; background: rgba(255,255,255,0.03); top: -200px; right: -100px; }
+        .bg-orb-2 { width: 400px; height: 400px; background: rgba(255,255,255,0.02); bottom: -150px; left: -100px; animation-delay: -10s; }
         @keyframes float { 
             0%,100%{transform:translate(0,0) scale(1)} 
             25%{transform:translate(30px,-30px) scale(1.05)} 
             50%{transform:translate(-20px,20px) scale(0.95)} 
             75%{transform:translate(10px,40px) scale(1.02)} 
         }
-        .container { 
-            position: relative; 
-            z-index: 1; 
-            width: 100%; 
-            max-width: 480px; 
-            padding: 20px; 
-        }
+        .container { position: relative; z-index: 1; width: 100%; max-width: 480px; padding: 20px; }
         .card { 
             background: var(--bg-card); 
             border: 1px solid var(--border-light); 
@@ -92,15 +68,11 @@
             animation: cardEntry 0.8s cubic-bezier(0.16,1,0.3,1); 
             box-shadow: 0 20px 60px rgba(0,0,0,0.8);
         }
-        @keyframes cardEntry { 
-            from { opacity: 0; transform: translateY(30px) scale(0.96); } 
-        }
+        @keyframes cardEntry { from { opacity: 0; transform: translateY(30px) scale(0.96); } }
         .card::before { 
             content:''; 
             position: absolute; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
+            top: 0; left: 0; right: 0; 
             height: 2px; 
             background: linear-gradient(90deg, transparent, var(--accent), transparent); 
             opacity: 0.4; 
@@ -119,18 +91,11 @@
             margin-bottom: 32px; 
             letter-spacing: 0.3px;
         }
-        .product-badge span:first-child {
-            opacity: 0.5;
-        }
-        .success-container { 
-            animation: successEntry 0.6s cubic-bezier(0.16,1,0.3,1); 
-        }
-        @keyframes successEntry { 
-            from { opacity: 0; transform: scale(0.9); } 
-        }
+        .product-badge span:first-child { opacity: 0.5; }
+        .success-container { animation: successEntry 0.6s cubic-bezier(0.16,1,0.3,1); }
+        @keyframes successEntry { from { opacity: 0; transform: scale(0.9); } }
         .success-icon { 
-            width: 80px; 
-            height: 80px; 
+            width: 80px; height: 80px; 
             margin: 0 auto 24px; 
             background: rgba(255,255,255,0.05); 
             border: 2px solid rgba(255,255,255,0.15); 
@@ -142,23 +107,9 @@
             animation: successPop 0.5s cubic-bezier(0.68,-0.55,0.265,1.55); 
             color: #ffffff;
         }
-        @keyframes successPop { 
-            from{transform:scale(0)} 
-            50%{transform:scale(1.2)} 
-            to{transform:scale(1)} 
-        }
-        .success-title { 
-            font-size: 20px; 
-            font-weight: 700; 
-            color: var(--text-primary); 
-            margin-bottom: 8px; 
-            letter-spacing: -0.3px;
-        }
-        .success-subtitle { 
-            font-size: 13px; 
-            color: var(--text-secondary); 
-            margin-bottom: 28px; 
-        }
+        @keyframes successPop { from{transform:scale(0)} 50%{transform:scale(1.2)} to{transform:scale(1)} }
+        .success-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; letter-spacing: -0.3px; }
+        .success-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 28px; }
         .code-box { 
             background: #0a0a0a; 
             border: 1px solid rgba(255,255,255,0.1); 
@@ -171,9 +122,7 @@
         .code-box::before { 
             content:''; 
             position: absolute; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
+            top: 0; left: 0; right: 0; 
             height: 2px; 
             background: linear-gradient(90deg, transparent, #666666, transparent); 
         }
@@ -211,23 +160,10 @@
             transition: all 0.25s ease; 
             margin-top: 8px; 
         }
-        .copy-btn:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 30px rgba(255,255,255,0.1); 
-            background: #e8e8e8;
-        }
-        .copy-btn:active {
-            transform: scale(0.97);
-        }
-        .copy-btn.copied { 
-            background: #333333; 
-            color: #ffffff; 
-        }
-        .copy-btn svg { 
-            width: 16px; 
-            height: 16px; 
-            stroke: currentColor;
-        }
+        .copy-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,255,255,0.1); background: #e8e8e8; }
+        .copy-btn:active { transform: scale(0.97); }
+        .copy-btn.copied { background: #333333; color: #ffffff; }
+        .copy-btn svg { width: 16px; height: 16px; stroke: currentColor; }
         .bookmark-hint { 
             margin-top: 20px; 
             font-size: 12px; 
@@ -238,30 +174,24 @@
             border: 1px solid rgba(255,255,255,0.06); 
             border-radius: 10px; 
         }
-        .footer { 
-            text-align: center; 
-            margin-top: 24px; 
-            font-size: 11px; 
-            color: var(--text-muted); 
-            letter-spacing: 0.3px;
+        .footer { text-align: center; margin-top: 24px; font-size: 11px; color: var(--text-muted); letter-spacing: 0.3px; }
+        .confetti { position: fixed; top: -10px; z-index: 100; pointer-events: none; }
+        @keyframes confettiFall { to { transform: translateY(105vh) rotate(720deg); opacity: 0; } }
+        @media (max-width: 480px) { .card { padding: 36px 24px; } .code-value { font-size: 17px; } }
+        
+        .loader {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
+            margin: 20px auto;
         }
-        .confetti { 
-            position: fixed; 
-            top: -10px; 
-            z-index: 100; 
-            pointer-events: none; 
-        }
-        @keyframes confettiFall { 
-            to { transform: translateY(105vh) rotate(720deg); opacity: 0; } 
-        }
-        @media (max-width: 480px) { 
-            .card { padding: 36px 24px; } 
-            .code-value { font-size: 17px; } 
-        }
-
-        /* Скрываем все ненужные состояния */
-        #waitingState, #errorState { display: none !important; }
-        #successState { display: block !important; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .error-text { color: #ff6b6b; font-size: 14px; margin: 20px 0; }
+        .empty-text { color: var(--text-secondary); font-size: 14px; margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -276,15 +206,20 @@
                 <span>Premium</span>
             </div>
 
-            <div id="waitingState" style="display:none;"></div>
+            <!-- Состояние загрузки -->
+            <div id="loadingState">
+                <div class="loader"></div>
+                <div style="color: var(--text-secondary); font-size: 14px; margin-top: 12px;">Загрузка кода...</div>
+            </div>
 
-            <div id="successState" class="success-container">
+            <!-- Состояние успеха (показывается, когда код найден) -->
+            <div id="successState" class="success-container" style="display:none;">
                 <div class="success-icon">✓</div>
                 <div class="success-title">Код готов</div>
                 <div class="success-subtitle">Скопируйте и активируйте ваш код</div>
                 <div class="code-box">
                     <div class="code-label">Ваш код</div>
-                    <div class="code-value" id="codeDisplay">PROXY-GEM-D91C5-F7BB-695A-4C7F-8ED4</div>
+                    <div class="code-value" id="codeDisplay">---</div>
                 </div>
                 <button class="copy-btn" onclick="copyCode()" id="copyBtn">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -296,21 +231,84 @@
                 <div class="bookmark-hint">✧ Сохраните эту страницу — вы можете вернуться и посмотреть код в любое время</div>
             </div>
 
-            <div id="errorState" style="display:none;"></div>
+            <!-- Состояние ошибки -->
+            <div id="errorState" style="display:none;">
+                <div class="error-text" id="errorMessage">Не удалось загрузить код</div>
+                <button onclick="loadCode()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 24px; border-radius: 10px; cursor: pointer; font-family: inherit; margin-top: 12px;">Повторить</button>
+            </div>
+
+            <!-- Состояние "нет свободных ключей" -->
+            <div id="emptyState" style="display:none;">
+                <div style="font-size: 48px; margin-bottom: 16px;">🔑</div>
+                <div class="success-title">Нет свободных ключей</div>
+                <div class="success-subtitle">Все ключи активированы. Обратитесь к администратору.</div>
+            </div>
         </div>
         <div class="footer">Защищённая доставка цифровых товаров</div>
     </div>
 
     <script>
-        const CODE = "PROXY-GEM-D91C5-F7BB-695A-4C7F-8ED4";
+        // ⚠️ ИЗМЕНИТЕ ЭТУ ССЫЛКУ НА ВАШ РЕАЛЬНЫЙ URL
+        const CODES_URL = 'https://ваш-сайт.com/premium_codes.json';
+        // Или, если вы разместили в GitHub: https://raw.githubusercontent.com/ваш-аккаунт/репозиторий/ветка/premium_codes.json
+
+        let currentCode = null;
 
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('codeDisplay').textContent = CODE;
-            createConfetti();
+            loadCode();
         });
+
+        async function loadCode() {
+            // Показываем загрузку, скрываем остальное
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('successState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'none';
+            document.getElementById('emptyState').style.display = 'none';
+
+            try {
+                const response = await fetch(CODES_URL);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const data = await response.json();
+                
+                // Ищем первый неактивированный код
+                const availableCodes = data.codes.filter(c => c.used === false);
+                
+                if (availableCodes.length === 0) {
+                    // Нет свободных ключей
+                    document.getElementById('loadingState').style.display = 'none';
+                    document.getElementById('emptyState').style.display = 'block';
+                    return;
+                }
+
+                // Берём первый свободный ключ
+                const codeData = availableCodes[0];
+                currentCode = codeData.id;
+
+                // Отображаем код
+                document.getElementById('codeDisplay').textContent = currentCode;
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('successState').style.display = 'block';
+                
+                // Создаём конфетти
+                createConfetti();
+
+                // ⚠️ ВАЖНО: здесь вы можете отправить запрос на сервер, чтобы пометить ключ как использованный
+                // Например: fetch('/api/activate', { method: 'POST', body: JSON.stringify({ code: currentCode }) })
+                // Это нужно, чтобы один и тот же ключ не показывался дважды
+
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('errorState').style.display = 'block';
+                document.getElementById('errorMessage').textContent = 'Ошибка загрузки ключей. Проверьте соединение.';
+            }
+        }
 
         async function copyCode() {
             const code = document.getElementById("codeDisplay").textContent;
+            if (!code || code === '---') return;
+            
             try {
                 await navigator.clipboard.writeText(code);
                 document.getElementById("copyBtn").classList.add("copied");
