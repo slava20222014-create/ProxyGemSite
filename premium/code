@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* ... (весь ваш стиль из предыдущего ответа, без изменений) ... */
         :root {
             --bg-primary: #000000;
             --bg-card: #111111;
@@ -212,7 +213,7 @@
                 <div style="color: var(--text-secondary); font-size: 14px; margin-top: 12px;">Загрузка кода...</div>
             </div>
 
-            <!-- Состояние успеха (показывается, когда код найден) -->
+            <!-- Состояние успеха -->
             <div id="successState" class="success-container" style="display:none;">
                 <div class="success-icon">✓</div>
                 <div class="success-title">Код готов</div>
@@ -248,10 +249,9 @@
     </div>
 
     <script>
-        // ⚠️ ИЗМЕНИТЕ ЭТУ ССЫЛКУ НА ВАШ РЕАЛЬНЫЙ URL
-        const CODES_URL = 'https://ваш-сайт.com/premium_codes.json';
-        // Или, если вы разместили в GitHub: https://raw.githubusercontent.com/ваш-аккаунт/репозиторий/ветка/premium_codes.json
-
+        // ✅ ПРАВИЛЬНАЯ ССЫЛКА НА RAW-ФАЙЛ (без /blob/)
+        const CODES_URL = 'https://raw.githubusercontent.com/slava20222014-create/Servers_ProxyGemSite777/main/premium_codes.json';
+        
         let currentCode = null;
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -259,7 +259,6 @@
         });
 
         async function loadCode() {
-            // Показываем загрузку, скрываем остальное
             document.getElementById('loadingState').style.display = 'block';
             document.getElementById('successState').style.display = 'none';
             document.getElementById('errorState').style.display = 'none';
@@ -267,41 +266,45 @@
 
             try {
                 const response = await fetch(CODES_URL);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                // Проверяем, что пришёл именно JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Сервер вернул не JSON. Проверьте ссылку.');
+                }
                 
                 const data = await response.json();
                 
-                // Ищем первый неактивированный код
+                if (!data.codes || !Array.isArray(data.codes)) {
+                    throw new Error('Неверный формат данных: отсутствует массив "codes"');
+                }
+                
                 const availableCodes = data.codes.filter(c => c.used === false);
                 
                 if (availableCodes.length === 0) {
-                    // Нет свободных ключей
                     document.getElementById('loadingState').style.display = 'none';
                     document.getElementById('emptyState').style.display = 'block';
                     return;
                 }
 
-                // Берём первый свободный ключ
                 const codeData = availableCodes[0];
                 currentCode = codeData.id;
 
-                // Отображаем код
                 document.getElementById('codeDisplay').textContent = currentCode;
                 document.getElementById('loadingState').style.display = 'none';
                 document.getElementById('successState').style.display = 'block';
                 
-                // Создаём конфетти
                 createConfetti();
-
-                // ⚠️ ВАЖНО: здесь вы можете отправить запрос на сервер, чтобы пометить ключ как использованный
-                // Например: fetch('/api/activate', { method: 'POST', body: JSON.stringify({ code: currentCode }) })
-                // Это нужно, чтобы один и тот же ключ не показывался дважды
 
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
                 document.getElementById('loadingState').style.display = 'none';
                 document.getElementById('errorState').style.display = 'block';
-                document.getElementById('errorMessage').textContent = 'Ошибка загрузки ключей. Проверьте соединение.';
+                document.getElementById('errorMessage').textContent = `Ошибка: ${error.message}`;
             }
         }
 
