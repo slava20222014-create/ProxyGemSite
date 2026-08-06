@@ -1213,6 +1213,7 @@
             transition: background .4s ease, border-color .4s ease, box-shadow .4s ease;
             width: 205px;
             z-index: 1;
+            user-select: none;
         }
         .pricing-card:hover .pricing-card-btn {
             background: #ffffff;
@@ -2597,8 +2598,8 @@
                                         </div>
                                         <p class="pricing-card-desc">Идеальный вариант для тестирования</p>
                                     </div>
-                                    <button class="pricing-card-btn">
-                                        <span class="pricing-card-btn-text">Выбрать</span>
+                                    <button class="pricing-card-btn" data-plan="1 месяц — 259 ₽">
+                                        <span class="pricing-card-btn-text">Купить</span>
                                         <span class="pricing-card-btn-icon"><i class="fas fa-arrow-right"></i></span>
                                     </button>
                                 </div>
@@ -2620,8 +2621,8 @@
                                         </div>
                                         <p class="pricing-card-desc">Экономия 15% — отличный выбор</p>
                                     </div>
-                                    <button class="pricing-card-btn">
-                                        <span class="pricing-card-btn-text">Выбрать</span>
+                                    <button class="pricing-card-btn" data-plan="3 месяца — 659 ₽">
+                                        <span class="pricing-card-btn-text">Купить</span>
                                         <span class="pricing-card-btn-icon"><i class="fas fa-arrow-right"></i></span>
                                     </button>
                                 </div>
@@ -2640,8 +2641,8 @@
                                         </div>
                                         <p class="pricing-card-desc">Экономия 10% — для постоянных</p>
                                     </div>
-                                    <button class="pricing-card-btn">
-                                        <span class="pricing-card-btn-text">Выбрать</span>
+                                    <button class="pricing-card-btn" data-plan="6 месяцев — 1190 ₽">
+                                        <span class="pricing-card-btn-text">Купить</span>
                                         <span class="pricing-card-btn-icon"><i class="fas fa-arrow-right"></i></span>
                                     </button>
                                 </div>
@@ -2661,7 +2662,7 @@
                                         </div>
                                         <p class="pricing-card-desc">Бессрочный доступ — следите за новостями</p>
                                     </div>
-                                    <button class="pricing-card-btn" style="opacity:0.5; cursor:default;">
+                                    <button class="pricing-card-btn" style="opacity:0.5; cursor:default;" disabled>
                                         <span class="pricing-card-btn-text">Скоро</span>
                                     </button>
                                 </div>
@@ -4258,6 +4259,31 @@
             window.scrollTo({ top: 0, behavior: 'instant' });
 
             renderAll();
+
+            // ===== Обработчики кнопок "Купить" в тарифах =====
+            document.querySelectorAll('.pricing-card-btn:not([disabled])').forEach(btn => {
+                btn.addEventListener('click', async function(e) {
+                    e.stopPropagation();
+                    const plan = this.dataset.plan || 'Тариф';
+                    
+                    if (!currentUser) {
+                        await showAlert('Требуется авторизация', 'Пожалуйста, войдите в аккаунт, чтобы приобрести тариф.', 'warning');
+                        showAuthModal();
+                        return;
+                    }
+                    
+                    const ban = isUserBanned(currentUser.id);
+                    if (ban) {
+                        await showAlert('Доступ запрещен', 'Ваш аккаунт забанен. Обратитесь в поддержку.', 'error');
+                        return;
+                    }
+                    
+                    await showAlert('Оформление подписки', 'Вы выбрали тариф: ' + plan + '\n\nОплата будет произведена через Telegram.', 'info', [
+                        { text: 'Оплатить', className: 'btn-primary' },
+                        { text: 'Отмена', className: 'btn-secondary' }
+                    ]);
+                });
+            });
 
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
