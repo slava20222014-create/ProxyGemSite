@@ -338,7 +338,7 @@
             100% { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
-        /* ===== ГЕРОЙ С ЭФФЕКТОМ ПАРЕНИЯ ===== */
+        /* ===== ГЕРОЙ ===== */
         .hero-full {
             position: relative;
             width: 100vw;
@@ -393,7 +393,6 @@
             animation: fadeUp 1s ease both 0.3s;
         }
 
-        /* ===== НОВАЯ СОВРЕМЕННАЯ АНИМАЦИЯ ДЛЯ ЗАГОЛОВКА ===== */
         .hero-title-wrapper {
             position: relative;
             display: inline-block;
@@ -910,6 +909,373 @@
             25% { transform: translate(20px, -30px) scale(1.5); opacity: 0.8; }
             50% { transform: translate(40px, 10px) scale(1); opacity: 0.4; }
             75% { transform: translate(-10px, -20px) scale(1.8); opacity: 0.9; }
+        }
+
+        /* ===== ПРАЙСЫ (Tariffs) ===== */
+        .pricing {
+            background: #0a0a0a;
+            overflow-x: clip;
+            padding: 60px 0 80px;
+            position: relative;
+            width: 100%;
+            border-top: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .pricing-inner {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            gap: 64px;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 0 24px;
+            width: 100%;
+        }
+
+        .pricing-header {
+            flex-direction: column;
+            gap: 24px;
+            max-width: 600px;
+            z-index: 2;
+            align-items: center;
+            display: flex;
+        }
+
+        .pricing-badge {
+            background: rgba(255,255,255,0.04);
+            border-radius: 8px;
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            gap: 4px;
+            height: 33px;
+            padding: 12px;
+        }
+        .pricing-badge-text {
+            color: #fffffe;
+            font-family: Onest, sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 17px;
+        }
+
+        .pricing-title {
+            color: #ffffff;
+            font-size: 40px;
+            font-weight: 600;
+            line-height: 43px;
+            font-family: Onest, sans-serif;
+            margin: 0;
+            text-align: center;
+        }
+
+        .pricing-description {
+            color: #d8d8d8;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 26px;
+            font-family: Onest, sans-serif;
+            margin: 0;
+            text-align: center;
+        }
+
+        .pricing-cards-wrapper {
+            flex-direction: column;
+            isolation: isolate;
+            z-index: 2;
+            width: 100%;
+            align-items: flex-start;
+            display: flex;
+            gap: 24px;
+        }
+
+        .pricing-cards {
+            align-items: flex-start;
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+            width: 100%;
+        }
+
+        .pricing-card {
+            align-items: center;
+            background: #151517;
+            border: 1px solid #1c1c20;
+            border-radius: 32px;
+            box-sizing: border-box;
+            display: flex;
+            flex: 1 1;
+            flex-direction: column;
+            gap: 32px;
+            height: 386px;
+            justify-content: space-between;
+            margin-top: 28px;
+            min-width: 0;
+            padding: 32px;
+            position: relative;
+            transition: box-shadow .4s ease, border-color .4s ease, transform .4s ease;
+            z-index: 1;
+        }
+
+        .pricing-card:after {
+            background: radial-gradient(106.66% 113.14% at 50% 150%, #ffffff 0, rgba(255,255,255,0) 100%);
+            border-radius: 32px;
+            content: "";
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            transition: opacity .4s ease;
+            z-index: 0;
+        }
+        .pricing-card:hover:after { opacity: 1; }
+
+        .pricing-card:before {
+            background: linear-gradient(0deg, #ffffff, rgba(135,135,135,0) 80%);
+            border-radius: 33px;
+            content: "";
+            inset: -1px;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            padding: 2px;
+            pointer-events: none;
+            position: absolute;
+            transition: opacity .4s ease;
+            z-index: 3;
+        }
+        .pricing-card:hover {
+            border-color: transparent;
+            box-shadow: 0 35px 89.8px rgba(255,255,255,0.2);
+            transform: translateY(-28px);
+        }
+        .pricing-card:hover:before { opacity: 1; }
+
+        .pricing-card--featured {
+            background: #18181c;
+            margin-top: 0;
+        }
+        .pricing-card--featured:after {
+            background: radial-gradient(110% 120% at 50% 140%, #ffffff 0, rgba(104, 103, 103, 0) 100%);
+        }
+
+        .pricing-card-content {
+            align-items: flex-start;
+            gap: 32px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .pricing-card-top {
+            align-items: center;
+            gap: 24px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .pricing-card-badges {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+        }
+
+        .pricing-card-price {
+            background: #1c1c20;
+            border: 1px solid #25252a;
+            border-radius: 8px;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 9px 12px 7px;
+        }
+
+        .pricing-card-old-price {
+            color: #656571;
+            font-family: Onest, sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1;
+            text-decoration: line-through;
+            text-decoration-color: rgba(101,101,113,0.7);
+            transition: color .4s ease;
+        }
+        .pricing-card:hover .pricing-card-old-price {
+            color: rgba(255,255,255,0.55);
+        }
+
+        .pricing-card-price-text {
+            color: #d8d8d8;
+            font-family: Onest, sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1;
+            opacity: .5;
+            transition: color .4s ease, opacity .4s ease;
+        }
+        .pricing-card:hover .pricing-card-price-text {
+            color: #fff;
+            opacity: 1;
+        }
+
+        .pricing-card-popular {
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: row;
+            gap: 4px;
+            height: 35px;
+            padding: 12px;
+        }
+        .pricing-card-popular-text {
+            color: #c0c0c0;
+            font-family: Onest, sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 17px;
+        }
+
+        .pricing-card-duration {
+            color: #fff;
+            font-size: 48px;
+            font-weight: 500;
+            line-height: 108.25%;
+            margin: 0;
+            font-family: Onest, sans-serif;
+            text-align: center;
+            width: 100%;
+        }
+
+        .pricing-card-tagline {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 18px;
+            margin: -14px 0 0;
+            position: relative;
+            z-index: 1;
+            font-family: Onest, sans-serif;
+            text-align: center;
+            width: 100%;
+        }
+        .pricing-card-tagline:after {
+            color: #ffffff;
+            content: attr(data-text);
+            filter: blur(18px) brightness(3);
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            transition: opacity .4s ease;
+            z-index: -1;
+        }
+        .pricing-card:hover .pricing-card-tagline:after { opacity: 1; }
+
+        .pricing-card-desc {
+            color: #d8d8d8;
+            font-family: Onest, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 20px;
+            margin: 0;
+            opacity: .5;
+            text-align: center;
+            transition: color .4s ease, opacity .4s ease;
+            width: 100%;
+        }
+        .pricing-card:hover .pricing-card-desc {
+            color: #fff;
+            opacity: .9;
+        }
+
+        .pricing-card-btn {
+            align-items: center;
+            background: #18181c;
+            border: 1px solid #1c1c20;
+            border-radius: 48px;
+            box-sizing: border-box;
+            cursor: pointer;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            height: 72px;
+            justify-content: center;
+            padding: 24px 32px;
+            position: relative;
+            transition: background .4s ease, border-color .4s ease, box-shadow .4s ease;
+            width: 205px;
+            z-index: 1;
+        }
+        .pricing-card:hover .pricing-card-btn {
+            background: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 60px 120px rgba(130,130,130,0.3);
+        }
+
+        .pricing-card-btn-text {
+            color: #686868;
+            font-family: Onest, sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 26px;
+            transition: color .4s ease, transform .25s ease-out;
+        }
+        .pricing-card:hover .pricing-card-btn-text {
+            color: #403e3e;
+            transform: translateX(-12px);
+        }
+
+        .pricing-card-btn-icon {
+            align-items: center;
+            display: flex;
+            height: 18px;
+            justify-content: center;
+            opacity: 0;
+            position: absolute;
+            right: 52px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: opacity .25s ease-out;
+            width: 18px;
+        }
+        .pricing-card:hover .pricing-card-btn-icon { opacity: 1; }
+
+        .pricing-note {
+            color: #656571;
+            font-family: Onest, sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 17px;
+            margin-top: -35px;
+            opacity: .5;
+            text-align: center;
+            width: 100%;
+        }
+
+        @media (max-width: 992px) {
+            .pricing-title { font-size: 32px; line-height: 36px; }
+            .pricing-description { font-size: 18px; line-height: 24px; }
+            .pricing-card-duration { font-size: 36px; }
+        }
+
+        @media (max-width: 768px) {
+            .pricing-cards {
+                align-items: stretch;
+                flex-direction: column;
+            }
+            .pricing-card { margin-top: 0; }
+            .pricing-title { font-size: 28px; line-height: 32px; }
+            .pricing-description { font-size: 16px; line-height: 22px; }
+            .pricing-card-duration { font-size: 40px; }
+            .pricing-card-btn { width: 100%; }
         }
 
         .modal-close-modern {
@@ -1783,27 +2149,174 @@
             font-size: 0.95rem;
         }
 
-        footer {
-            text-align: center;
-            padding: 40px 0 30px;
-            border-top: 1px solid rgba(255,255,255,0.02);
-            color: #444;
+        /* ===== НОВЫЙ ФУТЕР ===== */
+        .footer-new {
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            margin-top: 40px;
+        }
+        .footer-new .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-new .footer-brand h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f0f0f0, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        .footer-new .footer-brand p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        .footer-new .footer-socials {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        .footer-new .footer-socials a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            color: #aaa;
+            text-decoration: none;
             font-size: 0.85rem;
-            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
         }
-        footer i { color: #888; margin: 0 6px; transition: all 0.4s ease; }
-        footer:hover i { color: #fff; }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+        .footer-new .footer-socials a:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.12);
+            color: #fff;
+            transform: translateY(-2px);
         }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .footer-new .footer-socials a i {
+            font-size: 1.1rem;
+        }
+        .footer-new .footer-support {
+            margin-top: 12px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .footer-new .footer-support a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-new .footer-support a:hover {
+            color: #fff;
+        }
+        .footer-new .footer-docs {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .footer-new .footer-docs .doc-item {
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            padding-bottom: 12px;
+        }
+        .footer-new .footer-docs .doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: #ddd;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            padding: 4px 0;
+        }
+        .footer-new .footer-docs .doc-header:hover {
+            color: #fff;
+        }
+        .footer-new .footer-docs .doc-header i {
+            transition: transform 0.3s ease;
+            color: #555;
+        }
+        .footer-new .footer-docs .doc-header.active i {
+            transform: rotate(180deg);
+        }
+        .footer-new .footer-docs .doc-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding 0.3s ease;
+            padding: 0 4px;
+        }
+        .footer-new .footer-docs .doc-body.open {
+            max-height: 3000px;
+            padding: 16px 4px 8px;
+        }
+        .footer-new .footer-docs .doc-body p {
+            color: #888;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+        .footer-new .footer-docs .doc-body .doc-date {
+            color: #555;
+            font-size: 0.7rem;
+        }
+        .footer-new .footer-docs .doc-body ul {
+            color: #888;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            padding-left: 20px;
+            list-style: none;
+        }
+        .footer-new .footer-docs .doc-body ul li::before {
+            content: '· ';
+            color: #555;
+        }
+        .footer-new .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            color: #444;
+            font-size: 0.8rem;
+        }
+        .footer-new .footer-bottom .copyright {
+            color: #555;
+        }
+        .footer-new .footer-bottom .copyright strong {
+            color: #777;
+        }
+        .footer-new .footer-bottom .email {
+            color: #555;
+        }
+        .footer-new .footer-bottom .email a {
+            color: #777;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-new .footer-bottom .email a:hover {
+            color: #fff;
+        }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+        @media (max-width: 768px) {
+            .footer-new .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .footer-new .footer-socials {
+                justify-content: center;
+            }
+            .footer-new .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
         }
 
         @keyframes uploadGlow {
@@ -1914,6 +2427,7 @@
     <nav class="nav-circle" id="navCircle">
         <button class="tab-btn active" data-tab="home"><i class="fas fa-home"></i> Главная</button>
         <button class="tab-btn" data-tab="features"><i class="fas fa-cog"></i> Возможности</button>
+        <button class="tab-btn" data-tab="pricing"><i class="fas fa-tags"></i> Тарифы</button>
         <button class="tab-btn" data-tab="download"><i class="fas fa-download"></i> Скачать</button>
         <button class="tab-btn modal-trigger" data-modal="reviews"><i class="fas fa-star"></i> Отзывы</button>
         <button class="tab-btn modal-trigger" data-modal="admin" id="adminTabBtn" style="display:none;"><i class="fas fa-user-shield"></i> Админ</button>
@@ -1970,7 +2484,7 @@
         </div>
     </div>
 
-    <!-- ===== ГЕРОЙ С ПАРЯЩИМ ФОНОМ ===== -->
+    <!-- ===== ГЕРОЙ ===== -->
     <section class="hero-full" id="section-home">
         <div class="hero-image">
             <img src="images/menu_original.png" alt="Background" />
@@ -1982,7 +2496,7 @@
                     <span class="title-shimmer"></span>
                 </div>
             </div>
-            <p>Современный инструмент для безопасного и анонимного обхода. Молниеносная скорость, интеллектуальная маршрутизация и полная конфиденциальность.</p>
+            <p>Современный инструмент для безопасного и анонимного доступа. Молниеносная скорость, интеллектуальная маршрутизация и полная конфиденциальность.</p>
             <div class="hero-actions">
                 <button class="btn-primary" id="heroFeaturesBtn">
                     <span class="btn-text">Подробнее</span>
@@ -2043,14 +2557,117 @@
                         <div class="why-item reveal">
                             <img src="images/telegram-servers.png" alt="Телеграм" />
                             <div class="icon-wrap"><i class="fas fa-paper-plane"></i></div>
-                            <h3>Телеграм обходы</h3>
-                            <p>Обходы через встроенный прокси в самом телеграме.</p>
+                            <h3>Интеграция с Telegram</h3>
+                            <p>Удобная работа через встроенные возможности мессенджера.</p>
                         </div>
                         <div class="why-item reveal">
                             <img src="images/logs.png" alt="Логи" />
                             <div class="icon-wrap"><i class="fas fa-file-alt"></i></div>
-                            <h3>Продвинутые логи</h3>
+                            <h3>Продвинутая аналитика</h3>
                             <p>Полная прозрачность работы: все события фиксируются и доступны для анализа.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ТАРИФЫ (PRICING) ===== -->
+            <div class="section-block" id="section-pricing">
+                <div class="pricing">
+                    <div class="pricing-inner">
+                        <div class="pricing-header">
+                            <div class="pricing-badge">
+                                <span class="pricing-badge-text"><i class="fas fa-bolt" style="margin-right:6px;"></i>Выбери свой тариф</span>
+                            </div>
+                            <h2 class="pricing-title">Доступные тарифы</h2>
+                            <p class="pricing-description">Одна подписка — все возможности без ограничений. Вы платите исключительно за тот период, который используете, что действительно нужно.</p>
+                        </div>
+
+                        <div class="pricing-cards-wrapper">
+                            <div class="pricing-cards">
+                                <!-- Карточка 1 месяц -->
+                                <div class="pricing-card">
+                                    <div class="pricing-card-content">
+                                        <div class="pricing-card-top">
+                                            <div class="pricing-card-badges">
+                                                <div class="pricing-card-price">
+                                                    <span class="pricing-card-price-text">259 ₽</span>
+                                                </div>
+                                            </div>
+                                            <span class="pricing-card-duration">1 месяц</span>
+                                        </div>
+                                        <p class="pricing-card-desc">Идеальный вариант для тестирования</p>
+                                    </div>
+                                    <button class="pricing-card-btn">
+                                        <span class="pricing-card-btn-text">Выбрать</span>
+                                        <span class="pricing-card-btn-icon"><i class="fas fa-arrow-right"></i></span>
+                                    </button>
+                                </div>
+
+                                <!-- Карточка 3 месяца (со скидкой) -->
+                                <div class="pricing-card pricing-card--featured">
+                                    <div class="pricing-card-content">
+                                        <div class="pricing-card-top">
+                                            <div class="pricing-card-badges">
+                                                <div class="pricing-card-popular">
+                                                    <span class="pricing-card-popular-text"><i class="fas fa-star" style="margin-right:4px;"></i>Выгодно</span>
+                                                </div>
+                                                <div class="pricing-card-price">
+                                                    <span class="pricing-card-old-price">777 ₽</span>
+                                                    <span class="pricing-card-price-text">659 ₽</span>
+                                                </div>
+                                            </div>
+                                            <span class="pricing-card-duration">3 месяца</span>
+                                        </div>
+                                        <p class="pricing-card-desc">Экономия 15% — отличный выбор</p>
+                                    </div>
+                                    <button class="pricing-card-btn">
+                                        <span class="pricing-card-btn-text">Выбрать</span>
+                                        <span class="pricing-card-btn-icon"><i class="fas fa-arrow-right"></i></span>
+                                    </button>
+                                </div>
+
+                                <!-- Карточка 6 месяцев (со скидкой) -->
+                                <div class="pricing-card">
+                                    <div class="pricing-card-content">
+                                        <div class="pricing-card-top">
+                                            <div class="pricing-card-badges">
+                                                <div class="pricing-card-price">
+                                                    <span class="pricing-card-old-price">1319 ₽</span>
+                                                    <span class="pricing-card-price-text">1190 ₽</span>
+                                                </div>
+                                            </div>
+                                            <span class="pricing-card-duration">6 месяцев</span>
+                                        </div>
+                                        <p class="pricing-card-desc">Экономия 10% — для постоянных</p>
+                                    </div>
+                                    <button class="pricing-card-btn">
+                                        <span class="pricing-card-btn-text">Выбрать</span>
+                                        <span class="pricing-card-btn-icon"><i class="fas fa-arrow-right"></i></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Дополнительная карточка "Навсегда" -->
+                            <div class="pricing-cards" style="margin-top:10px; justify-content:center;">
+                                <div class="pricing-card" style="max-width:400px; flex:1 1 300px; margin-top:0;">
+                                    <div class="pricing-card-content">
+                                        <div class="pricing-card-top">
+                                            <div class="pricing-card-badges">
+                                                <div class="pricing-card-price">
+                                                    <span class="pricing-card-price-text" style="opacity:0.7;">Скоро...</span>
+                                                </div>
+                                            </div>
+                                            <span class="pricing-card-duration">Навсегда</span>
+                                        </div>
+                                        <p class="pricing-card-desc">Бессрочный доступ — следите за новостями</p>
+                                    </div>
+                                    <button class="pricing-card-btn" style="opacity:0.5; cursor:default;">
+                                        <span class="pricing-card-btn-text">Скоро</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <p class="pricing-note">Все тарифы включают полный функционал. Цены указаны в рублях.</p>
                         </div>
                     </div>
                 </div>
@@ -2080,8 +2697,172 @@
                 </div>
             </div>
 
-            <footer>
-                <i class="fas fa-gem"></i> ProxyGem · 2026 · безопасность и свобода в сети
+<!-- ===== НОВЫЙ ФУТЕР ===== -->
+<footer class="footer-new">
+    <div class="footer-grid">
+        <!-- Левая колонка -->
+        <div class="footer-brand">
+            <h3>ProxyGem</h3>
+            <p>Современное решение для безопасного доступа к интернет-ресурсам.</p>
+            <div class="footer-socials">
+                <a href="https://dsc.gg/proxygem" target="_blank"><i class="fab fa-discord"></i> Discord</a>
+                <a href="https://t.me/proxy_gem777" target="_blank"><i class="fab fa-telegram-plane"></i> Telegram</a>
+                <a href="https://www.youtube.com/@GEMER_OFFICCIAL" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
+            </div>
+            <div class="footer-support">
+                <i class="fas fa-question-circle"></i> Помощь / FAQ: 
+                <a href="mailto:gemerstore3d@gmail.com">gemerstore3d@gmail.com</a>
+                <span class="support-divider">|</span>
+                <a href="https://t.me/proxygem_bot" target="_blank">
+                    <i class="fab fa-telegram-plane"></i> @proxygem_bot
+                </a>
+            </div>
+        </div>
+
+<!-- Правая колонка -->
+<div class="footer-docs">
+    <div class="doc-item">
+        <div class="doc-header" data-doc="privacy">
+            <span>Политика конфиденциальности</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="doc-body" id="doc-privacy">
+            <p class="doc-date">7 августа в 14:50</p>
+            
+            <p><strong>Настоящая Политика конфиденциальности (далее — «Политика»)</strong> определяет порядок обработки, максимальной защиты и отмены логирования информации Пользователей при использовании программы и сервиса для обхода блокировок (далее — «Сервис»).</p>
+            
+            <p><strong>1. Принцип отмены логирования (No-Logs Policy) и Общие положения</strong><br>
+            1.1. Главный принцип работы Сервиса — абсолютный отказ от сбора и хранения логов активности (No-Logs Policy). Мы не отслеживаем, не записываем и не храним информацию о том, какие ресурсы посещает Пользователь, какой трафик передаётся и какие сетевые протоколы используются.<br>
+            1.2. Используя Сервис, Пользователь соглашается с условиями настоящей Политики. При несогласии с условиями Пользователь обязан прекратить использование Сервиса.</p>
+            
+            <p><strong>2. Сбор и обработка информации</strong><br>
+            2.1. Сервис собирает исключительно минимальный объём технических данных, необходимых для поддержания работоспособности узлов и лимитов подписки:</p>
+            <ul style="margin-left: 20px; list-style: disc; padding-left: 10px;">
+                <li><strong>Служебные идентификаторы:</strong> анонимизированный ID аккаунта или токен доступа (без привязки к реальному имени или паспорту);</li>
+                <li><strong>Агрегированная статистика:</strong> общий объём израсходованного трафика (для контроля лимитов) и факт активности ключа/устройства.</li>
+            </ul>
+            <p>2.2. Сервис НЕ собирает и НЕ хранит:</p>
+            <ul style="margin-left: 20px; list-style: disc; padding-left: 10px;">
+                <li>Реальные IP-адреса Пользователя после установки соединения;</li>
+                <li>Историю посещённых сайтов, DNS-запросы и содержимое трафика;</li>
+                <li>Временные метки (timestamps) подключения и отключения конкретных сессий;</li>
+                <li>Геолокацию Пользователя.</li>
+            </ul>
+            
+            <p><strong>3. Цели использования информации</strong><br>
+            3.1. Собранные минимальные технические данные используются исключительно для:</p>
+            <ul style="margin-left: 20px; list-style: disc; padding-left: 10px;">
+                <li>Обеспечения технической стабильности работы узлов и маршрутизации;</li>
+                <li>Управления подписками и ограничениями по трафику/количеству устройств;</li>
+                <li>Технической поддержки Пользователя (по инициативе самого Пользователя).</li>
+            </ul>
+            
+            <p><strong>4. Раскрытие информации и юридические запросы</strong><br>
+            4.1. Администрация не продаёт, не передаёт и не аффилирует данные Пользователей с третьими лицами.<br>
+            4.2. В силу архитектуры Сервиса и принципа No-Logs, Администрация физически не обладает данными о сетевой активности Пользователей или их реальных IP-адресах, в связи с чем не может предоставить такую информацию по запросам третьих лиц или правоохранительных органов.</p>
+            
+            <p><strong>5. Защита данных и шифрование</strong><br>
+            5.1. Весь трафик между устройством Пользователя и серверами Сервиса защищается с использованием современных протоколов стойкого шифрования.<br>
+            5.2. Администрация принимает все технические и организационные меры для защиты узлов инфраструктуры от несанкционированного доступа. Временные данные сессий обрабатываются исключительно в оперативной памяти (RAM) серверов без записи на физические накопители.</p>
+            
+            <p><strong>6. Ответственность и риски</strong><br>
+            6.1. Пользователь осознаёт, что использование технологий шифрования и обхода ограничений может регулироваться законодательством страны его фактического местонахождения. Пользователь самостоятельно несёт ответственность за соблюдение местного законодательства при использовании Сервиса.<br>
+            6.2. Администрация не несёт ответственности за сбои в работе Сервиса, вызванные глобальными блокировками сетевой инфраструктуры, действиями провайдеров связи или ограничением доступа к узлам со стороны регуляторов.</p>
+            
+            <p><strong>7. Изменения в Политике</strong><br>
+            7.1. Администрация оставляет за собой право вносить изменения в Политику для повышения уровня приватности или адаптации к техническим изменениям.<br>
+            7.2. Актуальная версия Политики всегда доступна в интерфейсе Сервиса. Продолжение использования Сервиса после обновления Политики означает согласие с её новыми условиями.</p>
+            
+            <p><strong>8. Порядок возврата денежных средств</strong><br>
+            8.1. Возврат денежных средств или замена цифрового товара (ключа доступа/подписки) возможны исключительно при наличии подтверждённой технической ошибки на стороне Сервиса, делающей невозможным его использование.<br>
+            8.2. Для рассмотрения заявки на возврат или замену Пользователь обязан предоставить в службу поддержки непрерывную видеозапись (screen recording), сделанную в момент совершения покупки. На видеозаписи должны быть четко зафиксированы следующие действия:</p>
+            <ul style="margin-left: 20px; list-style: disc; padding-left: 10px;">
+                <li>Процесс оплаты и получения товара/ключа доступа;</li>
+                <li>Процесс активации ключа в приложении;</li>
+                <li>Ошибка или отсутствие работоспособности Сервиса сразу после активации.</li>
+            </ul>
+            <p>8.3. Видеозапись должна быть единым файлом, без монтажа, склеек или визуального редактирования.<br>
+            8.4. В возврате средств будет отказано, если:</p>
+            <ul style="margin-left: 20px; list-style: disc; padding-left: 10px;">
+                <li>Видеозапись покупки и первой активации отсутствует или содержит признаки монтажа;</li>
+                <li>Неработоспособность возникла из-за ошибок на стороне устройства Пользователя или блокировок провайдера, возникших спустя время после успешной активации;</li>
+                <li>Пользователь решил отказаться от Сервиса по причинам, не связанным с техническими ошибками самого Сервиса.</li>
+            </ul>
+        </div>
+
+                        <div class="doc-item">
+                            <div class="doc-header" data-doc="terms">
+                                <span>Пользовательское соглашение</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="doc-body" id="doc-terms">
+                                <p class="doc-date">7 августа в 14:41</p>
+                                
+                                <p><strong>1. Общие положения</strong><br>
+                                1.1. Настоящее Пользовательское соглашение (далее — «Соглашение») регулирует порядок использования программно-аппаратного комплекса и программного обеспечения (далее — «Сервис»), предоставляемого Администрацией.<br>
+                                1.2. Используя Сервис, включая скачивание и установку клиентского ПО, оплату подписки, настройку конфигурационных файлов или получение доступа к серверам, Пользователь подтверждает, что полностью ознакомился с условиями настоящего Соглашения и принимает их в полном объёме.<br>
+                                1.3. В случае несогласия с условиями Соглашения Пользователь обязан немедленно прекратить использование Сервиса и удалить все установленные компоненты.</p>
+                                
+                                <p><strong>2. Характер услуг и технические особенности</strong><br>
+                                2.1. Сервис предоставляет технические услуги по маршрутизации и шифрованию интернет-трафика, включая доступ к удаленным серверам, специализированному ПО и технической поддержке.<br>
+                                2.2. Пользователь осознаёт и соглашается, что Сервис является техническим инструментом передаче данных, и Администрация не контролирует, не администрирует и не несет ответственности за контент, передаваемый или получаемый Пользователем через Сервис.<br>
+                                2.3. Скорость передачи данных, задержка (ping), доступность конкретных узлов и серверов зависят от сторонних факторов, включая работу интернет-провайдеров, магистральных каналов связи, технические ограничения оборудования Пользователя и действия третьих лиц.<br>
+                                2.4. Сервис не гарантирует непрерывный доступ к конкретным сторонним веб-сайтам, ресурсам или сервисам, если доступ к ним ограничен третьими лицами или регуляторами.</p>
+                                
+                                <p><strong>3. Отказ от гарантий и ограничение ответственности</strong><br>
+                                3.1. Сервис и сопутствующее ПО предоставляются на условиях «AS IS» («как есть») и «AS AVAILABLE» («по мере доступности»).<br>
+                                3.2. Администрация не гарантирует: соответствие Сервиса субъективным ожиданиям и целям Пользователя; 100% время непрерывной работы (uptime) серверов и отсутствие технических сбоев; возможность обхода любых существующих или будущих технических ограничений, фильтраций и блокировок, вводимых интернет-провайдерами или государственными органами.<br>
+                                3.3. Администрация не несёт ответственности за: любые прямые или косвенные убытки, включая упущенную выгоду, утерю данных или блокировку аккаунтов Пользователя на сторонних ресурсах; технические ограничения, блокировку IP-адресов или протоколов Сервиса со стороны интернет-провайдеров, операторов связи и государственных органов; действия Пользователя, совершенные с использованием Сервиса.<br>
+                                3.4. Все решения о способах использования Сервиса принимаются Пользователем самостоятельно и под его личную ответственность.</p>
+                                
+                                <p><strong>4. Законность использования и допустимое использование (AUP)</strong><br>
+                                4.1. Сервис предназначен исключительно для обеспечения безопасности, шифрования трафика и защиты персональных данных Пользователя.<br>
+                                4.2. Пользователю категорически запрещается использовать Сервис для: осуществления любой противоправной деятельности согласно применимому законодательству страны нахождения Пользователя и страны нахождения используемого сервера; массовой рассылки незапрошенных сообщений (СПАМ); проведения сетевых атак (DDoS), сканирования портов, распространения вредоносного ПО; нарушения прав интеллектуальной собственности, а также несанкционированного доступа к компьютерным системам и сетям; совершения действий, создающих чрезмерную нагрузку на инфраструктуру Сервиса или мешающих другим пользователям.<br>
+                                4.3. Ответственность за соблюдение местного законодательства и правил использования сторонних ресурсов полностью возлагается на Пользователя.</p>
+                                
+                                <p><strong>5. Ограничение доступа и расторжение</strong><br>
+                                5.1. Администрация оставляет за собой право в одностороннем порядке без предварительного уведомления ограничить или полностью заблокировать доступ Пользователя к Сервису без возврата денежных средств в случаях: нарушения Пользователем условий настоящего Соглашения (включая п. 4.2); поступления обоснованных жалоб от правообладателей, провайдеров или правоохранительных органов (Abuse-жалобы); выявления подозрительной активности, создающей угрозу безопасности Сервиса или третьих лиц; требований платежных систем и эквайеров.<br>
+                                5.2. Администрация оставляет за собой право изменять географию серверов, доступные протоколы и конфигурации сети без предварительного согласования с Пользователем.</p>
+                                
+                                <p><strong>6. Платежи, подписка и политика возврата</strong><br>
+                                6.1. Оплата доступа к Сервису осуществляется по предоплате согласно действующим тарифам.<br>
+                                6.2. В связи с предоставлением мгновенного технического доступа к вычислительным мощностям и серверной инфраструктуре, услуга считается оказанной в полном объеме с момента предоставления Пользователю конфигурации/ключа доступа/учетных данных.<br>
+                                6.3. Возврат денежных средств после активации доступа не производится. Вынужденный возврат возможен исключительно в случае, если доступ к Сервису не был предоставлен по подтвержденной технической вине Администрации (не сгенерирован ключ/аккаунт) в течение 72 часов с момента оплаты.<br>
+                                6.4. Блокировка серверов, IP-адресов или протоколов Сервиса внешними сторонами (включая регуляторов и провайдеров) является форс-мажорным обстоятельством и не является основанием для возврата средств.<br>
+                                6.5. Пользователь обязуется не инициировать процедуру опротестования платежа (chargeback) через банк или платежную систему без предварительного обращения в службу поддержки Сервиса. В случае несанкционированного chargeback учетная запись Пользователя блокируется бессрочно.</p>
+                                
+                                <p><strong>7. Конфиденциальность и логирование</strong><br>
+                                7.1. Сервис придерживается политики минимальной обработки данных (No-Logs Policy в отношении содержимого трафика). Администрация не записывает и не хранит историю посещенных Пользователем сайтов, передаваемые данные и DNS-запросы.<br>
+                                7.2. Для обеспечения работоспособности и предотвращения злоупотреблений Администрация может обрабатывать обезличенную служебную информацию (например, общий объем переданного трафика, факт успешного подключения).<br>
+                                7.3. Подробная информация об обработке данных содержатся в Политике конфиденциальности Сервиса.</p>
+                                
+                                <p><strong>8. Изменение условий</strong><br>
+                                8.1. Администрация имеет право в любой момент в одностороннем порядке изменять условия настоящего Соглашения.<br>
+                                8.2. Новая редакция Соглашения вступает в силу с момента ее публикации на сайте или в приложении Сервиса.<br>
+                                8.3. Продолжение использования Сервиса после внесения изменений означает полное и безоговорочное согласие Пользователя с новой редакцией Соглашения.</p>
+                                
+                                <p><strong>9. Контактная информация</strong><br>
+                                9.1. По всем вопросам, связанным с работой Сервиса и технической поддержкой, Пользователь может обратиться через официальные каналы связи, указанные в Сервисе.</p>
+                                
+                                <p>Используя Сервис, Пользователь подтверждает, что ознакомлен с настоящим Соглашением и принимает его условия в полном объёме.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Нижняя строка -->
+                <div class="footer-bottom">
+                    <div class="copyright">
+                        © 2026 <strong>ProxyGem, Inc.</strong> All rights reserved.<br>
+                        <span style="color:#555;">designed by GEMER777</span>
+                    </div>
+                    <div class="email">
+                        <i class="fas fa-envelope"></i> 
+                        <a href="mailto:gemerstore3d@gmail.com">gemerstore3d@gmail.com</a>
+                        <br>
+                        <span style="color:#444; font-size:0.7rem;">Любое копирование и распространение материалов запрещено.</span>
+                    </div>
+                </div>
             </footer>
 
         </div>
@@ -2250,6 +3031,16 @@
         </div>
     </div>
 
+    <!-- ===== КАСТОМНЫЙ ALERT ===== -->
+    <div class="custom-alert-overlay" id="customAlert">
+        <div class="custom-alert">
+            <div class="icon" id="alertIcon"><i class="fas fa-info-circle"></i></div>
+            <h3 id="alertTitle">Заголовок</h3>
+            <p id="alertMessage">Сообщение</p>
+            <div class="btn-group" id="alertButtons"></div>
+        </div>
+    </div>
+
     <script>
         // ===== НАСТРОЙКИ =====
         const CLIENT_ID = '8155864182';
@@ -2263,11 +3054,12 @@
             ru: {
                 nav_home: 'Главная',
                 nav_features: 'Возможности',
+                nav_pricing: 'Тарифы',
                 nav_download: 'Скачать',
                 nav_reviews: 'Отзывы',
                 nav_admin: 'Админ',
                 nav_profile: 'Профиль',
-                hero_desc: 'Современный инструмент для безопасного и анонимного обхода. Молниеносная скорость, интеллектуальная маршрутизация и полная конфиденциальность.',
+                hero_desc: 'Современный инструмент для безопасного и анонимного доступа. Молниеносная скорость, интеллектуальная маршрутизация и полная конфиденциальность.',
                 hero_more: 'Подробнее',
                 hero_download: 'Скачать',
                 features_title: 'Возможности ProxyGem',
@@ -2326,11 +3118,12 @@
             en: {
                 nav_home: 'Home',
                 nav_features: 'Features',
+                nav_pricing: 'Pricing',
                 nav_download: 'Download',
                 nav_reviews: 'Reviews',
                 nav_admin: 'Admin',
                 nav_profile: 'Profile',
-                hero_desc: 'Modern tool for secure and anonymous bypass. Lightning speed, intelligent routing and complete privacy.',
+                hero_desc: 'Modern tool for secure and anonymous access. Lightning speed, intelligent routing and complete privacy.',
                 hero_more: 'Learn More',
                 hero_download: 'Download',
                 features_title: 'ProxyGem Features',
@@ -2389,6 +3182,7 @@
             tr: {
                 nav_home: 'Ana Sayfa',
                 nav_features: 'Özellikler',
+                nav_pricing: 'Fiyatlandırma',
                 nav_download: 'İndir',
                 nav_reviews: 'Yorumlar',
                 nav_admin: 'Admin',
@@ -2645,15 +3439,13 @@
                 const modalId = this.dataset.modal;
                 
                 if (modalId === 'admin') {
-                    // Проверяем, что пользователь авторизован
                     if (!currentUser) {
                         await showAlert('Доступ запрещен', 'Сначала авторизуйтесь через Telegram', 'warning');
                         return;
                     }
                     
-                    // Проверяем Telegram ID - только @MisterGemer имеет доступ
                     if (currentUser.telegramId !== ADMIN_TELEGRAM_ID) {
-                        await showAlert('Доступ запрещен', 'У вас нет доступа к админ-панели. Только @MisterGemer имеет доступ.', 'error');
+                        await showAlert('Доступ запрещен', 'У вас нет доступа к админ-панели.', 'error');
                         return;
                     }
                     
@@ -2701,7 +3493,6 @@
             });
         });
 
-        // Закрытие модалов через современные кнопки
         document.getElementById('closeReviewsModal').addEventListener('click', () => closeModal('reviewsModal'));
         document.getElementById('closeAdminModal').addEventListener('click', () => closeModal('adminModal'));
         document.getElementById('closeProfileModal').addEventListener('click', () => closeModal('profileModal'));
@@ -2709,8 +3500,6 @@
         document.getElementById('closeSuccessModalBtn').addEventListener('click', hideSuccessModal);
         document.getElementById('closeLogoutModalBtn').addEventListener('click', hideLogoutModal);
         document.getElementById('closeAuthModal').addEventListener('click', hideAuthModal);
-        
-        // Исправляем кнопку отмены выхода
         document.getElementById('cancelLogoutBtn').addEventListener('click', hideLogoutModal);
 
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
@@ -2962,7 +3751,6 @@
                 }
                 nameSpan.textContent = currentUser.nickname || currentUser.name;
                 profileBtn.style.borderColor = 'rgba(255,255,255,0.06)';
-                // Показываем админку только для @MisterGemer
                 if (currentUser.isAdmin && currentUser.telegramId === ADMIN_TELEGRAM_ID) {
                     document.getElementById('adminTabBtn').style.display = 'flex';
                 } else {
@@ -3274,7 +4062,7 @@
         // ===== НАВИГАЦИЯ =====
         const routes = {
             '': 'home', 'home': 'home', 'features': 'features',
-            'download': 'download'
+            'pricing': 'pricing', 'download': 'download'
         };
 
         function navigateTo(route) {
@@ -3326,6 +4114,7 @@
                 const tab = btn.dataset.tab;
                 if (tab === 'home') btn.innerHTML = '<i class="fas fa-home"></i> ' + t.nav_home;
                 else if (tab === 'features') btn.innerHTML = '<i class="fas fa-cog"></i> ' + t.nav_features;
+                else if (tab === 'pricing') btn.innerHTML = '<i class="fas fa-tags"></i> ' + t.nav_pricing;
                 else if (tab === 'download') btn.innerHTML = '<i class="fas fa-download"></i> ' + t.nav_download;
             });
             
@@ -3345,7 +4134,8 @@
                 if (btnText) btnText.textContent = t.download_btn;
             }
             
-            document.querySelector('footer').innerHTML = '<i class="fas fa-gem"></i> ' + t.footer;
+            document.querySelector('.footer-new .footer-brand h3').textContent = 'ProxyGem';
+            document.querySelector('.footer-new .footer-brand p').textContent = 'Современное решение для безопасного доступа к интернет-ресурсам.';
             
             document.querySelectorAll('.stats-item .label')[0].textContent = t.stats_visitors;
             document.querySelectorAll('.stats-item .label')[1].textContent = t.stats_countries;
@@ -3404,6 +4194,24 @@
             document.querySelector('#cancelLogoutBtn').textContent = t.logout_cancel;
             document.querySelector('#confirmLogoutBtn').innerHTML = '<i class="fas fa-sign-out-alt"></i> ' + t.logout_yes;
         }
+
+        // ===== ДОКУМЕНТЫ (аккордеон) =====
+        document.querySelectorAll('.doc-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const docId = this.dataset.doc;
+                const body = document.getElementById('doc-' + docId);
+                const isOpen = body.classList.contains('open');
+                
+                // Закрываем все
+                document.querySelectorAll('.doc-body').forEach(b => b.classList.remove('open'));
+                document.querySelectorAll('.doc-header').forEach(h => h.classList.remove('active'));
+                
+                if (!isOpen) {
+                    body.classList.add('open');
+                    this.classList.add('active');
+                }
+            });
+        });
 
         // ===== ВОССТАНОВЛЕНИЕ СЕССИИ =====
         function restoreSession() {
