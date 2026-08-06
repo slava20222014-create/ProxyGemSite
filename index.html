@@ -20,7 +20,7 @@
     </script>
     
     <!-- Google Identity Services -->
-    <script src="https://accounts.google.com/gsi/client" async></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -3011,7 +3011,7 @@
                             <div id="nicknameStatusProfile" style="color:#888; font-size:0.85rem; margin-top:4px;"></div>
                         </div>
                         <div class="info-row">
-                            <span class="label">User Telegram</span>
+                            <span class="label">User</span>
                             <span class="value" id="profileTelegram">Не авторизован</span>
                         </div>
                         <div class="info-row">
@@ -3122,7 +3122,7 @@
                 profile_name: 'Личные Данные',
                 profile_nickname: 'Никнейм',
                 profile_save: 'Сохранить',
-                profile_telegram: 'User Telegram',
+                profile_telegram: 'User',
                 profile_account: 'Аккаунт',
                 profile_id: 'ID',
                 profile_banned: 'Забанен',
@@ -3188,7 +3188,7 @@
                 profile_name: 'Personal Info',
                 profile_nickname: 'Nickname',
                 profile_save: 'Save',
-                profile_telegram: 'Telegram User',
+                profile_telegram: 'User',
                 profile_account: 'Account',
                 profile_id: 'ID',
                 profile_banned: 'Banned',
@@ -3254,7 +3254,7 @@
                 profile_name: 'Kişisel Bilgiler',
                 profile_nickname: 'Kullanıcı adı',
                 profile_save: 'Kaydet',
-                profile_telegram: 'Telegram Kullanıcısı',
+                profile_telegram: 'Kullanıcı',
                 profile_account: 'Hesap',
                 profile_id: 'ID',
                 profile_banned: 'Yasaklandı',
@@ -3416,7 +3416,7 @@
             const users = getUsers();
             const newUser = {
                 id: Date.now().toString(36) + Math.random().toString(36).substr(2, 4),
-                provider: provider, // 'telegram' or 'google'
+                provider: provider,
                 telegramId: provider === 'telegram' ? String(providerId) : null,
                 googleId: provider === 'google' ? String(providerId) : null,
                 name: name,
@@ -3488,32 +3488,40 @@
 
         // ===== GOOGLE AUTH =====
         function initGoogleAuth() {
-            if (typeof google === 'undefined' || !google.accounts) {
-                setTimeout(initGoogleAuth, 500);
-                return;
+            try {
+                if (typeof google === 'undefined' || !google.accounts) {
+                    console.log('Google API not loaded yet, retrying...');
+                    setTimeout(initGoogleAuth, 500);
+                    return;
+                }
+                
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleGoogleCredentialResponse,
+                    auto_select: false,
+                    cancel_on_tap_outside: true,
+                    context: 'signin'
+                });
+                
+                googleClientInitialized = true;
+                console.log('Google Auth initialized successfully');
+            } catch (e) {
+                console.error('Google init error:', e);
+                setTimeout(initGoogleAuth, 1000);
             }
-            
-            google.accounts.id.initialize({
-                client_id: GOOGLE_CLIENT_ID,
-                callback: handleGoogleCredentialResponse,
-                auto_select: false,
-                cancel_on_tap_outside: true
-            });
-            
-            googleClientInitialized = true;
-            console.log('Google Auth initialized');
         }
 
         function handleGoogleCredentialResponse(response) {
             try {
+                console.log('Google response received');
                 const payload = parseJwt(response.credential);
                 console.log('Google payload:', payload);
                 
                 const googleId = payload.sub;
-                const name = payload.name;
-                const email = payload.email;
-                const avatar = payload.picture;
-                const nickname = name || email.split('@')[0];
+                const name = payload.name || 'Google User';
+                const email = payload.email || '';
+                const avatar = payload.picture || null;
+                const nickname = name || email.split('@')[0] || 'user';
                 
                 let user = findUserByGoogleId(googleId);
                 
@@ -3546,19 +3554,25 @@
                 hideAuthModal();
                 startTimeTracking();
                 renderAll();
+                showAlert('Успех', 'Добро пожаловать, ' + (user.nickname || user.name) + '!', 'success');
             } catch (e) {
                 console.error('Google auth error:', e);
-                showAlert('Ошибка', 'Не удалось авторизоваться через Google', 'error');
+                showAlert('Ошибка', 'Не удалось авторизоваться через Google: ' + e.message, 'error');
             }
         }
 
         function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                console.error('JWT parse error:', e);
+                throw new Error('Invalid token format');
+            }
         }
 
         // ===== ОБРАБОТЧИКИ =====
@@ -3710,6 +3724,7 @@
         // ===== GOOGLE BUTTON =====
         document.getElementById('googleLoginBtn').addEventListener('click', function() {
             if (!googleClientInitialized) {
+                showAlert('Загрузка', 'Инициализация Google Auth...', 'info');
                 initGoogleAuth();
                 setTimeout(() => {
                     if (googleClientInitialized && google.accounts && google.accounts.id) {
@@ -3717,7 +3732,7 @@
                     } else {
                         showAlert('Ошибка', 'Google Auth не инициализирован. Попробуйте обновить страницу.', 'error');
                     }
-                }, 500);
+                }, 800);
             } else if (google.accounts && google.accounts.id) {
                 google.accounts.id.prompt();
             } else {
@@ -4447,7 +4462,7 @@
             });
 
             // Инициализация Google Auth
-            initGoogleAuth();
+            setTimeout(initGoogleAuth, 1000);
 
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
