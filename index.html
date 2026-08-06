@@ -19,6 +19,9 @@
             data-request-access="write">
     </script>
     
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -2031,7 +2034,14 @@
             background-clip: text;
         }
         .auth-modal-inner p { color: #666; margin-bottom: 24px; }
-        .tg-auth-button {
+        
+        .social-auth-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .social-auth-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -2040,20 +2050,35 @@
             padding: 14px 24px;
             border-radius: 40px;
             border: none;
-            background: #0088cc;
-            color: #fff;
             font-family: 'Inter', sans-serif;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            color: #fff;
         }
-        .tg-auth-button:hover {
+        .social-auth-btn i { font-size: 1.4rem; }
+        .social-auth-btn.tg { background: #0088cc; }
+        .social-auth-btn.tg:hover {
             background: #0077b3;
             transform: translateY(-2px);
             box-shadow: 0 8px 32px rgba(0,136,204,0.3);
         }
-        .tg-auth-button i { font-size: 1.4rem; }
+        .social-auth-btn.google {
+            background: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        .social-auth-btn.google:hover {
+            background: #f5f5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        .social-auth-btn.google img {
+            width: 24px;
+            height: 24px;
+        }
+        
         .auth-divider {
             display: flex;
             align-items: center;
@@ -2414,6 +2439,8 @@
             .toggle-switch-modern .toggle-track .toggle-thumb { width: 22px; height: 22px; top: 2px; left: 2px; }
             .toggle-switch-modern input:checked + .toggle-track .toggle-thumb { left: 24px; }
             .star-rating { font-size: 1.6rem; }
+            .social-auth-grid { gap: 8px; }
+            .social-auth-btn { padding: 12px 16px; font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -2444,10 +2471,17 @@
         <div class="modal-content auth-modal-inner">
             <button class="modal-close-modern" id="closeAuthModalBtn"><i class="fas fa-times"></i></button>
             <h2>Вход в аккаунт</h2>
-            <p>Войдите через Telegram</p>
-            <button class="tg-auth-button" id="telegramLoginBtn" style="width:100%; justify-content:center; padding:14px 24px;">
-                <i class="fab fa-telegram-plane"></i> Sign In with Telegram
-            </button>
+            <p>Войдите через один из сервисов</p>
+            
+            <div class="social-auth-grid">
+                <button class="social-auth-btn tg" id="telegramLoginBtn" style="width:100%; justify-content:center; padding:14px 24px;">
+                    <i class="fab fa-telegram-plane"></i> Войти через Telegram
+                </button>
+                <button class="social-auth-btn google" id="googleLoginBtn" style="width:100%; justify-content:center; padding:14px 24px;">
+                    <i class="fab fa-google"></i> Войти через Google
+                </button>
+            </div>
+            
             <div class="auth-divider">Придумайте ник</div>
             <div style="display:flex; gap:12px; flex-direction:column;">
                 <input type="text" id="nicknameInput" placeholder="Ваш никнейм" />
@@ -2981,6 +3015,10 @@
                             <span class="value" id="profileTelegram">Не авторизован</span>
                         </div>
                         <div class="info-row">
+                            <span class="label">Аккаунт</span>
+                            <span class="value" id="profileAccountType">—</span>
+                        </div>
+                        <div class="info-row">
                             <span class="label">ID</span>
                             <span class="value" id="profileId">—</span>
                         </div>
@@ -3045,6 +3083,7 @@
     <script>
         // ===== НАСТРОЙКИ =====
         const CLIENT_ID = '8155864182';
+        const GOOGLE_CLIENT_ID = '677931898095-2ttgjv1r4s7rmjnjkt3teiqne0r7gk5s.apps.googleusercontent.com';
         const ADMIN_TELEGRAM_ID = '5580919240';
         const ADMIN_CODE = '2105';
         const VISITS_KEY = 'proxygem_visits';
@@ -3084,6 +3123,7 @@
                 profile_nickname: 'Никнейм',
                 profile_save: 'Сохранить',
                 profile_telegram: 'User Telegram',
+                profile_account: 'Аккаунт',
                 profile_id: 'ID',
                 profile_banned: 'Забанен',
                 profile_group: 'Группа',
@@ -3102,8 +3142,9 @@
                 admin_notif_image: 'URL картинки (опционально)',
                 admin_notif_publish: 'Опубликовать',
                 auth_title: 'Вход в аккаунт',
-                auth_sub: 'Войдите через Telegram',
-                auth_tg: 'Sign In with Telegram',
+                auth_sub: 'Войдите через один из сервисов',
+                auth_tg: 'Войти через Telegram',
+                auth_google: 'Войти через Google',
                 auth_nick: 'Придумайте ник',
                 auth_nick_placeholder: 'Ваш никнейм',
                 auth_check: 'Проверить и зарегистрировать',
@@ -3148,6 +3189,7 @@
                 profile_nickname: 'Nickname',
                 profile_save: 'Save',
                 profile_telegram: 'Telegram User',
+                profile_account: 'Account',
                 profile_id: 'ID',
                 profile_banned: 'Banned',
                 profile_group: 'Group',
@@ -3166,8 +3208,9 @@
                 admin_notif_image: 'Image URL (optional)',
                 admin_notif_publish: 'Publish',
                 auth_title: 'Login',
-                auth_sub: 'Login via Telegram',
-                auth_tg: 'Sign In with Telegram',
+                auth_sub: 'Login via one of the services',
+                auth_tg: 'Login via Telegram',
+                auth_google: 'Login via Google',
                 auth_nick: 'Choose a nickname',
                 auth_nick_placeholder: 'Your nickname',
                 auth_check: 'Check and register',
@@ -3212,6 +3255,7 @@
                 profile_nickname: 'Kullanıcı adı',
                 profile_save: 'Kaydet',
                 profile_telegram: 'Telegram Kullanıcısı',
+                profile_account: 'Hesap',
                 profile_id: 'ID',
                 profile_banned: 'Yasaklandı',
                 profile_group: 'Grup',
@@ -3230,8 +3274,9 @@
                 admin_notif_image: 'Resim URL\'si (isteğe bağlı)',
                 admin_notif_publish: 'Yayınla',
                 auth_title: 'Giriş Yap',
-                auth_sub: 'Telegram ile giriş yapın',
+                auth_sub: 'Hizmetlerden biriyle giriş yapın',
                 auth_tg: 'Telegram ile Giriş Yap',
+                auth_google: 'Google ile Giriş Yap',
                 auth_nick: 'Bir kullanıcı adı seçin',
                 auth_nick_placeholder: 'Kullanıcı adınız',
                 auth_check: 'Kontrol et ve kaydol',
@@ -3251,6 +3296,7 @@
         let isAdmin = false;
         let startTime = Date.now();
         let timeInterval;
+        let googleClientInitialized = false;
 
         // ===== КАСТОМНЫЙ ALERT =====
         function showAlert(title, message, type = 'info', buttons = null) {
@@ -3349,6 +3395,10 @@
             return getUsers().find(u => u.telegramId === String(telegramId));
         }
 
+        function findUserByGoogleId(googleId) {
+            return getUsers().find(u => u.googleId === String(googleId));
+        }
+
         function findUserByNickname(nickname) {
             return getUsers().find(u => u.nickname && u.nickname.toLowerCase() === nickname.toLowerCase());
         }
@@ -3362,13 +3412,16 @@
             return result;
         }
 
-        function createUser(telegramId, name, nickname, avatar) {
+        function createUser(provider, providerId, name, nickname, avatar, email) {
             const users = getUsers();
             const newUser = {
                 id: Date.now().toString(36) + Math.random().toString(36).substr(2, 4),
-                telegramId: String(telegramId),
+                provider: provider, // 'telegram' or 'google'
+                telegramId: provider === 'telegram' ? String(providerId) : null,
+                googleId: provider === 'google' ? String(providerId) : null,
                 name: name,
                 nickname: nickname || name,
+                email: email || null,
                 avatar: avatar || 'logo.png',
                 createdAt: Date.now(),
                 isAdmin: false,
@@ -3433,6 +3486,81 @@
         function showLogoutModal() { openModal('logoutModal'); }
         function hideLogoutModal() { closeModal('logoutModal'); }
 
+        // ===== GOOGLE AUTH =====
+        function initGoogleAuth() {
+            if (typeof google === 'undefined' || !google.accounts) {
+                setTimeout(initGoogleAuth, 500);
+                return;
+            }
+            
+            google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleGoogleCredentialResponse,
+                auto_select: false,
+                cancel_on_tap_outside: true
+            });
+            
+            googleClientInitialized = true;
+            console.log('Google Auth initialized');
+        }
+
+        function handleGoogleCredentialResponse(response) {
+            try {
+                const payload = parseJwt(response.credential);
+                console.log('Google payload:', payload);
+                
+                const googleId = payload.sub;
+                const name = payload.name;
+                const email = payload.email;
+                const avatar = payload.picture;
+                const nickname = name || email.split('@')[0];
+                
+                let user = findUserByGoogleId(googleId);
+                
+                if (!user) {
+                    window._pendingUser = { 
+                        provider: 'google',
+                        providerId: googleId,
+                        name: name,
+                        nickname: nickname,
+                        avatar: avatar,
+                        email: email
+                    };
+                    document.getElementById('nicknameStatus').textContent = 'Придумайте уникальный никнейм (или оставьте предложенный)';
+                    document.getElementById('nicknameStatus').style.color = '#888';
+                    document.getElementById('nicknameInput').value = nickname;
+                    showAuthModal();
+                    return;
+                }
+                
+                const ban = isUserBanned(user.id);
+                if (ban) {
+                    showAlert('Забанен', 'Ваш аккаунт забанен до ' + new Date(ban.until).toLocaleString(), 'error');
+                    return;
+                }
+                
+                currentUser = user;
+                isAdmin = user.isAdmin || false;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateProfileUI();
+                hideAuthModal();
+                startTimeTracking();
+                renderAll();
+            } catch (e) {
+                console.error('Google auth error:', e);
+                showAlert('Ошибка', 'Не удалось авторизоваться через Google', 'error');
+            }
+        }
+
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
         // ===== ОБРАБОТЧИКИ =====
         document.querySelectorAll('.modal-trigger').forEach(btn => {
             btn.addEventListener('click', async function(e) {
@@ -3441,7 +3569,7 @@
                 
                 if (modalId === 'admin') {
                     if (!currentUser) {
-                        await showAlert('Доступ запрещен', 'Сначала авторизуйтесь через Telegram', 'warning');
+                        await showAlert('Доступ запрещен', 'Сначала авторизуйтесь', 'warning');
                         return;
                     }
                     
@@ -3512,7 +3640,7 @@
             });
         });
 
-        // ===== АУТЕНТИФИКАЦИЯ =====
+        // ===== ТЕЛЕГРАМ АУТЕНТИФИКАЦИЯ =====
         window.onTelegramAuth = function(data) {
             try {
                 console.log('Telegram auth data:', data);
@@ -3526,9 +3654,17 @@
                 let user = findUserByTelegramId(telegramId);
                 
                 if (!user) {
-                    window._pendingUser = { telegramId, name, username, avatar };
-                    document.getElementById('nicknameStatus').textContent = 'Придумайте уникальный никнейм';
+                    window._pendingUser = { 
+                        provider: 'telegram',
+                        providerId: telegramId,
+                        name: name,
+                        nickname: username,
+                        avatar: avatar,
+                        email: null
+                    };
+                    document.getElementById('nicknameStatus').textContent = 'Придумайте уникальный никнейм (или оставьте предложенный)';
                     document.getElementById('nicknameStatus').style.color = '#888';
+                    document.getElementById('nicknameInput').value = username;
                     showAuthModal();
                     return;
                 }
@@ -3571,12 +3707,31 @@
             }
         });
 
+        // ===== GOOGLE BUTTON =====
+        document.getElementById('googleLoginBtn').addEventListener('click', function() {
+            if (!googleClientInitialized) {
+                initGoogleAuth();
+                setTimeout(() => {
+                    if (googleClientInitialized && google.accounts && google.accounts.id) {
+                        google.accounts.id.prompt();
+                    } else {
+                        showAlert('Ошибка', 'Google Auth не инициализирован. Попробуйте обновить страницу.', 'error');
+                    }
+                }, 500);
+            } else if (google.accounts && google.accounts.id) {
+                google.accounts.id.prompt();
+            } else {
+                showAlert('Ошибка', 'Google Auth не инициализирован. Попробуйте обновить страницу.', 'error');
+            }
+        });
+
+        // ===== РЕГИСТРАЦИЯ =====
         document.getElementById('setNicknameBtn').addEventListener('click', async function() {
             const nickname = document.getElementById('nicknameInput').value.trim();
             const status = document.getElementById('nicknameStatus');
 
             if (!window._pendingUser) {
-                status.textContent = 'Сначала войдите через Telegram';
+                status.textContent = 'Сначала войдите через один из сервисов';
                 status.style.color = '#ff6b6b';
                 return;
             }
@@ -3600,10 +3755,10 @@
                 return;
             }
 
-            const { telegramId, name, avatar } = window._pendingUser;
-            const user = createUser(telegramId, name, nickname, avatar);
+            const { provider, providerId, name, avatar, email } = window._pendingUser;
+            const user = createUser(provider, providerId, name, nickname, avatar, email);
             
-            if (telegramId === ADMIN_TELEGRAM_ID) {
+            if (provider === 'telegram' && providerId === ADMIN_TELEGRAM_ID) {
                 user.isAdmin = true;
                 const users = getUsers();
                 const idx = users.findIndex(u => u.id === user.id);
@@ -3769,6 +3924,7 @@
                 document.getElementById('profileNameDisplay').textContent = 'Гость';
                 document.getElementById('profileAvatarDisplay').src = 'logo.png';
                 document.getElementById('profileTelegram').textContent = 'Не авторизован';
+                document.getElementById('profileAccountType').textContent = '—';
                 document.getElementById('profileId').textContent = '—';
                 document.getElementById('profileBanned').textContent = 'Нет';
                 document.getElementById('profileBanned').className = 'value';
@@ -3782,8 +3938,11 @@
             const ban = isUserBanned(currentUser.id);
             document.getElementById('profileNameDisplay').textContent = currentUser.nickname || currentUser.name;
             document.getElementById('profileAvatarDisplay').src = currentUser.avatar || 'logo.png';
+            
+            const providerText = currentUser.provider === 'telegram' ? 'Telegram' : 'Google';
             document.getElementById('profileTelegram').textContent = currentUser.name || 'Неизвестно';
-            document.getElementById('profileId').textContent = currentUser.telegramId || '—';
+            document.getElementById('profileAccountType').textContent = providerText;
+            document.getElementById('profileId').textContent = currentUser.telegramId || currentUser.googleId || '—';
             
             const bannedEl = document.getElementById('profileBanned');
             if (ban) {
@@ -3976,7 +4135,8 @@
                 const activeBan = bans.find(b => b.userId === u.id && b.until > now);
                 const isBanned = !!activeBan;
                 const banTime = activeBan ? Math.ceil((activeBan.until - now) / 1000 / 60) : 0;
-                return '<div class="admin-user-item"><div class="user-info"><img src="' + (u.avatar || 'logo.png') + '" alt="avatar" /><div><div class="name">' + escapeHtml(u.nickname || u.name) + '</div><div class="email">' + escapeHtml(u.telegramId || '') + '</div></div></div><div class="user-status ' + (isBanned ? 'banned' : '') + '">' + (isBanned ? 'Забанен (' + banTime + ' мин)' : 'Активен') + '</div><div class="ban-controls"><input type="number" id="banTime_' + u.id + '" placeholder="минут" min="1" value="60" style="width:80px;" /><button class="btn-ban ' + (isBanned ? 'unban' : '') + '" data-userid="' + u.id + '">' + (isBanned ? 'Разбанить' : 'Забанить') + '</button></div></div>';
+                const providerLabel = u.provider === 'telegram' ? 'TG' : 'G';
+                return '<div class="admin-user-item"><div class="user-info"><img src="' + (u.avatar || 'logo.png') + '" alt="avatar" /><div><div class="name">' + escapeHtml(u.nickname || u.name) + ' <span style="color:#555;font-size:0.7rem;">[' + providerLabel + ']</span></div><div class="email">' + escapeHtml(u.email || u.telegramId || u.googleId || '') + '</div></div></div><div class="user-status ' + (isBanned ? 'banned' : '') + '">' + (isBanned ? 'Забанен (' + banTime + ' мин)' : 'Активен') + '</div><div class="ban-controls"><input type="number" id="banTime_' + u.id + '" placeholder="минут" min="1" value="60" style="width:80px;" /><button class="btn-ban ' + (isBanned ? 'unban' : '') + '" data-userid="' + u.id + '">' + (isBanned ? 'Разбанить' : 'Забанить') + '</button></div></div>';
             }).join('');
             container.querySelectorAll('.btn-ban').forEach(btn => {
                 btn.addEventListener('click', async function() {
@@ -4156,9 +4316,10 @@
             document.querySelector('#profile-personal .form-group label').textContent = t.profile_nickname;
             document.querySelector('#saveNicknameBtn').textContent = t.profile_save;
             document.querySelectorAll('.info-row .label')[0].textContent = t.profile_telegram;
-            document.querySelectorAll('.info-row .label')[1].textContent = t.profile_id;
-            document.querySelectorAll('.info-row .label')[2].textContent = t.profile_banned;
-            document.querySelectorAll('.info-row .label')[3].textContent = t.profile_group;
+            document.querySelectorAll('.info-row .label')[1].textContent = t.profile_account;
+            document.querySelectorAll('.info-row .label')[2].textContent = t.profile_id;
+            document.querySelectorAll('.info-row .label')[3].textContent = t.profile_banned;
+            document.querySelectorAll('.info-row .label')[4].textContent = t.profile_group;
             document.querySelector('#logoutBtn').innerHTML = '<i class="fas fa-sign-out-alt"></i> ' + t.profile_logout;
             document.querySelector('#profile-settings .form-group label').textContent = t.profile_language;
             document.querySelector('#profile-settings .form-group:nth-child(2) label').textContent = t.profile_notifications;
@@ -4181,6 +4342,7 @@
             document.querySelector('#authModal h2').textContent = t.auth_title;
             document.querySelector('#authModal .subtitle').textContent = t.auth_sub;
             document.querySelector('#telegramLoginBtn').innerHTML = '<i class="fab fa-telegram-plane"></i> ' + t.auth_tg;
+            document.querySelector('#googleLoginBtn').innerHTML = '<i class="fab fa-google"></i> ' + t.auth_google;
             document.querySelector('.auth-divider').textContent = t.auth_nick;
             document.querySelector('#nicknameInput').placeholder = t.auth_nick_placeholder;
             document.querySelector('#setNicknameBtn').textContent = t.auth_check;
@@ -4203,7 +4365,6 @@
                 const body = document.getElementById('doc-' + docId);
                 const isOpen = body.classList.contains('open');
                 
-                // Закрываем все
                 document.querySelectorAll('.doc-body').forEach(b => b.classList.remove('open'));
                 document.querySelectorAll('.doc-header').forEach(h => h.classList.remove('active'));
                 
@@ -4260,7 +4421,7 @@
 
             renderAll();
 
-            // ===== Обработчики кнопок "Купить" в тарифах =====
+            // Обработчики кнопок "Купить" в тарифах
             document.querySelectorAll('.pricing-card-btn:not([disabled])').forEach(btn => {
                 btn.addEventListener('click', async function(e) {
                     e.stopPropagation();
@@ -4284,6 +4445,9 @@
                     ]);
                 });
             });
+
+            // Инициализация Google Auth
+            initGoogleAuth();
 
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
