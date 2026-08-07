@@ -23,6 +23,7 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <style>
+        /* ... (весь CSS из предыдущего кода, он не изменился) ... */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #0a0a0a;
@@ -2078,6 +2079,17 @@
             width: 24px;
             height: 24px;
         }
+
+        /* Стиль для контейнера Google кнопки */
+        #googleLoginContainer {
+            width: 100%;
+        }
+        #googleLoginContainer > div {
+            width: 100% !important;
+        }
+        #googleLoginContainer iframe {
+            width: 100% !important;
+        }
         
         .auth-divider {
             display: flex;
@@ -2477,9 +2489,8 @@
                 <button class="social-auth-btn tg" id="telegramLoginBtn" style="width:100%; justify-content:center; padding:14px 24px;">
                     <i class="fab fa-telegram-plane"></i> Войти через Telegram
                 </button>
-                <button class="social-auth-btn google" id="googleLoginBtn" style="width:100%; justify-content:center; padding:14px 24px;">
-                    <i class="fab fa-google"></i> Войти через Google
-                </button>
+                <!-- Контейнер для Google кнопки -->
+                <div id="googleLoginContainer" style="width:100%;"></div>
             </div>
             
             <div class="auth-divider">Придумайте ник</div>
@@ -3503,6 +3514,20 @@
                     context: 'signin'
                 });
                 
+                // Рендерим кнопку Google
+                google.accounts.id.renderButton(
+                    document.getElementById('googleLoginContainer'),
+                    {
+                        type: 'standard',
+                        theme: 'outline',
+                        size: 'large',
+                        text: 'signin_with',
+                        shape: 'pill',
+                        logo_alignment: 'left',
+                        width: '100%'
+                    }
+                );
+                
                 googleClientInitialized = true;
                 console.log('Google Auth initialized successfully');
             } catch (e) {
@@ -3718,25 +3743,6 @@
                 });
             } else {
                 showAlert('Ошибка', 'Telegram Login не загружен. Попробуйте обновить страницу.', 'error');
-            }
-        });
-
-        // ===== GOOGLE BUTTON =====
-        document.getElementById('googleLoginBtn').addEventListener('click', function() {
-            if (!googleClientInitialized) {
-                showAlert('Загрузка', 'Инициализация Google Auth...', 'info');
-                initGoogleAuth();
-                setTimeout(() => {
-                    if (googleClientInitialized && google.accounts && google.accounts.id) {
-                        google.accounts.id.prompt();
-                    } else {
-                        showAlert('Ошибка', 'Google Auth не инициализирован. Попробуйте обновить страницу.', 'error');
-                    }
-                }, 800);
-            } else if (google.accounts && google.accounts.id) {
-                google.accounts.id.prompt();
-            } else {
-                showAlert('Ошибка', 'Google Auth не инициализирован. Попробуйте обновить страницу.', 'error');
             }
         });
 
@@ -4357,7 +4363,6 @@
             document.querySelector('#authModal h2').textContent = t.auth_title;
             document.querySelector('#authModal .subtitle').textContent = t.auth_sub;
             document.querySelector('#telegramLoginBtn').innerHTML = '<i class="fab fa-telegram-plane"></i> ' + t.auth_tg;
-            document.querySelector('#googleLoginBtn').innerHTML = '<i class="fab fa-google"></i> ' + t.auth_google;
             document.querySelector('.auth-divider').textContent = t.auth_nick;
             document.querySelector('#nicknameInput').placeholder = t.auth_nick_placeholder;
             document.querySelector('#setNicknameBtn').textContent = t.auth_check;
