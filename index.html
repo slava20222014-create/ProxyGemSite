@@ -23,7 +23,6 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <style>
-        /* ... (весь CSS из предыдущего кода, он не изменился) ... */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #0a0a0a;
@@ -549,6 +548,58 @@
             color: #fff;
             transform: translateY(-4px);
             border-color: rgba(255,255,255,0.15);
+        }
+
+        /* ===== СТИЛИ ДЛЯ КНОПОК ===== */
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 40px;
+            border-radius: 80px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.06);
+            color: #ddd;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            min-width: 160px;
+            text-align: center;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-danger {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 40px;
+            border-radius: 80px;
+            font-weight: 700;
+            font-size: 1rem;
+            background: rgba(255, 50, 50, 0.15);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 50, 50, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 160px;
+            text-align: center;
+        }
+        .btn-danger:hover {
+            background: rgba(255, 50, 50, 0.25);
+            color: #ff4444;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(255, 68, 68, 0.15);
+            border-color: rgba(255, 50, 50, 0.3);
         }
 
         @keyframes fadeUp {
@@ -2080,7 +2131,6 @@
             height: 24px;
         }
 
-        /* Стиль для контейнера Google кнопки */
         #googleLoginContainer {
             width: 100%;
         }
@@ -2187,7 +2237,6 @@
             font-size: 0.95rem;
         }
 
-        /* ===== НОВЫЙ ФУТЕР ===== */
         .footer-new {
             padding: 60px 0 30px;
             border-top: 1px solid rgba(255,255,255,0.03);
@@ -2489,7 +2538,6 @@
                 <button class="social-auth-btn tg" id="telegramLoginBtn" style="width:100%; justify-content:center; padding:14px 24px;">
                     <i class="fab fa-telegram-plane"></i> Войти через Telegram
                 </button>
-                <!-- Контейнер для Google кнопки -->
                 <div id="googleLoginContainer" style="width:100%;"></div>
             </div>
             
@@ -2522,7 +2570,9 @@
             <h2>Выйти из аккаунта</h2>
             <p style="color: #888; margin: 20px 0;">Вы уверены, что хотите выйти?</p>
             <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-                <button class="btn-secondary" id="cancelLogoutBtn" style="padding:12px 32px;">Отмена</button>
+                <button class="btn-danger" id="cancelLogoutBtn">
+                    <i class="fas fa-times"></i> Отмена
+                </button>
                 <button class="btn-primary" id="confirmLogoutBtn" style="padding:12px 32px; background:#ff4444; color:#fff;">
                     <i class="fas fa-sign-out-alt"></i> Выйти
                 </button>
@@ -3308,6 +3358,7 @@
         let startTime = Date.now();
         let timeInterval;
         let googleClientInitialized = false;
+        let isWaitingForNickname = false;
 
         // ===== КАСТОМНЫЙ ALERT =====
         function showAlert(title, message, type = 'info', buttons = null) {
@@ -3490,8 +3541,21 @@
             }
         }
 
-        function showAuthModal() { openModal('authModal'); }
-        function hideAuthModal() { closeModal('authModal'); }
+        function showAuthModal() { 
+            openModal('authModal'); 
+            // Если есть ожидающий пользователь, показываем поле для ника
+            if (window._pendingUser) {
+                isWaitingForNickname = true;
+            }
+        }
+        function hideAuthModal() { 
+            closeModal('authModal'); 
+            // Если закрыли модалку, сбрасываем ожидание
+            if (isWaitingForNickname) {
+                isWaitingForNickname = false;
+                window._pendingUser = null;
+            }
+        }
         function showSuccessModal() { openModal('successModal'); }
         function hideSuccessModal() { closeModal('successModal'); }
         function showLogoutModal() { openModal('logoutModal'); }
@@ -3514,7 +3578,6 @@
                     context: 'signin'
                 });
                 
-                // Рендерим кнопку Google
                 google.accounts.id.renderButton(
                     document.getElementById('googleLoginContainer'),
                     {
@@ -3559,6 +3622,7 @@
                         avatar: avatar,
                         email: email
                     };
+                    isWaitingForNickname = true;
                     document.getElementById('nicknameStatus').textContent = 'Придумайте уникальный никнейм (или оставьте предложенный)';
                     document.getElementById('nicknameStatus').style.color = '#888';
                     document.getElementById('nicknameInput').value = nickname;
@@ -3664,10 +3728,18 @@
         document.getElementById('closeReviewsModal').addEventListener('click', () => closeModal('reviewsModal'));
         document.getElementById('closeAdminModal').addEventListener('click', () => closeModal('adminModal'));
         document.getElementById('closeProfileModal').addEventListener('click', () => closeModal('profileModal'));
-        document.getElementById('closeAuthModalBtn').addEventListener('click', hideAuthModal);
+        document.getElementById('closeAuthModalBtn').addEventListener('click', () => {
+            hideAuthModal();
+            window._pendingUser = null;
+            isWaitingForNickname = false;
+        });
         document.getElementById('closeSuccessModalBtn').addEventListener('click', hideSuccessModal);
         document.getElementById('closeLogoutModalBtn').addEventListener('click', hideLogoutModal);
-        document.getElementById('closeAuthModal').addEventListener('click', hideAuthModal);
+        document.getElementById('closeAuthModal').addEventListener('click', () => {
+            hideAuthModal();
+            window._pendingUser = null;
+            isWaitingForNickname = false;
+        });
         document.getElementById('cancelLogoutBtn').addEventListener('click', hideLogoutModal);
 
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
@@ -3675,6 +3747,10 @@
                 if (e.target === this) {
                     this.classList.remove('open');
                     document.body.style.overflow = '';
+                    if (this.id === 'authModal') {
+                        window._pendingUser = null;
+                        isWaitingForNickname = false;
+                    }
                 }
             });
         });
@@ -3701,6 +3777,7 @@
                         avatar: avatar,
                         email: null
                     };
+                    isWaitingForNickname = true;
                     document.getElementById('nicknameStatus').textContent = 'Придумайте уникальный никнейм (или оставьте предложенный)';
                     document.getElementById('nicknameStatus').style.color = '#888';
                     document.getElementById('nicknameInput').value = username;
@@ -3796,6 +3873,7 @@
             startTimeTracking();
             renderAll();
             window._pendingUser = null;
+            isWaitingForNickname = false;
         });
 
         document.getElementById('finishRegistrationBtn').addEventListener('click', function() {
@@ -3809,6 +3887,8 @@
 
         document.getElementById('confirmLogoutBtn').addEventListener('click', function() {
             if (timeInterval) clearInterval(timeInterval);
+            // Закрываем модалку профиля если открыта
+            closeModal('profileModal');
             currentUser = null;
             isAdmin = false;
             localStorage.removeItem('currentUser');
@@ -4374,7 +4454,7 @@
             
             document.querySelector('#logoutModal h2').textContent = t.logout_title;
             document.querySelector('#logoutModal p').textContent = t.logout_confirm;
-            document.querySelector('#cancelLogoutBtn').textContent = t.logout_cancel;
+            document.querySelector('#cancelLogoutBtn').innerHTML = '<i class="fas fa-times"></i> ' + t.logout_cancel;
             document.querySelector('#confirmLogoutBtn').innerHTML = '<i class="fas fa-sign-out-alt"></i> ' + t.logout_yes;
         }
 
@@ -4459,7 +4539,7 @@
                         return;
                     }
                     
-                    await showAlert('Оформление подписки', 'Вы выбрали тариф: ' + plan + '\n\nОплата будет произведена через Telegram.', 'info', [
+                    await showAlert('Оформление подписки', 'Вы выбрали тариф: ' + plan + '\n\n.', 'info', [
                         { text: 'Оплатить', className: 'btn-primary' },
                         { text: 'Отмена', className: 'btn-secondary' }
                     ]);
